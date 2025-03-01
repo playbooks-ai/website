@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Playbooks Website
+
+A companion website for the Playbooks Python package, featuring a landing page, documentation, and an interactive playground.
+
+## Features
+
+- **Landing Page**: Information about the Playbooks package and its features
+- **Playground**: Interactive environment to create, edit, and run Playbooks
+- **Documentation**: Guides and API reference for using Playbooks
+- **Trace Viewer**: Visualize the execution trace of your Playbooks
+
+## Tech Stack
+
+- **Frontend**: Next.js, React, TypeScript, Tailwind CSS, shadcn/ui
+- **Backend**: Python with FastAPI (for running Playbooks)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ and npm
+- Python 3.9+ (for the backend)
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/playbooks-website.git
+cd playbooks-website
+```
+
+2. Install frontend dependencies:
+
+```bash
+npm install
+```
+
+3. Install the Playbooks package:
+
+```bash
+pip install playbooks
+```
+
+### Development
+
+1. Start the frontend development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. In a separate terminal, start the backend server (to be implemented):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# To be implemented
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app`: Next.js app router pages
+- `src/components`: React components
+  - `ui`: UI components from shadcn/ui
+  - `playground`: Components for the playground
+  - `trace-viewer`: Components for the trace viewer
+- `src/lib`: Utility functions and state management
+- `src/app/api`: API routes for communicating with the backend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The website can be deployed to Render.com:
 
-## Deploy on Vercel
+1. Connect your GitHub repository to Render
+2. Create a new Web Service for the frontend
+3. Set the build command to `npm run build`
+4. Set the start command to `npm start`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgements
+
+- [Playbooks](https://github.com/yourusername/playbooks) - The Python package this website is built for
+- [Next.js](https://nextjs.org/) - The React framework used
+- [shadcn/ui](https://ui.shadcn.com/) - UI components
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
