@@ -61,6 +61,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+.llm_cache
 
 # Virtual Environment
 .env

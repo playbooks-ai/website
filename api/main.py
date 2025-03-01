@@ -20,8 +20,8 @@ except ImportError:
 try:
     from playbooks.agent import Agent
     from playbooks.agent_builder import AgentBuilder
+    from playbooks.config import LLMConfig
     from playbooks.exceptions import PlaybooksError
-    from playbooks.llm_config import LLMConfig
     from playbooks.playbook_loader import PlaybookLoader
     PLAYBOOKS_AVAILABLE = True
 except ImportError:
