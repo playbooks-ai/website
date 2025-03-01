@@ -41,26 +41,22 @@ export function Navbar() {
             Docs
           </Link>
           <Link
-            href="/trace-viewer"
-            className={`transition-colors hover:text-foreground/80 ${isActive('/trace-viewer') ? 'text-foreground' : 'text-foreground/60'}`}
+            href="/about"
+            className={`transition-colors hover:text-foreground/80 ${isActive('/about') ? 'text-foreground' : 'text-foreground/60'}`}
           >
-            Trace Viewer
+            About
           </Link>
         </nav>
         <div className="flex items-center space-x-4">
           <ThemeToggle />
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/settings">
-              <Settings className="h-4 w-4" />
-              <span className="sr-only">Settings</span>
-            </Link>
-          </Button>
-          <Button variant="outline" size="icon" asChild>
-            <Link href="https://github.com/yourusername/playbooks" target="_blank" rel="noopener noreferrer">
-              <Github className="h-4 w-4" />
-              <span className="sr-only">GitHub</span>
-            </Link>
-          </Button>
+          <Link href="/settings" className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+            <Settings className="h-4 w-4" />
+            <span className="sr-only">Settings</span>
+          </Link>
+          <Link href="https://github.com/yourusername/playbooks" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full border border-gray-300 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-800">
+            <Github className="h-4 w-4" />
+            <span className="sr-only">GitHub</span>
+          </Link>
         </div>
       </div>
     </header>

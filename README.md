@@ -1,25 +1,21 @@
-# Playbooks Website
+# Playbooks Companion Website
 
-A companion website for the Playbooks Python package, featuring a landing page, documentation, and an interactive playground.
+This is the companion website for the [Playbooks](https://github.com/yourusername/playbooks) Python package. It provides a web interface for creating, editing, and running Playbooks.
 
 ## Features
 
-- **Landing Page**: Information about the Playbooks package and its features
-- **Playground**: Interactive environment to create, edit, and run Playbooks
-- **Documentation**: Guides and API reference for using Playbooks
+- **Landing Page**: Information about the Playbooks package
+- **Playground**: Create, edit, and run Playbooks in the browser
 - **Trace Viewer**: Visualize the execution trace of your Playbooks
-
-## Tech Stack
-
-- **Frontend**: Next.js, React, TypeScript, Tailwind CSS, shadcn/ui
-- **Backend**: Python with FastAPI (for running Playbooks)
+- **Example Playbooks**: Try out pre-built example Playbooks
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ and npm
-- Python 3.9+ (for the backend)
+- Node.js 18 or later
+- npm or yarn
+- Python 3.8 or later (for running the Playbooks package)
 
 ### Installation
 
@@ -30,52 +26,158 @@ git clone https://github.com/yourusername/playbooks-website.git
 cd playbooks-website
 ```
 
-2. Install frontend dependencies:
+2. Install dependencies:
 
 ```bash
 npm install
+# or
+yarn install
 ```
 
-3. Install the Playbooks package:
+3. Create a `.env.local` file with the following content:
 
-```bash
-pip install playbooks
 ```
+# API URL for the Python backend
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+
+# Port configuration
+PORT=3000
+API_PORT=8000
+```
+
+### Port Configuration
+
+By default, the frontend runs on port 3000 and the API runs on port 8000. You can change these ports by setting the following environment variables:
+
+- `PORT`: The port for the Next.js frontend (default: 3000)
+- `API_PORT`: The port for the Python API server (default: 8000)
+
+If you change the API port, make sure to update the `NEXT_PUBLIC_API_BASE_URL` in `.env.local` accordingly.
 
 ### Development
 
-1. Start the frontend development server:
+There are several ways to run the development server:
+
+#### Option 1: Use the start script (Recommended)
+
+The easiest way to start both the frontend and API server:
 
 ```bash
-npm run dev
+./start.sh
 ```
 
-2. In a separate terminal, start the backend server (to be implemented):
+This script will automatically detect the best way to start both services based on your environment.
+
+#### Option 2: Run frontend and API separately
+
+Run the Next.js frontend:
 
 ```bash
-# To be implemented
+npm run dev -- -p 3000
+# or
+PORT=3000 npm run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+In a separate terminal, run the Python API server:
+
+```bash
+npm run dev:api
+# or
+API_PORT=8000 cd api && uvicorn main:app --reload --host=0.0.0.0 --port=8000
+```
+
+#### Option 3: Run both services with npm script
+
+```bash
+npm run start:all
+# or
+PORT=3000 API_PORT=8000 npm run start:all
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the website.
+
+### Production
+
+Build the website for production:
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+Start the production server:
+
+```bash
+npm run start:prod
+# or
+PORT=3000 API_PORT=8000 npm run start:prod
+# or
+foreman start
+```
+
+## Python API Server
+
+This website now includes a real Python API server that integrates with the Playbooks package. The API server is located in the `api` directory.
+
+### Setting up the Python API Server
+
+1. Navigate to the API directory:
+
+```bash
+cd api
+```
+
+2. Install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Set up your environment variables:
+
+```bash
+export OPENAI_API_KEY=your_openai_api_key
+export API_PORT=8000  # Optional, default is 8000
+```
+
+4. Run the server:
+
+```bash
+uvicorn main:app --reload --host=0.0.0.0 --port=$API_PORT
+```
+
+The API server will be available at http://localhost:8000 (or the port you specified).
+
+### API Endpoints
+
+- `POST /run-playbook`: Start a new playbook session
+- `POST /send-message`: Send a message to a playbook session
+- `GET /traces/{trace_id}`: Get trace data for a playbook session
+- `DELETE /traces/{trace_id}`: Stop a playbook session
+
+For more details, see the [API README](api/README.md).
+
+## Integration with Playbooks Python Package
+
+This website is designed to work with the Playbooks Python package. The Python API server in the `api` directory provides the integration between the website and the Playbooks package.
+
+The website includes a fallback to a simulated Python backend service in `src/lib/python-service.ts` if the API server is not available.
 
 ## Project Structure
 
+- `api`: Python API server for running playbooks
 - `src/app`: Next.js app router pages
 - `src/components`: React components
-  - `ui`: UI components from shadcn/ui
-  - `playground`: Components for the playground
-  - `trace-viewer`: Components for the trace viewer
-- `src/lib`: Utility functions and state management
-- `src/app/api`: API routes for communicating with the backend
+  - `src/components/playground`: Playground components
+  - `src/components/trace-viewer`: Trace viewer components
+  - `src/components/ui`: UI components
+- `src/lib`: Utility functions and services
+- `public`: Static assets
 
-## Deployment
+## Contributing
 
-The website can be deployed to Render.com:
-
-1. Connect your GitHub repository to Render
-2. Create a new Web Service for the frontend
-3. Set the build command to `npm run build`
-4. Set the start command to `npm start`
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
@@ -87,3 +189,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Next.js](https://nextjs.org/) - The React framework used
 - [shadcn/ui](https://ui.shadcn.com/) - UI components
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [FastAPI](https://fastapi.tiangolo.com/) - The Python API framework used

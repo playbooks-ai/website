@@ -8,12 +8,22 @@ import { PlaybookEditor } from "@/components/playground/playbook-editor";
 import { ChatInterface } from "@/components/playground/chat-interface";
 import { TraceViewer } from "@/components/trace-viewer/trace-viewer";
 import { usePlaybookStore } from "@/lib/store";
+import { stopPlaybook } from "@/lib/python-service";
+
+interface TraceItem {
+  id: string;
+  name: string;
+  children?: TraceItem[];
+  metadata?: Record<string, any>;
+  type: string;
+}
 
 export default function PlaygroundPage() {
   const [isRunning, setIsRunning] = useState(false);
   const [activeTab, setActiveTab] = useState("editor");
   const { playbook, setPlaybook, examplePlaybooks, setExamplePlaybooks, loadExamplePlaybook } = usePlaybookStore();
   const [currentTraceId, setCurrentTraceId] = useState<string | null>(null);
+  const [newTraceItem, setNewTraceItem] = useState<TraceItem | null>(null);
 
   useEffect(() => {
     // Load example playbooks when the component mounts
@@ -30,9 +40,26 @@ export default function PlaygroundPage() {
     fetchExamplePlaybooks();
   }, [setExamplePlaybooks]);
 
+  // Listen for session updates
+  useEffect(() => {
+    const handleSessionUpdate = (event: CustomEvent<{ newSessionId: string }>) => {
+      console.log('Session updated:', event.detail.newSessionId);
+      setCurrentTraceId(event.detail.newSessionId);
+    };
+
+    // Add event listener
+    window.addEventListener('session-updated', handleSessionUpdate as EventListener);
+
+    // Clean up
+    return () => {
+      window.removeEventListener('session-updated', handleSessionUpdate as EventListener);
+    };
+  }, []);
+
   const handleRunPlaybook = async () => {
     setIsRunning(true);
     setActiveTab("chat");
+    setNewTraceItem(null); // Reset trace items
 
     try {
       const response = await fetch('/api/run-playbook', {
@@ -40,26 +67,48 @@ export default function PlaygroundPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ playbook }),
+        body: JSON.stringify({
+          playbook,
+          // Pass the existing trace ID if available
+          existingTraceId: currentTraceId
+        }),
       });
 
       if (!response.ok) {
         throw new Error('Failed to run playbook');
       }
 
-      // In a real implementation, we would get a trace ID back
-      // and set it here to show the trace in the trace viewer
-      setCurrentTraceId("sample");
+      const data = await response.json();
+
+      // Set the trace ID from the response
+      if (data.traceId) {
+        setCurrentTraceId(data.traceId);
+      } else {
+        // Fallback to sample trace if no trace ID is returned
+        setCurrentTraceId("sample");
+      }
     } catch (error) {
       console.error('Failed to run playbook:', error);
       setIsRunning(false);
     }
   };
 
-  const handleStopPlaybook = () => {
-    // This would be replaced with an actual API call to stop the playbook
+  const handleStopPlaybook = async () => {
+    // Stop the playbook session
+    if (currentTraceId) {
+      try {
+        await stopPlaybook(currentTraceId);
+      } catch (error) {
+        console.error('Failed to stop playbook:', error);
+      }
+    }
+
     setIsRunning(false);
     setCurrentTraceId(null);
+  };
+
+  const handleTraceUpdate = (traceItem: TraceItem) => {
+    setNewTraceItem(traceItem);
   };
 
   return (
@@ -81,7 +130,7 @@ export default function PlaygroundPage() {
                     Run Playbook
                   </Button>
                 ) : (
-                  <Button onClick={handleStopPlaybook} variant="destructive">
+                  <Button onClick={handleStopPlaybook} className="bg-red-500 hover:bg-red-600">
                     Stop
                   </Button>
                 )}
@@ -96,7 +145,11 @@ export default function PlaygroundPage() {
 
             <TabsContent value="chat" className="mt-0">
               <Card className="p-4">
-                <ChatInterface isRunning={isRunning} />
+                <ChatInterface
+                  isRunning={isRunning}
+                  traceId={currentTraceId || undefined}
+                  onTraceUpdate={handleTraceUpdate}
+                />
               </Card>
             </TabsContent>
           </Tabs>
@@ -106,7 +159,10 @@ export default function PlaygroundPage() {
           <Card className="p-4 h-full">
             <h2 className="text-xl font-semibold mb-4">Trace Viewer</h2>
             {currentTraceId ? (
-              <TraceViewer traceId={currentTraceId} />
+              <TraceViewer
+                traceId={currentTraceId}
+                newTraceItem={newTraceItem || undefined}
+              />
             ) : (
               <div className="flex items-center justify-center h-[500px]">
                 <p className="text-gray-500">Run a playbook to see its trace.</p>

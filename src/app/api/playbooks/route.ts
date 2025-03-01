@@ -51,9 +51,27 @@ At the beginning
 - Ask the user which city they want to know the weather for.
 - When the user provides a city, pretend to look up the weather and provide a made-up forecast.
 - Ask if they want to know the weather for another city.`
+  },
+  {
+    id: 'playbooks-hello',
+    name: 'Playbooks Hello World',
+    content: `# HelloWorld Agent
+This is a simple Hello World agent.
+
+## HelloWorld
+
+### Trigger
+At the beginning
+
+### Steps
+- Greet the user with a friendly "Hello, World!" message.
+- Explain that this is a demonstration of a simple Hello World playbook.
+- Say goodbye to the user.`
   }
 ];
 
 export async function GET() {
+  // In a real implementation, this would load example playbooks from the Playbooks package
+  // For now, we'll return the sample playbooks
   return NextResponse.json(examplePlaybooks);
 } 

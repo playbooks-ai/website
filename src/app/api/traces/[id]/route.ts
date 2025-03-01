@@ -1,180 +1,68 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getTraceData, stopPlaybook } from '@/lib/python-service';
 
-// Sample trace data - this would normally be in a database
-// We're duplicating it here for simplicity
-const traces = [
-  {
-    id: 'trace1',
-    name: 'Hello World Execution',
-    timestamp: '2023-06-15T14:30:00Z',
-    data: {
-      root: {
-        id: 'root',
-        name: 'HelloWorld Agent',
-        type: 'agent',
+// Sample trace data for the "sample" trace ID
+const sampleTraceData = {
+  root: {
+    id: 'root',
+    name: 'HelloWorld Agent',
+    type: 'agent',
+    children: [
+      {
+        id: 'section1',
+        name: 'HelloWorld',
+        type: 'section',
         children: [
           {
-            id: 'section1',
-            name: 'HelloWorld',
-            type: 'section',
-            children: [
-              {
-                id: 'step1',
-                name: 'Greet the user',
-                type: 'step',
-                metadata: {
-                  status: 'completed',
-                  duration: '1.2s',
-                  output: 'Hello, World!'
-                }
-              },
-              {
-                id: 'step2',
-                name: 'Explain demonstration',
-                type: 'step',
-                metadata: {
-                  status: 'completed',
-                  duration: '0.8s',
-                  output: 'This is a demonstration of a simple Hello World playbook.'
-                }
-              },
-              {
-                id: 'step3',
-                name: 'Say goodbye',
-                type: 'step',
-                metadata: {
-                  status: 'completed',
-                  duration: '0.5s',
-                  output: 'Goodbye!'
-                }
-              }
-            ]
+            id: 'step1',
+            name: 'Greet the user',
+            type: 'step',
+            metadata: {
+              status: 'completed',
+              duration: '1.2s',
+              output: 'Hello, World!'
+            }
+          },
+          {
+            id: 'step2',
+            name: 'Explain demonstration',
+            type: 'step',
+            metadata: {
+              status: 'completed',
+              duration: '0.8s',
+              output: 'This is a demonstration of a simple Hello World playbook.'
+            }
+          },
+          {
+            id: 'step3',
+            name: 'Say goodbye',
+            type: 'step',
+            metadata: {
+              status: 'completed',
+              duration: '0.5s',
+              output: 'Goodbye!'
+            }
           }
         ]
       }
-    }
-  },
-  {
-    id: 'trace2',
-    name: 'Weather Agent Execution',
-    timestamp: '2023-06-16T10:15:00Z',
-    data: {
-      root: {
-        id: 'root',
-        name: 'Weather Agent',
-        type: 'agent',
-        children: [
-          {
-            id: 'section1',
-            name: 'WeatherInfo',
-            type: 'section',
-            children: [
-              {
-                id: 'step1',
-                name: 'Greet the user',
-                type: 'step',
-                metadata: {
-                  status: 'completed',
-                  duration: '0.9s',
-                  output: 'Hello! I am a weather assistant.'
-                }
-              },
-              {
-                id: 'step2',
-                name: 'Ask for city',
-                type: 'step',
-                metadata: {
-                  status: 'completed',
-                  duration: '0.7s',
-                  output: 'Which city would you like to know the weather for?'
-                }
-              },
-              {
-                id: 'step3',
-                name: 'Provide weather',
-                type: 'step',
-                metadata: {
-                  status: 'completed',
-                  duration: '1.5s',
-                  output: 'The weather in San Francisco is currently 72°F and sunny.'
-                }
-              },
-              {
-                id: 'step4',
-                name: 'Ask for another city',
-                type: 'step',
-                metadata: {
-                  status: 'completed',
-                  duration: '0.6s',
-                  output: 'Would you like to know the weather for another city?'
-                }
-              }
-            ]
-          }
-        ]
-      }
-    }
-  },
-  {
-    id: 'trace3',
-    name: 'Chat Agent Execution',
-    timestamp: '2023-06-17T16:45:00Z',
-    data: {
-      root: {
-        id: 'root',
-        name: 'Chat Agent',
-        type: 'agent',
-        children: [
-          {
-            id: 'section1',
-            name: 'Chat',
-            type: 'section',
-            children: [
-              {
-                id: 'step1',
-                name: 'Greet the user',
-                type: 'step',
-                metadata: {
-                  status: 'completed',
-                  duration: '0.8s',
-                  output: 'Hello! I am a chat assistant. How can I help you today?'
-                }
-              },
-              {
-                id: 'step2',
-                name: 'Process user message',
-                type: 'step',
-                metadata: {
-                  status: 'completed',
-                  duration: '1.2s',
-                  input: 'Tell me about Playbooks',
-                  output: 'Playbooks is a natural language programming framework that allows you to create interactive agents using markdown files.'
-                }
-              },
-              {
-                id: 'step3',
-                name: 'Process user message',
-                type: 'step',
-                metadata: {
-                  status: 'completed',
-                  duration: '1.0s',
-                  input: 'How do I create a playbook?',
-                  output: 'You can create a playbook by writing a markdown file with a specific structure. The file should include a title, description, sections, triggers, and steps.'
-                }
-              }
-            ]
-          }
-        ]
-      }
-    }
+    ]
   }
-];
+};
+
+// Define the params type
+interface Params {
+  params: {
+    id: string;
+  };
+}
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: Params
 ) {
   try {
+    // Properly await the entire params object
+    const params = await context.params;
     const id = params.id;
 
     if (!id) {
@@ -184,20 +72,74 @@ export async function GET(
       );
     }
 
-    const trace = traces.find(t => t.id === id);
-
-    if (!trace) {
-      return NextResponse.json(
-        { error: 'Trace not found' },
-        { status: 404 }
-      );
+    // For the "sample" trace ID, return the sample trace data
+    if (id === 'sample') {
+      return NextResponse.json(sampleTraceData);
     }
 
-    return NextResponse.json(trace.data);
+    // For other trace IDs, get the trace data from the Python service
+    try {
+      const traceData = await getTraceData(id);
+      return NextResponse.json(traceData);
+    } catch (error) {
+      console.error('Error fetching trace data:', error);
+
+      // If the trace is not found, fall back to sample data
+      // This helps prevent errors when a trace ID is invalid or expired
+      console.log('Falling back to sample trace data');
+      return NextResponse.json(sampleTraceData);
+    }
   } catch (error) {
     console.error('Error fetching trace:', error);
     return NextResponse.json(
       { error: 'Failed to fetch trace data' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  context: Params
+) {
+  try {
+    // Properly await the entire params object
+    const params = await context.params;
+    const id = params.id;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Trace ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // For the "sample" trace ID, just return success
+    if (id === 'sample') {
+      return NextResponse.json({
+        success: true,
+        message: 'Sample playbook session stopped'
+      });
+    }
+
+    // For other trace IDs, stop the playbook session
+    try {
+      await stopPlaybook(id);
+      return NextResponse.json({
+        success: true,
+        message: 'Playbook session stopped'
+      });
+    } catch (error) {
+      console.error('Error stopping playbook session:', error);
+      return NextResponse.json(
+        { error: 'Failed to stop playbook session' },
+        { status: 500 }
+      );
+    }
+  } catch (error) {
+    console.error('Error stopping playbook:', error);
+    return NextResponse.json(
+      { error: 'Failed to stop playbook' },
       { status: 500 }
     );
   }

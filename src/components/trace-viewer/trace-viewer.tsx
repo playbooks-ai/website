@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronDown, ChevronRight, Info } from "lucide-react";
 
 interface TraceItem {
@@ -17,6 +17,7 @@ interface TraceData {
 
 interface TraceViewerProps {
   traceId?: string;
+  newTraceItem?: TraceItem;
 }
 
 interface TraceNodeProps {
@@ -55,7 +56,7 @@ function TraceNode({ item, depth }: TraceNodeProps) {
   return (
     <div className="font-mono text-sm">
       <div
-        className="flex items-center hover:bg-gray-100 rounded p-1 cursor-pointer"
+        className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded p-1 cursor-pointer"
         onClick={toggleOpen}
       >
         <div style={{ marginLeft: `${depth * 16}px` }} className="flex items-center">
@@ -72,7 +73,7 @@ function TraceNode({ item, depth }: TraceNodeProps) {
 
           {hasMetadata && (
             <Info
-              className="h-3 w-3 ml-2 text-gray-400 hover:text-gray-600"
+              className="h-3 w-3 ml-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
               onClick={toggleMetadata}
             />
           )}
@@ -82,7 +83,7 @@ function TraceNode({ item, depth }: TraceNodeProps) {
       {showMetadata && hasMetadata && (
         <div
           style={{ marginLeft: `${(depth + 1) * 16 + 12}px` }}
-          className="bg-gray-50 p-2 rounded text-xs my-1 border border-gray-200"
+          className="bg-gray-50 dark:bg-gray-900 p-2 rounded text-xs my-1 border border-gray-200 dark:border-gray-700"
         >
           <pre className="whitespace-pre-wrap">
             {JSON.stringify(item.metadata, null, 2)}
@@ -101,11 +102,13 @@ function TraceNode({ item, depth }: TraceNodeProps) {
   );
 }
 
-export function TraceViewer({ traceId }: TraceViewerProps) {
+export function TraceViewer({ traceId, newTraceItem }: TraceViewerProps) {
   const [traceData, setTraceData] = useState<TraceData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const prevNewTraceItemRef = useRef<string | null>(null);
 
+  // Fetch initial trace data
   useEffect(() => {
     async function fetchTraceData() {
       if (!traceId) return;
@@ -114,10 +117,8 @@ export function TraceViewer({ traceId }: TraceViewerProps) {
       setError(null);
 
       try {
-        // For the "sample" trace ID, use trace1
-        const id = traceId === "sample" ? "trace1" : traceId;
-
-        const response = await fetch(`/api/traces/${id}`);
+        // Use the traceId directly without mapping "sample" to "trace1"
+        const response = await fetch(`/api/traces/${traceId}`);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch trace data: ${response.statusText}`);
@@ -135,6 +136,45 @@ export function TraceViewer({ traceId }: TraceViewerProps) {
 
     fetchTraceData();
   }, [traceId]);
+
+  // Update trace data when a new trace item is received
+  useEffect(() => {
+    if (newTraceItem && traceData) {
+      // Skip if we've already processed this exact trace item
+      if (prevNewTraceItemRef.current === newTraceItem.id) {
+        return;
+      }
+
+      // Find the section to add the new trace item to
+      // For simplicity, we'll add it to the first section's children
+      const updatedTraceData = { ...traceData };
+
+      if (updatedTraceData.root.children && updatedTraceData.root.children.length > 0) {
+        const firstSection = updatedTraceData.root.children[0];
+
+        if (!firstSection.children) {
+          firstSection.children = [];
+        }
+
+        // Check if the item already exists to prevent infinite loops
+        const itemExists = firstSection.children.some(
+          (item) => item.id === newTraceItem.id
+        );
+
+        // Only add the new trace item if it doesn't already exist
+        if (!itemExists) {
+          // Add the new trace item
+          firstSection.children.push(newTraceItem);
+
+          // Update the trace data
+          setTraceData(updatedTraceData);
+
+          // Remember this trace item ID to avoid processing it again
+          prevNewTraceItemRef.current = newTraceItem.id;
+        }
+      }
+    }
+  }, [newTraceItem, traceData]);
 
   if (loading) {
     return (

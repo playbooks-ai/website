@@ -11,11 +11,21 @@ interface Message {
   content: string;
 }
 
-interface ChatInterfaceProps {
-  isRunning: boolean;
+interface TraceItem {
+  id: string;
+  name: string;
+  children?: TraceItem[];
+  metadata?: Record<string, any>;
+  type: string;
 }
 
-export function ChatInterface({ isRunning }: ChatInterfaceProps) {
+interface ChatInterfaceProps {
+  isRunning: boolean;
+  traceId?: string;
+  onTraceUpdate?: (traceItem: TraceItem) => void;
+}
+
+export function ChatInterface({ isRunning, traceId, onTraceUpdate }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -64,22 +74,42 @@ export function ChatInterface({ isRunning }: ChatInterfaceProps) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: input, playbook }),
+        body: JSON.stringify({
+          message: input,
+          playbook,
+          traceId
+        }),
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to send message');
-      }
 
       const data = await response.json();
 
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message');
+      }
+
+      // Even if there's an error in the backend but the API returned a 200 response,
+      // we can still show the response message to the user
       const assistantMessage: Message = {
         id: Date.now().toString(),
         role: "assistant",
-        content: data.response,
+        content: data.response || "I'm sorry, there was an error processing your message.",
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
+
+      // If there's a new session ID, update the parent component
+      if (data.newSessionId && traceId) {
+        // Use a custom event to notify the parent component about the new session ID
+        const event = new CustomEvent('session-updated', {
+          detail: { newSessionId: data.newSessionId }
+        });
+        window.dispatchEvent(event);
+      }
+
+      // If there's trace data and a callback to handle it, call the callback
+      if (data.traceData && onTraceUpdate) {
+        onTraceUpdate(data.traceData);
+      }
     } catch (error) {
       console.error('Failed to send message:', error);
 
@@ -87,7 +117,7 @@ export function ChatInterface({ isRunning }: ChatInterfaceProps) {
       const errorMessage: Message = {
         id: Date.now().toString(),
         role: "assistant",
-        content: "Sorry, there was an error processing your message. Please try again.",
+        content: "Sorry, there was an error processing your message. Please try again or restart the playbook.",
       };
 
       setMessages((prev) => [...prev, errorMessage]);
@@ -148,7 +178,7 @@ export function ChatInterface({ isRunning }: ChatInterfaceProps) {
         <div className="flex space-x-2">
           <Input
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Type a message..."
             disabled={!isRunning || isLoading}
