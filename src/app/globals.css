@@ -3,6 +3,21 @@
 @tailwind utilities;
 
 @layer base {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-lora), serif;
+  }
+
+  body {
+    font-family: var(--font-source-sans), sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -49,6 +64,8 @@
   }
 }
 
-body {
-  font-feature-settings: "rlig" 1, "calt" 1;
+@layer components {
+  .font-heading {
+    font-family: var(--font-lora), serif;
+  }
 }
