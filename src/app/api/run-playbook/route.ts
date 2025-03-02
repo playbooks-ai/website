@@ -15,12 +15,13 @@ export async function POST(request: NextRequest) {
 
     // Call the Python backend to run the playbook
     // If existingTraceId is provided, try to reuse that session
-    const traceId = await startPlaybook(playbook, existingTraceId);
+    const result = await startPlaybook(playbook, existingTraceId);
 
     return NextResponse.json({
       success: true,
       message: 'Playbook started successfully',
-      traceId: traceId
+      traceId: result.traceId,
+      initialMessage: result.initialMessage
     });
   } catch (error) {
     console.error('Error running playbook:', error);

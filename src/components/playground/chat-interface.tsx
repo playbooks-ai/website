@@ -22,15 +22,52 @@ interface TraceItem {
 interface ChatInterfaceProps {
   isRunning: boolean;
   traceId?: string;
+  initialMessage?: string;
   onTraceUpdate?: (traceItem: TraceItem) => void;
 }
 
-export function ChatInterface({ isRunning, traceId, onTraceUpdate }: ChatInterfaceProps) {
+export function ChatInterface({ isRunning, traceId, initialMessage, onTraceUpdate }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { playbook } = usePlaybookStore();
+
+  // Set initial message if provided
+  useEffect(() => {
+    if (initialMessage) {
+      setMessages([
+        {
+          id: Date.now().toString(),
+          role: "assistant",
+          content: initialMessage,
+        },
+      ]);
+    }
+  }, [initialMessage]);
+
+  // Add effect to handle initial message when traceId changes
+  useEffect(() => {
+    if (traceId && !initialMessage) {
+      // Fetch the initial trace to get the first message
+      fetch(`/api/traces/${traceId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          // Extract the initial message from the trace
+          const initialTrace = data.children?.[0]?.children?.[0];
+          if (initialTrace?.metadata?.output) {
+            setMessages([
+              {
+                id: Date.now().toString(),
+                role: "assistant",
+                content: initialTrace.metadata.output,
+              },
+            ]);
+          }
+        })
+        .catch((error) => console.error("Error fetching initial trace:", error));
+    }
+  }, [traceId, initialMessage]);
 
   // Scroll to bottom of messages
   const scrollToBottom = () => {
@@ -40,19 +77,6 @@ export function ChatInterface({ isRunning, traceId, onTraceUpdate }: ChatInterfa
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  // Add initial message when playbook starts running
-  useEffect(() => {
-    if (isRunning && messages.length === 0) {
-      setMessages([
-        {
-          id: Date.now().toString(),
-          role: "assistant",
-          content: "Hello! I'm your Playbooks assistant. How can I help you today?",
-        },
-      ]);
-    }
-  }, [isRunning, messages.length]);
 
   const handleSendMessage = async () => {
     if (!input.trim() || !isRunning) return;

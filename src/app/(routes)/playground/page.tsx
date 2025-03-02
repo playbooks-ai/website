@@ -24,6 +24,7 @@ export default function PlaygroundPage() {
   const { playbook, setPlaybook, examplePlaybooks, setExamplePlaybooks, loadExamplePlaybook } = usePlaybookStore();
   const [currentTraceId, setCurrentTraceId] = useState<string | null>(null);
   const [newTraceItem, setNewTraceItem] = useState<TraceItem | null>(null);
+  const [initialMessage, setInitialMessage] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     // Load example playbooks when the component mounts
@@ -60,6 +61,7 @@ export default function PlaygroundPage() {
     setIsRunning(true);
     setActiveTab("chat");
     setNewTraceItem(null); // Reset trace items
+    setInitialMessage(undefined); // Reset initial message
 
     try {
       const response = await fetch('/api/run-playbook', {
@@ -83,6 +85,11 @@ export default function PlaygroundPage() {
       // Set the trace ID from the response
       if (data.traceId) {
         setCurrentTraceId(data.traceId);
+
+        // Set the initial message if available
+        if (data.initialMessage) {
+          setInitialMessage(data.initialMessage);
+        }
       } else {
         // Fallback to sample trace if no trace ID is returned
         setCurrentTraceId("sample");
@@ -148,6 +155,7 @@ export default function PlaygroundPage() {
                 <ChatInterface
                   isRunning={isRunning}
                   traceId={currentTraceId || undefined}
+                  initialMessage={initialMessage}
                   onTraceUpdate={handleTraceUpdate}
                 />
               </Card>
