@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SecondaryButton } from "@/components/ui/secondary-button";
 import { ArrowRight } from "lucide-react";
+import { PlaybookPreview } from "@/components/ui/playbook-preview";
 
 export default function Home() {
   return (
@@ -16,7 +17,7 @@ export default function Home() {
                   Turn Plain English Playbooks into Powerful AI Agents
                 </h1>
                 <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Train your AI agents just like you train your team — using plain English playbooks to turn everyday instructions into powerful, reliable performance.
+                  Train your AI agents just like you train your team — using plain English playbooks to turn everyday instructions into powerful, reliable AI solutions.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -34,26 +35,7 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <div className="relative w-full h-full min-h-[300px] lg:min-h-[400px] rounded-lg overflow-hidden border bg-muted">
-                <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                  <div className="font-mono text-sm w-full max-w-full p-4">
-                    <pre className="p-4 bg-black/80 text-green-400 rounded-lg overflow-x-auto whitespace-pre-wrap break-words">
-                      {`# HelloWorld Agent
-This is a simple Hello World agent.
-
-## HelloWorld
-
-### Trigger
-At the beginning
-
-### Steps
-- Greet the user with a friendly "Hello, World!" message.
-- Explain that this is a demonstration.
-- Say goodbye to the user.`}
-                    </pre>
-                  </div>
-                </div>
-              </div>
+              <PlaybookPreview className="w-full max-w-[500px] shadow-lg" />
             </div>
           </div>
         </div>

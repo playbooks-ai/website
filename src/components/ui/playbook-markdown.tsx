@@ -9,21 +9,37 @@ interface PlaybookMarkdownProps {
 }
 
 export function PlaybookMarkdown({ content, className }: PlaybookMarkdownProps) {
+  const isInverse = className?.includes('inverse-theme');
+
   return (
     <div className={cn("playbook-markdown font-mono text-sm", className)}>
       <ReactMarkdown
         components={{
           h1: ({ children }) => (
-            <h1 className="font-mono text-xl font-bold mb-4 text-primary flex items-center gap-2">
-              <span className=" font-mono bg-primary text-primary-foreground rounded-md px-2 py-1 text-sm">
+            <h1 className={cn(
+              "font-mono text-xl font-bold mb-4 flex items-center gap-2",
+              isInverse ? "text-black dark:text-white" : "text-primary"
+            )}>
+              <span className={cn(
+                "font-mono rounded-md px-2 py-1 text-sm",
+                isInverse ? "bg-black text-white dark:bg-white dark:text-black" : "bg-primary text-primary-foreground"
+              )}>
                 Program
               </span>
               {children}
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className="font-mono text-lg font-bold mt-6 mb-4 text-primary flex items-center gap-2 bg-slate-100 dark:bg-slate-700/40 px-4 py-3 rounded-md border-l-[6px] border-slate-500">
-              <span className="font-mono bg-slate-500 text-white rounded-md px-2 py-1 text-sm">
+            <h2 className={cn(
+              "font-mono text-lg font-bold mt-6 mb-4 flex items-center gap-2 px-4 py-3 rounded-md border-l-[6px]",
+              isInverse
+                ? "bg-slate-700 dark:bg-slate-300 border-slate-400 dark:border-slate-500 text-white dark:text-black"
+                : "bg-slate-100 dark:bg-slate-700/40 border-slate-500"
+            )}>
+              <span className={cn(
+                "font-mono rounded-md px-2 py-1 text-sm",
+                isInverse ? "bg-slate-600 text-white" : "bg-slate-500 text-white"
+              )}>
                 Playbook
               </span>
               {children}
@@ -34,21 +50,30 @@ export function PlaybookMarkdown({ content, className }: PlaybookMarkdownProps) 
 
             if (text.includes('trigger')) {
               return (
-                <h3 className="font-mono text-lg font-semibold mt-4 mb-2 flex items-center gap-2 text-amber-500">
+                <h3 className={cn(
+                  "font-mono text-lg font-semibold mt-4 mb-2 flex items-center gap-2",
+                  isInverse ? "text-amber-600 dark:text-amber-400" : "text-amber-500"
+                )}>
                   <Zap className="h-5 w-5" />
                   {children}
                 </h3>
               );
             } else if (text.includes('steps')) {
               return (
-                <h3 className="font-mono text-lg font-semibold mt-4 mb-2 flex items-center gap-2 text-blue-500">
+                <h3 className={cn(
+                  "font-mono text-lg font-semibold mt-4 mb-2 flex items-center gap-2",
+                  isInverse ? "text-blue-600 dark:text-blue-400" : "text-blue-500"
+                )}>
                   <ListChecks className="h-5 w-5" />
                   {children}
                 </h3>
               );
             } else if (text.includes('notes')) {
               return (
-                <h3 className="font-mono text-lg font-semibold mt-4 mb-2 flex items-center gap-2 text-orange-600">
+                <h3 className={cn(
+                  "font-mono text-lg font-semibold mt-4 mb-2 flex items-center gap-2",
+                  isInverse ? "text-orange-700 dark:text-orange-500" : "text-orange-600"
+                )}>
                   <AlertCircle className="h-5 w-5" />
                   {children}
                 </h3>
@@ -74,7 +99,10 @@ export function PlaybookMarkdown({ content, className }: PlaybookMarkdownProps) 
             <p className="mb-4">{children}</p>
           ),
           pre: ({ children }) => (
-            <pre className="bg-muted p-4 rounded-md text-sm overflow-x-auto my-4">{children}</pre>
+            <pre className={cn(
+              "p-4 rounded-md text-sm overflow-x-auto my-4",
+              isInverse ? "bg-slate-200 dark:bg-slate-800" : "bg-muted"
+            )}>{children}</pre>
           ),
           code: ({ children, className }) => {
             // Check if this is a code block (wrapped in a pre) or inline code
@@ -83,8 +111,14 @@ export function PlaybookMarkdown({ content, className }: PlaybookMarkdownProps) 
               <code
                 className={cn(
                   isInline
-                    ? "bg-muted px-1 py-0.5 rounded text-sm"
-                    : "block bg-muted rounded-md text-sm",
+                    ? cn(
+                      "px-1 py-0.5 rounded text-sm",
+                      isInverse ? "bg-slate-200 dark:bg-slate-800" : "bg-muted"
+                    )
+                    : cn(
+                      "block rounded-md text-sm",
+                      isInverse ? "bg-slate-200 dark:bg-slate-800" : "bg-muted"
+                    ),
                   className
                 )}
               >
@@ -93,7 +127,10 @@ export function PlaybookMarkdown({ content, className }: PlaybookMarkdownProps) 
             );
           },
           blockquote: ({ children }) => (
-            <blockquote className="border-l-4 border-muted pl-4 italic my-4">{children}</blockquote>
+            <blockquote className={cn(
+              "border-l-4 pl-4 italic my-4",
+              isInverse ? "border-slate-400 dark:border-slate-600" : "border-muted"
+            )}>{children}</blockquote>
           ),
         }}
       >
