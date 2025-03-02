@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { SecondaryButton } from "@/components/ui/secondary-button";
 import { Textarea } from "@/components/ui/textarea";
 import {
   DropdownMenu,
@@ -149,7 +150,7 @@ export function PlaybookEditor() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
         <div className="flex items-center space-x-2">
           <input
             type="text"
@@ -163,16 +164,25 @@ export function PlaybookEditor() {
           </Button>
         </div>
 
-        <div className="flex space-x-2">
-          <Button variant="outline" onClick={handleExportPlaybook}>
+        <div className="flex flex-wrap gap-2">
+          <SecondaryButton
+            onClick={handleExportPlaybook}
+            className="text-xs sm:text-sm px-2 sm:px-3"
+          >
             Export
-          </Button>
-          <Button variant="outline" onClick={handleImportClick}>
+          </SecondaryButton>
+          <SecondaryButton
+            onClick={handleImportClick}
+            className="text-xs sm:text-sm px-2 sm:px-3"
+          >
             Import
-          </Button>
-          <Button variant="outline" onClick={handleSharePlaybook}>
+          </SecondaryButton>
+          <SecondaryButton
+            onClick={handleSharePlaybook}
+            className="text-xs sm:text-sm px-2 sm:px-3"
+          >
             Share
-          </Button>
+          </SecondaryButton>
           <input
             type="file"
             ref={fileInputRef}
@@ -182,9 +192,9 @@ export function PlaybookEditor() {
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <SecondaryButton className="text-xs sm:text-sm px-2 sm:px-3">
                 Examples
-              </Button>
+              </SecondaryButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {examplePlaybooks.length > 0 ? (
@@ -204,9 +214,9 @@ export function PlaybookEditor() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <SecondaryButton className="text-xs sm:text-sm px-2 sm:px-3">
                 Saved
-              </Button>
+              </SecondaryButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {savedPlaybooks.length > 0 ? (
@@ -257,9 +267,11 @@ export function PlaybookEditor() {
               </Button>
             </div>
             <div className="flex justify-end">
-              <Button variant="outline" onClick={() => setShowShareModal(false)}>
+              <SecondaryButton
+                onClick={() => setShowShareModal(false)}
+              >
                 Close
-              </Button>
+              </SecondaryButton>
             </div>
           </div>
         </div>

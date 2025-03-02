@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { SecondaryButton } from "@/components/ui/secondary-button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
@@ -50,21 +51,20 @@ export function ApiKeysForm() {
                   type="password"
                   className="flex-1"
                 />
-                <Button
+                <SecondaryButton
                   type="button"
-                  variant="outline"
                   onClick={handleGenerateKey}
                   disabled={isGenerating}
                 >
                   {isGenerating ? (
                     <>
-                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                      Generating
+                      <span className="mr-2">Generating...</span>
+                      <span className="animate-spin">⟳</span>
                     </>
                   ) : (
-                    "Generate"
+                    "Generate Key"
                   )}
-                </Button>
+                </SecondaryButton>
               </div>
               <p className="text-xs text-muted-foreground">
                 Your API key is used to authenticate requests to the Playbooks AI API.

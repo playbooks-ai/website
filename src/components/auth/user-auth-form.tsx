@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
+import { SecondaryButton } from "@/components/ui/secondary-button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Icons } from "@/components/icons"
@@ -79,14 +80,17 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
+      <SecondaryButton
+        type="button"
+        disabled={isLoading}
+      >
         {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          <Icons.gitHub className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
+          <Icons.gitHub className="mr-2 h-4 w-4" />
         )}{" "}
-        Google
-      </Button>
+        GitHub
+      </SecondaryButton>
     </div>
   )
 } 

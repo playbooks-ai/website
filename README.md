@@ -1,6 +1,6 @@
 # Playbooks AI Companion Website
 
-This is the companion website for the [Playbooks AI](https://github.com/yourusername/playbooks) Python package. It provides a web interface for creating, editing, and running Playbooks AI.
+This is the companion website for the [Playbooks AI](https://github.com/playbooks-ai/playbooks) Python package. It provides a web interface for creating, editing, and running Playbooks AI.
 
 ## Features
 
@@ -22,7 +22,7 @@ This is the companion website for the [Playbooks AI](https://github.com/youruser
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/playbooks-website.git
+git clone https://github.com/playbooks-ai/playbooks-website.git
 cd playbooks-website
 ```
 
@@ -185,7 +185,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgements
 
-- [Playbooks AI](https://github.com/yourusername/playbooks) - The Python package this website is built for
+- [Playbooks AI](https://github.com/playbooks-ai/playbooks) - The Python package this website is built for
 - [Next.js](https://nextjs.org/) - The React framework used
 - [shadcn/ui](https://ui.shadcn.com/) - UI components
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework

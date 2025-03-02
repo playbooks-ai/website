@@ -128,7 +128,7 @@ export default function PlaygroundPage() {
             <div className="flex justify-between items-center mb-4">
               <TabsList>
                 <TabsTrigger value="editor">Editor</TabsTrigger>
-                <TabsTrigger value="chat">Chat</TabsTrigger>
+                <TabsTrigger value="chat">AI Agent</TabsTrigger>
               </TabsList>
 
               <div className="flex space-x-2">

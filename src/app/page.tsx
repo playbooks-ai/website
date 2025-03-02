@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { SecondaryButton } from "@/components/ui/secondary-button";
 import { ArrowRight } from "lucide-react";
 
 export default function Home() {
@@ -20,23 +21,23 @@ export default function Home() {
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <Link href="/playground">
-                  <Button size="lg" className="inline-flex items-center">
+                  <Button className="inline-flex items-center">
                     Try the Playground
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
                 <Link href="/docs">
-                  <Button variant="outline" size="lg">
+                  <SecondaryButton>
                     Read the Docs
-                  </Button>
+                  </SecondaryButton>
                 </Link>
               </div>
             </div>
             <div className="flex items-center justify-center">
               <div className="relative w-full h-full min-h-[300px] lg:min-h-[400px] rounded-lg overflow-hidden border bg-muted">
                 <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                  <div className="font-mono text-sm">
-                    <pre className="p-4 bg-black/80 text-green-400 rounded-lg">
+                  <div className="font-mono text-sm w-full max-w-full p-4">
+                    <pre className="p-4 bg-black/80 text-green-400 rounded-lg overflow-x-auto whitespace-pre-wrap break-words">
                       {`# HelloWorld Agent
 This is a simple Hello World agent.
 
@@ -234,15 +235,15 @@ At the beginning
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <Link href="/playground">
-                <Button size="lg" className="inline-flex items-center">
+                <Button className="inline-flex items-center">
                   Try the Playground
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="https://github.com/yourusername/playbooks" target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" size="lg">
+              <Link href="https://github.com/playbooks-ai/playbooks" target="_blank" rel="noopener noreferrer">
+                <SecondaryButton>
                   View on GitHub
-                </Button>
+                </SecondaryButton>
               </Link>
             </div>
           </div>

@@ -160,7 +160,7 @@ export function ChatInterface({ isRunning, traceId, initialMessage, onTraceUpdat
   if (!isRunning) {
     return (
       <div className="flex items-center justify-center h-[500px]">
-        <p className="text-gray-500">Run the playbook to start chatting.</p>
+        <p className="text-gray-500">Run the playbook to see the AI agent in action.</p>
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { SecondaryButton } from "@/components/ui/secondary-button";
 import { ArrowRight } from "lucide-react";
 
 export default function DocsPage() {
@@ -98,10 +99,10 @@ At the beginning
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <Link href="https://github.com/yourusername/playbooks" target="_blank" rel="noopener noreferrer">
-              <Button className="bg-transparent border border-gray-300 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-800">
+            <Link href="https://github.com/playbooks-ai/playbooks" target="_blank" rel="noopener noreferrer">
+              <SecondaryButton>
                 View on GitHub
-              </Button>
+              </SecondaryButton>
             </Link>
           </div>
         </section>
