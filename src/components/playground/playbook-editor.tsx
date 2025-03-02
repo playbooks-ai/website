@@ -12,7 +12,9 @@ import {
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { usePlaybookStore, Playbook } from "@/lib/store";
-import { Download, Upload, Share2, BookOpen, FolderOpen, Save } from "lucide-react";
+import { Download, Upload, Share2, BookOpen, FolderOpen, Save, Edit, Eye } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PlaybookMarkdown } from "@/components/ui/playbook-markdown";
 
 const DEFAULT_PLAYBOOK = `# HelloWorld Agent
 This is a simple Hello World agent.
@@ -33,6 +35,7 @@ export function PlaybookEditor() {
   const [showShareModal, setShowShareModal] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+  const [activeTab, setActiveTab] = useState<'edit' | 'preview'>('edit');
 
   // Reset save status after delay
   useEffect(() => {
@@ -196,7 +199,24 @@ export function PlaybookEditor() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end space-y-3 sm:space-y-0">
+      <div className="flex justify-between items-center">
+        <Tabs
+          value={activeTab}
+          onValueChange={(value: string) => setActiveTab(value as 'edit' | 'preview')}
+          className="w-32"
+        >
+          <TabsList>
+            <TabsTrigger value="edit" className="flex items-center gap-1">
+              <Edit className="h-4 w-4" />
+              Edit
+            </TabsTrigger>
+            <TabsTrigger value="preview" className="flex items-center gap-1">
+              <Eye className="h-4 w-4" />
+              Preview
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+
         <div className="flex items-center space-x-2">
           {/* 1. Save Button */}
           <SecondaryButton
@@ -315,12 +335,18 @@ export function PlaybookEditor() {
         />
       </div>
 
-      <Textarea
-        value={playbook}
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPlaybook(e.target.value)}
-        className="min-h-[500px] font-mono"
-        placeholder="Write your playbook here..."
-      />
+      {activeTab === 'edit' ? (
+        <Textarea
+          value={playbook}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPlaybook(e.target.value)}
+          className="min-h-[500px] font-mono"
+          placeholder="Write your playbook here..."
+        />
+      ) : (
+        <div className="border rounded-md p-4 min-h-[500px] overflow-y-auto bg-card">
+          <PlaybookMarkdown content={playbook || ''} />
+        </div>
+      )}
 
       <div className="text-xs text-gray-500">
         <p>Write your playbook in markdown format. Use headings to define sections and steps.</p>
