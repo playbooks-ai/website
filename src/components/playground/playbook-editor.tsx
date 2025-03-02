@@ -8,9 +8,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
+  DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { usePlaybookStore, Playbook } from "@/lib/store";
+import { Download, Upload, Share2, BookOpen, FolderOpen, Save } from "lucide-react";
 
 const DEFAULT_PLAYBOOK = `# HelloWorld Agent
 This is a simple Hello World agent.
@@ -27,10 +29,20 @@ At the beginning
 
 export function PlaybookEditor() {
   const { playbook, setPlaybook, examplePlaybooks, loadExamplePlaybook, savedPlaybooks, savePlaybook } = usePlaybookStore();
-  const [playbookName, setPlaybookName] = useState("My Playbook");
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [showShareModal, setShowShareModal] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+
+  // Reset save status after delay
+  useEffect(() => {
+    if (saveStatus === 'success' || saveStatus === 'error') {
+      const timer = setTimeout(() => {
+        setSaveStatus('idle');
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [saveStatus]);
 
   useEffect(() => {
     // Set default playbook if empty
@@ -39,9 +51,47 @@ export function PlaybookEditor() {
     }
   }, [playbook, setPlaybook]);
 
+  // Extract playbook name from H1 tag
+  const getPlaybookName = () => {
+    if (!playbook) return "My Playbook";
+
+    // Look for the first H1 tag (# Title)
+    const h1Match = playbook.match(/^#\s+(.+)$/m);
+    if (h1Match && h1Match[1]) {
+      return h1Match[1].trim();
+    }
+
+    return "My Playbook";
+  };
+
   const handleSavePlaybook = () => {
-    savePlaybook(playbookName, playbook);
-    alert(`Playbook "${playbookName}" saved successfully!`);
+    setSaveStatus('saving');
+
+    // Simulate a small delay to show the saving state
+    setTimeout(() => {
+      try {
+        const playbookName = getPlaybookName();
+
+        // Check if a playbook with this name already exists
+        const existingPlaybookIndex = savedPlaybooks.findIndex(
+          (saved) => saved.name.toLowerCase() === playbookName.toLowerCase()
+        );
+
+        if (existingPlaybookIndex >= 0) {
+          // Update existing playbook
+          const existingId = savedPlaybooks[existingPlaybookIndex].id;
+          savePlaybook(playbookName, playbook, existingId);
+        } else {
+          // Create new playbook
+          savePlaybook(playbookName, playbook);
+        }
+
+        setSaveStatus('success');
+      } catch (error) {
+        console.error('Failed to save playbook:', error);
+        setSaveStatus('error');
+      }
+    }, 500);
   };
 
   const handleLoadExample = (examplePlaybook: Playbook) => {
@@ -50,11 +100,12 @@ export function PlaybookEditor() {
 
   const handleLoadSaved = (savedPlaybook: Playbook) => {
     setPlaybook(savedPlaybook.content);
-    setPlaybookName(savedPlaybook.name);
   };
 
   const handleExportPlaybook = () => {
     if (!playbook) return;
+
+    const playbookName = getPlaybookName();
 
     // Create a blob with the playbook content
     const blob = new Blob([playbook], { type: 'text/markdown' });
@@ -87,10 +138,6 @@ export function PlaybookEditor() {
       const content = e.target?.result as string;
       if (content) {
         setPlaybook(content);
-
-        // Extract name from file name
-        const fileName = file.name.replace(/\.md$/, '');
-        setPlaybookName(fileName.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()));
       }
     };
     reader.readAsText(file);
@@ -103,6 +150,8 @@ export function PlaybookEditor() {
 
   const handleSharePlaybook = () => {
     if (!playbook) return;
+
+    const playbookName = getPlaybookName();
 
     // Encode the playbook content for URL sharing
     const encodedPlaybook = encodeURIComponent(playbook);
@@ -138,9 +187,6 @@ export function PlaybookEditor() {
 
       if (sharedPlaybook) {
         setPlaybook(decodeURIComponent(sharedPlaybook));
-        if (sharedName) {
-          setPlaybookName(decodeURIComponent(sharedName));
-        }
 
         // Clear the URL parameters after loading
         window.history.replaceState({}, document.title, window.location.pathname);
@@ -150,53 +196,71 @@ export function PlaybookEditor() {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+      <div className="flex justify-end space-y-3 sm:space-y-0">
         <div className="flex items-center space-x-2">
-          <input
-            type="text"
-            value={playbookName}
-            onChange={(e) => setPlaybookName(e.target.value)}
-            className="border rounded px-2 py-1 text-sm"
-            placeholder="Playbook Name"
-          />
-          <Button onClick={handleSavePlaybook}>
-            Save
-          </Button>
-        </div>
+          {/* 1. Save Button */}
+          <SecondaryButton
+            onClick={handleSavePlaybook}
+            className={`h-9 w-9 p-0 rounded-full transition-colors duration-300 ${saveStatus === 'saving'
+              ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900/30 dark:border-blue-700 dark:text-blue-400'
+              : saveStatus === 'success'
+                ? 'bg-green-100 border-green-500 text-green-700 dark:bg-green-900 dark:border-green-600 dark:text-green-400'
+                : saveStatus === 'error'
+                  ? 'bg-red-100 border-red-500 text-red-700 dark:bg-red-900 dark:border-red-600 dark:text-red-400'
+                  : ''
+              }`}
+            title="Save Playbook"
+            disabled={saveStatus === 'saving'}
+          >
+            {saveStatus === 'saving' ? (
+              <div className="h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin dark:border-blue-400 dark:border-t-transparent" />
+            ) : (
+              <Save className={`h-4 w-4 ${saveStatus === 'success' ? 'text-green-700 dark:text-green-400' :
+                saveStatus === 'error' ? 'text-red-700 dark:text-red-400' : ''
+                }`} />
+            )}
+            <span className="sr-only">Save</span>
+          </SecondaryButton>
 
-        <div className="flex flex-wrap gap-2">
-          <SecondaryButton
-            onClick={handleExportPlaybook}
-            className="text-xs sm:text-sm px-2 sm:px-3"
-          >
-            Export
-          </SecondaryButton>
-          <SecondaryButton
-            onClick={handleImportClick}
-            className="text-xs sm:text-sm px-2 sm:px-3"
-          >
-            Import
-          </SecondaryButton>
-          <SecondaryButton
-            onClick={handleSharePlaybook}
-            className="text-xs sm:text-sm px-2 sm:px-3"
-          >
-            Share
-          </SecondaryButton>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleImportPlaybook}
-            accept=".md"
-            className="hidden"
-          />
+          {/* 2. Load Button */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <SecondaryButton className="text-xs sm:text-sm px-2 sm:px-3">
-                Examples
+              <SecondaryButton
+                className="h-9 w-9 p-0 rounded-full"
+                title="Load Saved Playbooks"
+              >
+                <FolderOpen className="h-4 w-4" />
+                <span className="sr-only">Load</span>
               </SecondaryButton>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent align="end">
+              {savedPlaybooks.length > 0 ? (
+                savedPlaybooks.map((saved) => (
+                  <DropdownMenuItem
+                    key={saved.id}
+                    onClick={() => handleLoadSaved(saved)}
+                  >
+                    {saved.name}
+                  </DropdownMenuItem>
+                ))
+              ) : (
+                <DropdownMenuItem disabled>No saved playbooks</DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* 3. Examples Button */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <SecondaryButton
+                className="h-9 w-9 p-0 rounded-full"
+                title="Example Playbooks"
+              >
+                <BookOpen className="h-4 w-4" />
+                <span className="sr-only">Examples</span>
+              </SecondaryButton>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
               {examplePlaybooks.length > 0 ? (
                 examplePlaybooks.map((example) => (
                   <DropdownMenuItem
@@ -212,28 +276,43 @@ export function PlaybookEditor() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <SecondaryButton className="text-xs sm:text-sm px-2 sm:px-3">
-                Saved
-              </SecondaryButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {savedPlaybooks.length > 0 ? (
-                savedPlaybooks.map((saved) => (
-                  <DropdownMenuItem
-                    key={saved.id}
-                    onClick={() => handleLoadSaved(saved)}
-                  >
-                    {saved.name}
-                  </DropdownMenuItem>
-                ))
-              ) : (
-                <DropdownMenuItem disabled>No saved playbooks</DropdownMenuItem>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {/* 4. Share Button */}
+          <SecondaryButton
+            onClick={handleSharePlaybook}
+            className="h-9 w-9 p-0 rounded-full"
+            title="Share Playbook"
+          >
+            <Share2 className="h-4 w-4" />
+            <span className="sr-only">Share</span>
+          </SecondaryButton>
+
+          {/* 5. Download Button */}
+          <SecondaryButton
+            onClick={handleExportPlaybook}
+            className="h-9 w-9 p-0 rounded-full"
+            title="Export Playbook"
+          >
+            <Download className="h-4 w-4" />
+            <span className="sr-only">Export</span>
+          </SecondaryButton>
+
+          {/* 6. Upload Button */}
+          <SecondaryButton
+            onClick={handleImportClick}
+            className="h-9 w-9 p-0 rounded-full"
+            title="Import Playbook"
+          >
+            <Upload className="h-4 w-4" />
+            <span className="sr-only">Import</span>
+          </SecondaryButton>
         </div>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleImportPlaybook}
+          accept=".md"
+          className="hidden"
+        />
       </div>
 
       <Textarea

@@ -14,7 +14,7 @@ interface PlaybookState {
   setExamplePlaybooks: (playbooks: Playbook[]) => void;
   loadExamplePlaybook: (id: string) => void;
   savedPlaybooks: Playbook[];
-  savePlaybook: (name: string, content: string) => void;
+  savePlaybook: (name: string, content: string, existingId?: string) => void;
   deletePlaybook: (id: string) => void;
 }
 
@@ -36,11 +36,21 @@ export const usePlaybookStore = create<PlaybookState>()(
       },
 
       savedPlaybooks: [],
-      savePlaybook: (name, content) => {
+      savePlaybook: (name, content, existingId) => {
         const { savedPlaybooks } = get();
-        const id = Date.now().toString();
-        const newPlaybook = { id, name, content };
-        set({ savedPlaybooks: [...savedPlaybooks, newPlaybook] });
+
+        if (existingId) {
+          // Update existing playbook
+          const updatedPlaybooks = savedPlaybooks.map(p =>
+            p.id === existingId ? { ...p, name, content } : p
+          );
+          set({ savedPlaybooks: updatedPlaybooks });
+        } else {
+          // Create new playbook
+          const id = Date.now().toString();
+          const newPlaybook = { id, name, content };
+          set({ savedPlaybooks: [...savedPlaybooks, newPlaybook] });
+        }
       },
 
       deletePlaybook: (id) => {
