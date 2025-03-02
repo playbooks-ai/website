@@ -67,7 +67,7 @@ export function ApiKeysForm() {
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground">
-                Your API key is used to authenticate requests to the Playbooks API.
+                Your API key is used to authenticate requests to the Playbooks AI API.
               </p>
             </div>
 

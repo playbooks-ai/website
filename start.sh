@@ -7,7 +7,7 @@ export API_PORT=${API_PORT:-8000}
 # Check if OPENAI_API_KEY is set
 if [ -z "$OPENAI_API_KEY" ]; then
   echo "Warning: OPENAI_API_KEY environment variable is not set."
-  echo "The API will use mock responses instead of the real Playbooks package."
+  echo "The API will use mock responses instead of the real Playbooks AI package."
   echo "Set your API key with: export OPENAI_API_KEY=your_openai_api_key"
   echo ""
 fi

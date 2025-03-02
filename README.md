@@ -1,13 +1,13 @@
-# Playbooks Companion Website
+# Playbooks AI Companion Website
 
-This is the companion website for the [Playbooks](https://github.com/yourusername/playbooks) Python package. It provides a web interface for creating, editing, and running Playbooks.
+This is the companion website for the [Playbooks AI](https://github.com/yourusername/playbooks) Python package. It provides a web interface for creating, editing, and running Playbooks AI.
 
 ## Features
 
-- **Landing Page**: Information about the Playbooks package
-- **Playground**: Create, edit, and run Playbooks in the browser
-- **Trace Viewer**: Visualize the execution trace of your Playbooks
-- **Example Playbooks**: Try out pre-built example Playbooks
+- **Landing Page**: Information about the Playbooks AI package
+- **Playground**: Create, edit, and run Playbooks AI in the browser
+- **Trace Viewer**: Visualize the execution trace of your Playbooks AI
+- **Example Playbooks**: Try out pre-built example Playbooks AI
 
 ## Getting Started
 
@@ -15,7 +15,7 @@ This is the companion website for the [Playbooks](https://github.com/yourusernam
 
 - Node.js 18 or later
 - npm or yarn
-- Python 3.8 or later (for running the Playbooks package)
+- Python 3.8 or later (for running the Playbooks AI package)
 
 ### Installation
 
@@ -118,7 +118,7 @@ foreman start
 
 ## Python API Server
 
-This website now includes a real Python API server that integrates with the Playbooks package. The API server is located in the `api` directory.
+This website now includes a real Python API server that integrates with the Playbooks AI package. The API server is located in the `api` directory.
 
 ### Setting up the Python API Server
 
@@ -158,9 +158,9 @@ The API server will be available at http://localhost:8000 (or the port you speci
 
 For more details, see the [API README](api/README.md).
 
-## Integration with Playbooks Python Package
+## Integration with Playbooks AI Python Package
 
-This website is designed to work with the Playbooks Python package. The Python API server in the `api` directory provides the integration between the website and the Playbooks package.
+This website is designed to work with the Playbooks AI Python package. The Python API server in the `api` directory provides the integration between the website and the Playbooks AI package.
 
 The website includes a fallback to a simulated Python backend service in `src/lib/python-service.ts` if the API server is not available.
 
@@ -185,7 +185,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgements
 
-- [Playbooks](https://github.com/yourusername/playbooks) - The Python package this website is built for
+- [Playbooks AI](https://github.com/yourusername/playbooks) - The Python package this website is built for
 - [Next.js](https://nextjs.org/) - The React framework used
 - [shadcn/ui](https://ui.shadcn.com/) - UI components
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework

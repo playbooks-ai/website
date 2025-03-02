@@ -5,13 +5,13 @@ import { ArrowRight } from "lucide-react";
 export default function DocsPage() {
   return (
     <div className="container mx-auto py-8 max-w-4xl">
-      <h1 className="text-4xl font-bold mb-6">Playbooks Documentation</h1>
+      <h1 className="text-4xl font-bold mb-6">Playbooks AI Documentation</h1>
 
       <div className="space-y-8">
         <section>
           <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
           <p className="text-lg mb-4">
-            Playbooks is a natural language programming framework that allows you to create interactive agents using markdown files. With Playbooks, you can define the behavior of an agent using a simple, human-readable format.
+            Playbooks AI is a natural language programming framework that allows you to create interactive agents using markdown files. With Playbooks AI, you can define the behavior of an agent using a simple, human-readable format.
           </p>
           <p className="text-lg mb-4">
             This documentation will guide you through the process of creating and running your own playbooks.
@@ -21,7 +21,7 @@ export default function DocsPage() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">Installation</h2>
           <p className="text-lg mb-4">
-            You can install Playbooks using pip:
+            You can install Playbooks AI using pip:
           </p>
           <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto mb-4">
             <code>pip install playbooks</code>
@@ -75,7 +75,7 @@ At the beginning
         <section>
           <h2 className="text-2xl font-semibold mb-4">Advanced Features</h2>
           <p className="text-lg mb-4">
-            Playbooks supports many advanced features, including:
+            Playbooks AI supports many advanced features, including:
           </p>
           <ul className="list-disc list-inside space-y-2 text-lg mb-4">
             <li><strong>Multiple Sections</strong>: You can define multiple sections in a playbook to handle different scenarios.</li>

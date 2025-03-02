@@ -12,10 +12,10 @@ export default function Home() {
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  Natural Language Programming with Playbooks
+                  Natural Language Programming with Playbooks AI
                 </h1>
                 <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Create, run, and share natural language programs with Playbooks. Build powerful agents using simple markdown files.
+                  Create, run, and share natural language programs with Playbooks AI. Build powerful agents using simple markdown files.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">

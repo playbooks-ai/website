@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Playbooks - Natural Language Programming",
-  description: "Create and run natural language programs with Playbooks",
+  title: "Playbooks AI - Natural Language Programming",
+  description: "Create and run natural language programs with Playbooks AI",
 };
 
 export default function RootLayout({
@@ -41,7 +41,7 @@ export default function RootLayout({
           </main>
           <footer className="py-6 border-t">
             <div className="container mx-auto px-4 text-center text-sm text-gray-500">
-              © {new Date().getFullYear()} Playbooks. All rights reserved.
+              © {new Date().getFullYear()} Playbooks AI. All rights reserved.
             </div>
           </footer>
         </ThemeProvider>

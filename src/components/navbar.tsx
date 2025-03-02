@@ -18,7 +18,7 @@ export function Navbar() {
       <div className="container flex h-16 items-center">
         <div className="mr-4 flex">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="font-bold text-xl">Playbooks</span>
+            <span className="font-bold text-xl">Playbooks AI</span>
           </Link>
         </div>
         <nav className="flex items-center space-x-6 text-sm font-medium flex-1">
