@@ -10,16 +10,13 @@ export function PlaybookPreview({ className }: PlaybookPreviewProps) {
   const samplePlaybook = `## Check order status
 
 ### Trigger
-- When an authenticated user requests order status
+- When a user requests order status
 
 ### Steps
-- Get order id from the user
+- Authenticate the user
+- Ask user which order they want to check by presenting a list of recent orders
 - Load order status
-- If order was found
-  - Provide order status to the user
-- Otherwise
-  - Tell user that the order was not found
-`;
+- Answer user's question based on the order status`;
 
   return (
     <div className={cn(
