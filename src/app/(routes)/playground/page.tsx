@@ -9,6 +9,7 @@ import { ChatInterface } from "@/components/playground/chat-interface";
 import { TraceViewer } from "@/components/trace-viewer/trace-viewer";
 import { usePlaybookStore } from "@/lib/store";
 import { stopPlaybook } from "@/lib/python-service";
+import { PlaybookMarkdown } from "@/components/ui/playbook-markdown";
 
 interface TraceItem {
   id: string;
@@ -128,6 +129,7 @@ export default function PlaygroundPage() {
             <div className="flex justify-between items-center mb-4">
               <TabsList>
                 <TabsTrigger value="editor">Editor</TabsTrigger>
+                <TabsTrigger value="preview">Preview</TabsTrigger>
                 <TabsTrigger value="chat">AI Agent</TabsTrigger>
               </TabsList>
 
@@ -147,6 +149,14 @@ export default function PlaygroundPage() {
             <TabsContent value="editor" className="mt-0">
               <Card className="p-4">
                 <PlaybookEditor />
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="preview" className="mt-0">
+              <Card className="p-4">
+                <div className="border rounded-md p-4 min-h-[500px] overflow-y-auto bg-card">
+                  <PlaybookMarkdown content={playbook || ''} />
+                </div>
               </Card>
             </TabsContent>
 
