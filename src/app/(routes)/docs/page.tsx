@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SecondaryButton } from "@/components/ui/secondary-button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 
 export default function DocsPage() {
+  // GitHub Pages documentation URL
+  const docsUrl = "https://playbooks-ai.github.io/playbooks";
+
   return (
     <div className="container mx-auto py-8 max-w-4xl">
       <h1 className="text-4xl font-bold mb-6">Playbooks AI Documentation</h1>
@@ -17,6 +20,47 @@ export default function DocsPage() {
           <p className="text-lg mb-4">
             This documentation will guide you through the process of creating and running your own playbooks.
           </p>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-semibold mb-4">Documentation</h2>
+          <p className="text-lg mb-4">
+            We provide comprehensive documentation for the Playbooks AI framework. Our full documentation is hosted on a dedicated documentation site:
+          </p>
+          <div className="flex flex-col gap-4 mb-4">
+            <a
+              href={docsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-between p-6 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+            >
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Playbooks AI Documentation</h3>
+                <p>Complete API reference, guides, and examples</p>
+              </div>
+              <ExternalLink className="h-5 w-5 ml-2" />
+            </a>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <a
+              href={`${docsUrl}/api/index.html`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+            >
+              <h3 className="text-xl font-semibold mb-2">API Reference</h3>
+              <p>Detailed documentation of the Playbooks AI API</p>
+            </a>
+            <a
+              href={`${docsUrl}/examples.html`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+            >
+              <h3 className="text-xl font-semibold mb-2">Examples</h3>
+              <p>Example playbooks and usage patterns</p>
+            </a>
+          </div>
         </section>
 
         <section>
