@@ -1,32 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { startPlaybook } from '@/lib/python-service';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { playbook, existingTraceId } = body;
+    const { playbook } = await request.json();
 
     if (!playbook) {
       return NextResponse.json(
-        { error: 'Playbook content is required' },
+        { error: 'Invalid request: playbook is required' },
         { status: 400 }
       );
     }
 
-    // Call the Python backend to run the playbook
-    // If existingTraceId is provided, try to reuse that session
-    const result = await startPlaybook(playbook, existingTraceId);
-
-    return NextResponse.json({
-      success: true,
-      message: 'Playbook started successfully',
-      traceId: result.traceId,
-      initialMessage: result.initialMessage
+    // Forward the request to the Python backend
+    const response = await fetch('http://localhost:8000/run-playbook', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ playbook }),
     });
-  } catch (error) {
+
+    if (!response.ok) {
+      throw new Error(`Backend returned ${response.status}: ${await response.text()}`);
+    }
+
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error: unknown) {
     console.error('Error running playbook:', error);
     return NextResponse.json(
-      { error: 'Failed to run playbook' },
+      {
+        error: 'Failed to run playbook',
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }

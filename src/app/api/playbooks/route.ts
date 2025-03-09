@@ -1,77 +1,57 @@
-import { NextResponse } from 'next/server';
-import { Playbook } from '@/lib/store';
+import { NextRequest, NextResponse } from 'next/server';
 
-// Sample playbook data
-const examplePlaybooks: Playbook[] = [
-  {
-    id: 'hello',
-    name: 'Hello World',
-    content: `# HelloWorld Agent
-This is a simple Hello World agent.
-
-## HelloWorld
-
-### Trigger
-At the beginning
-
-### Steps
-- Greet the user with a friendly "Hello, World!" message.
-- Explain that this is a demonstration of a simple Hello World playbook.
-- Say goodbye to the user.`
-  },
-  {
-    id: 'chat',
-    name: 'Simple Chat',
-    content: `# Chat Agent
-A simple chat agent that responds to user messages.
-
-## Chat
-
-### Trigger
-At the beginning
-
-### Steps
-- Greet the user and introduce yourself as a chat assistant.
-- Ask how you can help them today.
-- Respond to their questions or messages in a helpful and friendly manner.`
-  },
-  {
-    id: 'weather',
-    name: 'Weather Agent',
-    content: `# Weather Agent
-An agent that can provide weather information.
-
-## WeatherInfo
-
-### Trigger
-At the beginning
-
-### Steps
-- Greet the user and introduce yourself as a weather assistant.
-- Ask the user which city they want to know the weather for.
-- When the user provides a city, pretend to look up the weather and provide a made-up forecast.
-- Ask if they want to know the weather for another city.`
-  },
-  {
-    id: 'playbooks-hello',
-    name: 'Playbooks Hello World',
-    content: `# HelloWorld Agent
-This is a simple Hello World agent.
-
-## HelloWorld
-
-### Trigger
-At the beginning
-
-### Steps
-- Greet the user with a friendly "Hello, World!" message.
-- Explain that this is a demonstration of a simple Hello World playbook.
-- Say goodbye to the user.`
-  }
-];
+// Base URL for the Python API
+const API_BASE_URL = 'http://localhost:8000';
 
 export async function GET() {
-  // In a real implementation, this would load example playbooks from the Playbooks package
-  // For now, we'll return the sample playbooks
-  return NextResponse.json(examplePlaybooks);
+  try {
+    // Forward the request to the Python backend
+    const response = await fetch(`${API_BASE_URL}/playbooks`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Backend returned ${response.status}: ${await response.text()}`);
+    }
+
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('Error fetching playbooks:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch playbooks' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+
+    // Forward the request to the Python backend
+    const response = await fetch(`${API_BASE_URL}/save-playbook`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Backend returned ${response.status}: ${await response.text()}`);
+    }
+
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('Error saving playbook:', error);
+    return NextResponse.json(
+      { error: 'Failed to save playbook' },
+      { status: 500 }
+    );
+  }
 } 

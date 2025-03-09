@@ -28,11 +28,49 @@ At the beginning
 - Say goodbye to the user.`;
 
 export function PlaybookEditor() {
-  const { playbook, setPlaybook, examplePlaybooks, loadExamplePlaybook, savedPlaybooks, savePlaybook } = usePlaybookStore();
+  const { playbook, setPlaybook, savedPlaybooks, savePlaybook } = usePlaybookStore();
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+  const [apiExamples, setApiExamples] = useState<Playbook[]>([]);
+  const [isLoadingExamples, setIsLoadingExamples] = useState(false);
+  const [exampleError, setExampleError] = useState<string | null>(null);
+
+  // Fetch example playbooks from API
+  useEffect(() => {
+    const fetchExamplePlaybooks = async () => {
+      setIsLoadingExamples(true);
+      setExampleError(null);
+
+      try {
+        const response = await fetch('/api/playbooks');
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch example playbooks: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Transform the data to match the Playbook type
+        // Handle dictionary format where keys are names and values are content
+        const examples: Playbook[] = Object.entries(data).map(([name, content], index) => ({
+          id: `api-example-${index}`,
+          name: name,
+          content: typeof content === 'string' ? content : '',
+        }));
+
+        setApiExamples(examples);
+      } catch (error) {
+        console.error('Error fetching example playbooks:', error);
+        setExampleError(error instanceof Error ? error.message : 'Failed to load examples');
+      } finally {
+        setIsLoadingExamples(false);
+      }
+    };
+
+    fetchExamplePlaybooks();
+  }, []);
 
   // Reset save status after delay
   useEffect(() => {
@@ -95,7 +133,7 @@ export function PlaybookEditor() {
   };
 
   const handleLoadExample = (examplePlaybook: Playbook) => {
-    loadExamplePlaybook(examplePlaybook.id);
+    setPlaybook(examplePlaybook.content);
   };
 
   const handleLoadSaved = (savedPlaybook: Playbook) => {
@@ -265,8 +303,19 @@ export function PlaybookEditor() {
               </SecondaryButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {examplePlaybooks.length > 0 ? (
-                examplePlaybooks.map((example) => (
+              {isLoadingExamples ? (
+                <DropdownMenuItem disabled>
+                  <div className="flex items-center">
+                    <div className="h-4 w-4 mr-2 border-2 border-gray-500 border-t-transparent rounded-full animate-spin" />
+                    Loading examples...
+                  </div>
+                </DropdownMenuItem>
+              ) : exampleError ? (
+                <DropdownMenuItem disabled className="text-red-500">
+                  Error: {exampleError}
+                </DropdownMenuItem>
+              ) : apiExamples.length > 0 ? (
+                apiExamples.map((example) => (
                   <DropdownMenuItem
                     key={example.id}
                     onClick={() => handleLoadExample(example)}

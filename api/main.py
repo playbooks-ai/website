@@ -2,7 +2,9 @@
 FastAPI server for running playbooks and interacting with the playbooks package.
 """
 
+import importlib
 import os
+import re
 import uuid
 from typing import Any, Dict, List, Optional
 
@@ -298,6 +300,30 @@ async def stop_playbook(trace_id: str) -> Dict[str, Any]:
         del active_sessions[trace_id]
 
     return {"success": True, "message": "Playbook session stopped"}
+
+
+def list_playbook_examples() -> Dict[str, str]:
+    """
+    List all available playbook examples from the playbooks package.
+    Returns a dictionary with program name as key and content as value.
+    """
+    result = {}
+
+    for file in importlib.resources.files("playbooks.examples.playbooks").iterdir():
+        if file.is_file() and file.suffix == ".md":
+            content = file.read_text()
+            h1_match = re.search(r"^# (.+)$", content, re.MULTILINE)
+            if h1_match:
+                program_name = h1_match.group(1).strip()
+                result[program_name] = content
+
+    return result
+
+
+@app.get("/playbooks")
+async def get_playbooks() -> Dict[str, str]:
+    """Get all available playbook examples."""
+    return list_playbook_examples()
 
 
 if __name__ == "__main__":
