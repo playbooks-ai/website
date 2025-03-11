@@ -28,36 +28,61 @@ export function TraceViewer({ sessionId }: TraceViewerProps) {
       setError(null);
 
       try {
-        console.log(`Fetching traces for session ID: ${sessionId}`);
-        const response = await fetch(`/api/sessions/${sessionId}/traces`);
+        console.log(`Fetching session data for ID: ${sessionId}`);
+        const response = await fetch(`/api/sessions/${sessionId}`);
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch trace data: ${response.statusText}`);
+          throw new Error(`Failed to fetch session data: ${response.statusText}`);
         }
 
-        const data = await response.json();
-        console.log("Trace API response:", data);
-        setDebugInfo(data);
+        const sessionData = await response.json();
+        console.log("Session API response:", sessionData);
 
-        const traces = data.root.traces;
+        // Extract trace data from the session data
+        let tracesArray = [];
+
+        // Log the structure of the session data to help debug
+        console.log("Session data structure:", {
+          hasTraces: !!sessionData.traces,
+          tracesType: sessionData.traces ? typeof sessionData.traces : 'undefined',
+          isTracesArray: sessionData.traces ? Array.isArray(sessionData.traces) : false,
+          tracesLength: sessionData.traces ? (Array.isArray(sessionData.traces) ? sessionData.traces.length : 'not an array') : 0
+        });
+
+        // Handle different possible formats of trace data
+        if (sessionData.traces && Array.isArray(sessionData.traces)) {
+          // Direct array of traces in the session data
+          tracesArray = sessionData.traces;
+        } else if (sessionData.traces && sessionData.traces.root && Array.isArray(sessionData.traces.root)) {
+          // Nested root array
+          tracesArray = sessionData.traces.root;
+        } else if (sessionData.traces && sessionData.traces.root && sessionData.traces.root.traces && Array.isArray(sessionData.traces.root.traces)) {
+          // Deeply nested traces array
+          tracesArray = sessionData.traces.root.traces;
+        }
+
+        console.log("Extracted traces array:", tracesArray);
+        setDebugInfo(sessionData);
 
         // Simply extract the traces array or create an empty array if not found
         const extractedTraces: TraceItem[] = [];
 
-        // If data is an object with a traces property
-        if (Array.isArray(traces)) {
-          traces.forEach((trace: any) => {
-            if (trace && trace.content) {
+        // If we have a traces array, process it
+        if (Array.isArray(tracesArray)) {
+          tracesArray.forEach((trace: any) => {
+            console.log("Processing trace item:", trace);
+            if (trace) {
               extractedTraces.push({
                 id: trace.id || `trace-${Math.random().toString(36).substr(2, 9)}`,
-                content: trace.content,
-                timestamp: trace.timestamp,
-                type: trace.type
+                content: trace.content || trace.name || "Unknown trace",
+                timestamp: trace.timestamp || new Date().toISOString(),
+                type: trace.type || "unknown"
               });
             }
           });
         }
 
+        console.log("Final extracted traces:", extractedTraces);
         setTraces(extractedTraces);
       } catch (err) {
         console.error('Error fetching trace data:', err);

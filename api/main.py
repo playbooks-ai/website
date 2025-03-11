@@ -33,7 +33,7 @@ app.add_middleware(
 )
 
 # Session storage directory
-SESSIONS_DIR = pathlib.Path("api/sessions")
+SESSIONS_DIR = pathlib.Path("/tmp/playbooks/sessions")
 SESSIONS_DIR.mkdir(exist_ok=True, parents=True)
 
 
@@ -77,7 +77,7 @@ def load_session(session_id: str) -> Optional[PlaybookSession]:
         return None
 
 
-def get_session(session_id: str) -> Optional[PlaybookSession]:
+def get_session_from_storage(session_id: str) -> Optional[PlaybookSession]:
     """Get session from memory or load from disk if not in memory."""
     if session_id in active_sessions:
         return active_sessions[session_id]
@@ -236,7 +236,7 @@ async def send_message(session_id: str, request: MessageRequest) -> MessageRespo
         raise HTTPException(status_code=400, detail="Message is required")
 
     # Load session from disk if not in memory
-    session = get_session(session_id)
+    session = get_session_from_storage(session_id)
 
     if not session:
         # Create a new session if the old one expired
@@ -266,40 +266,25 @@ async def send_message(session_id: str, request: MessageRequest) -> MessageRespo
         )
 
 
-@app.get("/sessions/{session_id}/traces")
-async def get_traces(session_id: str) -> Dict[str, Any]:
-    """Get trace data for a playbook session."""
+@app.get("/sessions/{session_id}")
+async def get_session(session_id: str) -> Dict[str, Any]:
+    """Get all session data including traces, messages, and playbook content."""
     # Load session from disk if not in memory
-    session = get_session(session_id)
+    session = get_session_from_storage(session_id)
 
     if not session:
-        # Return structured error response
-        return {
-            "success": False,
-            "error": "Session not found or expired. Please run the playbook again.",
-            "traces": [],
-        }
+        raise HTTPException(status_code=404, detail="Session not found")
 
-    # Create a hierarchical trace structure
+    # Create a hierarchical trace structure for the traces
+    traces_data = session.traces
+
     return {
         "success": True,
-        "traces": session.traces,
+        "session_id": session.id,
+        "playbook_content": session.playbook_content,
+        "messages": session.messages,
+        "traces": traces_data,
     }
-
-
-@app.delete("/sessions/{session_id}")
-async def stop_playbook(session_id: str) -> Dict[str, Any]:
-    """Stop a playbook session."""
-    # Remove from active sessions
-    if session_id in active_sessions:
-        del active_sessions[session_id]
-
-    # Delete session file if it exists
-    session_path = SESSIONS_DIR / f"{session_id}.pkl"
-    if session_path.exists():
-        session_path.unlink()
-
-    return {"success": True, "message": "Playbook session stopped"}
 
 
 def list_playbook_examples() -> Dict[str, str]:
@@ -324,6 +309,18 @@ def list_playbook_examples() -> Dict[str, str]:
 async def get_playbooks() -> Dict[str, str]:
     """Get all available playbook examples."""
     return list_playbook_examples()
+
+
+@app.delete("/sessions/{session_id}")
+async def stop_playbook(session_id: str) -> Dict[str, Any]:
+    """Stop a playbook session."""
+    # Remove from active sessions only
+    if session_id in active_sessions:
+        del active_sessions[session_id]
+
+    # We no longer delete the session file to allow revisiting old sessions
+    # Just return success
+    return {"success": True, "message": "Playbook session stopped"}
 
 
 if __name__ == "__main__":

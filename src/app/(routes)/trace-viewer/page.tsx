@@ -19,11 +19,20 @@ export default function TraceViewerPage({ params }: { params: { sessionId: strin
   useEffect(() => {
     async function fetchTraces() {
       try {
-        const response = await fetch(`/api/sessions/${params.sessionId}/traces`);
-        const data = await response.json();
-        setTraces(data);
+        const response = await fetch(`/api/sessions/${params.sessionId}`);
+        const sessionData = await response.json();
+
+        // Extract trace data from the session data
+        let traceData = [];
+        if (sessionData.traces) {
+          traceData = sessionData.traces;
+        } else if (sessionData.traceData) {
+          traceData = sessionData.traceData;
+        }
+
+        setTraces(traceData);
       } catch (error) {
-        console.error('Failed to fetch traces:', error);
+        console.error('Failed to fetch session data:', error);
       } finally {
         setLoading(false);
       }
@@ -88,7 +97,7 @@ export default function TraceViewerPage({ params }: { params: { sessionId: strin
             </CardHeader>
             <CardContent className="h-[600px] overflow-auto">
               {activeTrace ? (
-                <TraceViewer traceId={activeTrace} />
+                <TraceViewer sessionId={params.sessionId} />
               ) : (
                 <div className="flex items-center justify-center h-full">
                   <p className="text-muted-foreground">Select a trace to view details</p>

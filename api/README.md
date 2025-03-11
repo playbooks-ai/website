@@ -14,7 +14,6 @@ pip install -r requirements.txt
 
 - `POST /sessions` - Create a new playbook session
 - `POST /sessions/{session_id}/messages` - Send a message to an existing session
-- `GET /sessions/{session_id}/traces` - Get trace data for a session
 - `DELETE /sessions/{session_id}` - Stop a session
 - `GET /playbooks` - Get all available playbook examples
 

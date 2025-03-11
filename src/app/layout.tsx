@@ -3,6 +3,7 @@ import { Source_Sans_3, Lora, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const sourceSans = Source_Sans_3({
   variable: "--font-source-sans",
@@ -51,6 +52,7 @@ export default function RootLayout({
               © {new Date().getFullYear()} Playbooks AI. All rights reserved.
             </div>
           </footer>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { usePlaybookStore } from "@/lib/store";
+import { getChatHistory } from "@/lib/python-service";
+import { toast } from "@/components/ui/use-toast";
 
 interface Message {
   id: string;
@@ -30,12 +32,31 @@ export function ChatInterface({ isRunning, sessionId, initialMessage, onTraceUpd
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { playbook } = usePlaybookStore();
+  const previousSessionIdRef = useRef<string | undefined>(undefined);
+  const wasRunningRef = useRef<boolean>(false);
+  const hasBeenStoppedRef = useRef<boolean>(false);
+
+  // Clear messages when session is stopped
+  useEffect(() => {
+    // If it was running before and now it's not, clear the messages
+    if (wasRunningRef.current && !isRunning) {
+      setMessages([]);
+      setInput(""); // Also clear any input text
+
+      // Mark that this session has been stopped
+      hasBeenStoppedRef.current = true;
+    }
+
+    // Update the ref for the next check
+    wasRunningRef.current = isRunning;
+  }, [isRunning]);
 
   // Set initial message if provided
   useEffect(() => {
-    if (initialMessage) {
+    if (initialMessage && !sessionId) {
       setMessages([
         {
           id: Date.now().toString(),
@@ -44,30 +65,147 @@ export function ChatInterface({ isRunning, sessionId, initialMessage, onTraceUpd
         },
       ]);
     }
-  }, [initialMessage]);
+  }, [initialMessage, sessionId]);
 
-  // Add effect to handle initial message when sessionId changes
+  // Load chat history when sessionId changes
   useEffect(() => {
-    if (sessionId && !initialMessage) {
-      // Fetch the initial trace to get the first message
-      fetch(`/api/sessions/${sessionId}/traces`)
-        .then((res) => res.json())
-        .then((data) => {
-          // Extract the initial message from the trace
-          const initialTrace = data.children?.[0]?.children?.[0];
-          if (initialTrace?.metadata?.output) {
-            setMessages([
-              {
-                id: Date.now().toString(),
-                role: "assistant",
-                content: initialTrace.metadata.output,
-              },
-            ]);
+    // Only load history if we have a valid session and it hasn't been stopped
+    if (
+      sessionId &&
+      isRunning &&
+      sessionId !== previousSessionIdRef.current &&
+      !initialMessage &&
+      !hasBeenStoppedRef.current
+    ) {
+      setIsLoadingHistory(true);
+
+      // Load chat history
+      const loadChatHistory = async () => {
+        try {
+          // Check that we're still running before proceeding
+          if (!isRunning) {
+            setIsLoadingHistory(false);
+            return;
           }
-        })
-        .catch((error) => console.error("Error fetching initial trace:", error));
+
+          const history = await getChatHistory(sessionId);
+
+          // Check again that we're still running before updating state
+          if (!isRunning) {
+            setIsLoadingHistory(false);
+            return;
+          }
+
+          if (history.messages && history.messages.length > 0) {
+            // Convert API messages to our Message format with IDs
+            const formattedMessages = history.messages.map((msg) => ({
+              id: Date.now() + Math.random().toString(),
+              role: msg.role as "user" | "assistant",
+              content: msg.content,
+            }));
+
+            setMessages(formattedMessages);
+          } else {
+            // If no history, try to get initial message from trace
+            fetchInitialMessageFromTrace();
+          }
+        } catch (error) {
+          console.error('Error loading chat history:', error);
+
+          // Only show toast if we're still running
+          if (isRunning) {
+            toast({
+              title: "Error",
+              description: "Failed to load chat history. Some messages may be missing.",
+              variant: "destructive",
+              duration: 3000,
+            });
+
+            // If we can't load history, try to get initial message from trace
+            fetchInitialMessageFromTrace();
+          }
+        } finally {
+          setIsLoadingHistory(false);
+        }
+      };
+
+      loadChatHistory();
+      previousSessionIdRef.current = sessionId;
     }
-  }, [sessionId, initialMessage]);
+
+    // Reset the stopped flag when we get a new session ID
+    if (sessionId && sessionId !== previousSessionIdRef.current) {
+      hasBeenStoppedRef.current = false;
+    }
+  }, [sessionId, initialMessage, isRunning]);
+
+  // Fallback to fetch initial message from trace if needed
+  const fetchInitialMessageFromTrace = () => {
+    // Only proceed if we have a session ID and the session is running
+    if (!sessionId || !isRunning) return;
+
+    // Fetch the session data to get the traces
+    fetch(`/api/sessions/${sessionId}`)
+      .then((res) => {
+        // Check if we're still running before proceeding
+        if (!isRunning) return null;
+        return res.json();
+      })
+      .then((sessionData) => {
+        // If we aborted earlier, data will be null
+        if (!sessionData || !isRunning) return;
+
+        console.log("Session data for initial message:", sessionData);
+
+        // Extract the traces from the session data
+        let traces = [];
+        if (sessionData.traces && Array.isArray(sessionData.traces)) {
+          traces = sessionData.traces;
+        } else if (sessionData.traces && sessionData.traces.root && Array.isArray(sessionData.traces.root)) {
+          traces = sessionData.traces.root;
+        } else if (sessionData.traces && sessionData.traces.root && sessionData.traces.root.traces && Array.isArray(sessionData.traces.root.traces)) {
+          traces = sessionData.traces.root.traces;
+        }
+
+        console.log("Extracted traces for initial message:", traces);
+
+        // Try different ways to find the initial message
+        let initialMessage = null;
+
+        // Method 1: Look for the first trace with metadata.output
+        for (const trace of traces) {
+          if (trace?.metadata?.output) {
+            initialMessage = trace.metadata.output;
+            break;
+          }
+        }
+
+        // Method 2: Look for nested children
+        if (!initialMessage && traces.length > 0) {
+          const firstTrace = traces[0];
+          if (firstTrace?.children?.[0]?.children?.[0]?.metadata?.output) {
+            initialMessage = firstTrace.children[0].children[0].metadata.output;
+          } else if (firstTrace?.children?.[0]?.metadata?.output) {
+            initialMessage = firstTrace.children[0].metadata.output;
+          }
+        }
+
+        console.log("Found initial message:", initialMessage);
+
+        if (initialMessage) {
+          setMessages([
+            {
+              id: Date.now().toString(),
+              role: "assistant",
+              content: initialMessage
+            }
+          ]);
+        }
+      })
+      .catch(error => {
+        console.error("Error fetching initial message from trace:", error);
+      });
+  };
 
   // Scroll to bottom of messages
   const scrollToBottom = () => {
@@ -92,7 +230,7 @@ export function ChatInterface({ isRunning, sessionId, initialMessage, onTraceUpd
     setIsLoading(true);
 
     try {
-      // Call the actual API route to send a message to the playbook
+      // Call the messages API route to send a message to the playbook
       const response = await fetch(`/api/sessions/${sessionId}/messages`, {
         method: 'POST',
         headers: {
@@ -166,32 +304,47 @@ export function ChatInterface({ isRunning, sessionId, initialMessage, onTraceUpd
   return (
     <div className="flex flex-col h-[500px]">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.role === "user" ? "justify-end" : "justify-start"
-              }`}
-          >
-            <div
-              className={`max-w-[80%] rounded-lg px-4 py-2 ${message.role === "user"
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted"
-                }`}
-            >
-              {message.content}
-            </div>
-          </div>
-        ))}
-        {isLoading && (
-          <div className="flex justify-start">
-            <div className="max-w-[80%] rounded-lg px-4 py-2 bg-muted">
+        {isLoadingHistory ? (
+          <div className="flex justify-center items-center h-full">
+            <div className="flex flex-col items-center space-y-2">
               <div className="flex space-x-2">
-                <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"></div>
-                <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce delay-75"></div>
-                <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce delay-150"></div>
+                <div className="w-3 h-3 rounded-full bg-gray-400 animate-bounce"></div>
+                <div className="w-3 h-3 rounded-full bg-gray-400 animate-bounce delay-75"></div>
+                <div className="w-3 h-3 rounded-full bg-gray-400 animate-bounce delay-150"></div>
               </div>
+              <p className="text-sm text-gray-500">Loading conversation history...</p>
             </div>
           </div>
+        ) : (
+          <>
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"
+                  }`}
+              >
+                <div
+                  className={`max-w-[80%] rounded-lg px-4 py-2 ${message.role === "user"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted"
+                    }`}
+                >
+                  {message.content}
+                </div>
+              </div>
+            ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="max-w-[80%] rounded-lg px-4 py-2 bg-muted">
+                  <div className="flex space-x-2">
+                    <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"></div>
+                    <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce delay-75"></div>
+                    <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce delay-150"></div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
         )}
         <div ref={messagesEndRef} />
       </div>
@@ -203,9 +356,9 @@ export function ChatInterface({ isRunning, sessionId, initialMessage, onTraceUpd
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Type a message..."
-            disabled={!isRunning || isLoading}
+            disabled={!isRunning || isLoading || isLoadingHistory}
           />
-          <Button onClick={handleSendMessage} disabled={!isRunning || isLoading || !input.trim()}>
+          <Button onClick={handleSendMessage} disabled={!isRunning || isLoading || isLoadingHistory || !input.trim()}>
             Send
           </Button>
         </div>
