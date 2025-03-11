@@ -4,21 +4,15 @@ FastAPI server for running playbooks and interacting with the playbooks package.
 
 import importlib
 import os
+import pathlib
 import re
 import uuid
 from typing import Any, Dict, List, Optional
 
+import dill
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
-# Load environment variables from .env file if python-dotenv is installed
-try:
-    from dotenv import load_dotenv
-
-    load_dotenv()
-except ImportError:
-    pass
 
 # Import playbooks package
 from playbooks.applications.agent_chat import AgentChat, AgentChatConfig
@@ -37,6 +31,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Session storage directory
+SESSIONS_DIR = pathlib.Path("api/sessions")
+SESSIONS_DIR.mkdir(exist_ok=True, parents=True)
 
 
 # Models
@@ -57,27 +55,60 @@ class PlaybookSession:
 active_sessions: Dict[str, PlaybookSession] = {}
 
 
+# Session management functions
+def save_session(session_id: str, session: PlaybookSession) -> None:
+    """Save session state to disk using dill pickling."""
+    session_path = SESSIONS_DIR / f"{session_id}.pkl"
+    with open(session_path, "wb") as f:
+        dill.dump(session, f)
+
+
+def load_session(session_id: str) -> Optional[PlaybookSession]:
+    """Load session state from disk using dill unpickling."""
+    session_path = SESSIONS_DIR / f"{session_id}.pkl"
+    if not session_path.exists():
+        return None
+
+    try:
+        with open(session_path, "rb") as f:
+            return dill.load(f)
+    except Exception as e:
+        print(f"Error loading session {session_id}: {e}")
+        return None
+
+
+def get_session(session_id: str) -> Optional[PlaybookSession]:
+    """Get session from memory or load from disk if not in memory."""
+    if session_id in active_sessions:
+        return active_sessions[session_id]
+
+    # Try to load from disk
+    session = load_session(session_id)
+    if session:
+        active_sessions[session_id] = session
+
+    return session
+
+
 # Request and response models
 class PlaybookRequest(BaseModel):
     """Request model for starting a playbook."""
 
     playbook: str
-    existing_trace_id: Optional[str] = None
+    existing_session_id: Optional[str] = None
 
 
 class MessageRequest(BaseModel):
     """Request model for sending a message to a playbook."""
 
     message: str
-    trace_id: str
 
 
 class TraceItem(BaseModel):
     """Model for a trace item in the execution history."""
 
     id: str
-    name: str
-    type: str
+    content: str
     metadata: Dict[str, Any]
 
 
@@ -86,7 +117,7 @@ class PlaybookResponse(BaseModel):
 
     success: bool
     message: str
-    trace_id: str
+    session_id: str
     initial_message: Optional[str] = None
 
 
@@ -95,7 +126,6 @@ class MessageResponse(BaseModel):
 
     success: bool
     response: str
-    trace_data: Optional[TraceItem] = None
     new_session_id: Optional[str] = None
     error: Optional[str] = None
 
@@ -122,26 +152,6 @@ def create_agent_chat(playbook_content: str) -> AgentChat:
         raise HTTPException(status_code=400, detail=f"Error creating agent: {str(e)}")
 
 
-def create_trace_item(
-    name: str, input_msg: Optional[str] = None, output: Optional[str] = None
-) -> TraceItem:
-    """Create a trace item for the execution."""
-    metadata = {
-        "status": "completed",
-        "duration": "0.8s",  # Mock duration
-    }
-
-    if input_msg:
-        metadata["input"] = input_msg
-
-    if output:
-        metadata["output"] = output
-
-    return TraceItem(
-        id=f"trace-{uuid.uuid4()}", name=name, type="step", metadata=metadata
-    )
-
-
 def process_chunks(
     response_chunks: List[AgentResponseChunk],
     session: PlaybookSession,
@@ -149,40 +159,43 @@ def process_chunks(
 ) -> MessageResponse:
     """Process response chunks and return a MessageResponse."""
     all_responses = []
+    all_traces = []
 
     # Extract agent responses from chunks
     for chunk in response_chunks:
         if hasattr(chunk, "agent_response") and chunk.agent_response:
             all_responses.append(chunk.agent_response)
+        if hasattr(chunk, "trace") and chunk.trace:
+            all_traces.append(chunk.trace)
 
     response = " ".join(all_responses) if all_responses else ""
 
+    for trace in all_traces:
+        session.traces.append(
+            TraceItem(
+                id=str(uuid.uuid4()),
+                content=trace,
+                metadata={},
+            )
+        )
     # Add assistant response to session
     session.messages.append({"role": "assistant", "content": response})
 
-    # Create trace item
-    trace_name = (
-        "Initial greeting" if request_message is None else "Process user message"
-    )
-    trace_item = create_trace_item(
-        name=trace_name, input_msg=request_message, output=response
-    )
+    # Save session state after processing
+    save_session(session.id, session)
 
-    # Add trace to session
-    session.traces.append(trace_item)
-
-    return MessageResponse(success=True, response=response, trace_data=trace_item)
+    return MessageResponse(success=True, response=response)
 
 
 # API endpoints
-@app.post("/run-playbook", response_model=PlaybookResponse)
-async def run_playbook(request: PlaybookRequest) -> PlaybookResponse:
+@app.post("/sessions", response_model=PlaybookResponse)
+async def create_session(request: PlaybookRequest) -> PlaybookResponse:
     """Start a new playbook session."""
     if not request.playbook:
         raise HTTPException(status_code=400, detail="Playbook content is required")
 
     # Create or reuse session
-    session_id = request.existing_trace_id or str(uuid.uuid4())
+    session_id = request.existing_session_id or str(uuid.uuid4())
     session = PlaybookSession(id=session_id, playbook=request.playbook)
     active_sessions[session_id] = session
 
@@ -196,10 +209,13 @@ async def run_playbook(request: PlaybookRequest) -> PlaybookResponse:
         response_chunks = list(session.agent_chat.run(stream=False))
         message_response = process_chunks(response_chunks, session, None)
 
+        # Save session state
+        save_session(session_id, session)
+
         return PlaybookResponse(
             success=True,
             message=message_response.response,
-            trace_id=session_id,
+            session_id=session_id,
             initial_message=message_response.response,
         )
     except HTTPException:
@@ -209,21 +225,20 @@ async def run_playbook(request: PlaybookRequest) -> PlaybookResponse:
         return PlaybookResponse(
             success=False,
             message=f"Error starting playbook: {str(e)}",
-            trace_id=session_id,
+            session_id=session_id,
         )
 
 
-@app.post("/send-message", response_model=MessageResponse)
-async def send_message(request: MessageRequest) -> MessageResponse:
+@app.post("/sessions/{session_id}/messages", response_model=MessageResponse)
+async def send_message(session_id: str, request: MessageRequest) -> MessageResponse:
     """Send a message to a playbook session."""
     if not request.message:
         raise HTTPException(status_code=400, detail="Message is required")
 
-    if not request.trace_id:
-        raise HTTPException(status_code=400, detail="Trace ID is required")
+    # Load session from disk if not in memory
+    session = get_session(session_id)
 
-    # Check if session exists
-    if request.trace_id not in active_sessions:
+    if not session:
         # Create a new session if the old one expired
         new_session_id = str(uuid.uuid4())
         return MessageResponse(
@@ -232,8 +247,6 @@ async def send_message(request: MessageRequest) -> MessageResponse:
             new_session_id=new_session_id,
             error="Session expired",
         )
-
-    session = active_sessions[request.trace_id]
 
     try:
         # Add user message to session
@@ -253,51 +266,38 @@ async def send_message(request: MessageRequest) -> MessageResponse:
         )
 
 
-@app.get("/traces/{trace_id}")
-async def get_trace(trace_id: str) -> Dict[str, Any]:
+@app.get("/sessions/{session_id}/traces")
+async def get_traces(session_id: str) -> Dict[str, Any]:
     """Get trace data for a playbook session."""
-    if trace_id not in active_sessions:
+    # Load session from disk if not in memory
+    session = get_session(session_id)
+
+    if not session:
         # Return structured error response
         return {
-            "id": "root",
-            "name": "Session Not Found",
-            "type": "agent",
-            "children": [
-                {
-                    "id": "error",
-                    "name": "Error",
-                    "type": "step",
-                    "metadata": {
-                        "status": "error",
-                        "output": "Session not found or expired. Please run the playbook again.",
-                    },
-                }
-            ],
+            "success": False,
+            "error": "Session not found or expired. Please run the playbook again.",
+            "traces": [],
         }
-
-    session = active_sessions[trace_id]
 
     # Create a hierarchical trace structure
     return {
-        "id": "root",
-        "name": "Playbook Execution",
-        "type": "agent",
-        "children": [
-            {
-                "id": "section1",
-                "name": "Playbook",
-                "type": "section",
-                "children": session.traces,
-            }
-        ],
+        "success": True,
+        "traces": session.traces,
     }
 
 
-@app.delete("/traces/{trace_id}")
-async def stop_playbook(trace_id: str) -> Dict[str, Any]:
+@app.delete("/sessions/{session_id}")
+async def stop_playbook(session_id: str) -> Dict[str, Any]:
     """Stop a playbook session."""
-    if trace_id in active_sessions:
-        del active_sessions[trace_id]
+    # Remove from active sessions
+    if session_id in active_sessions:
+        del active_sessions[session_id]
+
+    # Delete session file if it exists
+    session_path = SESSIONS_DIR / f"{session_id}.pkl"
+    if session_path.exists():
+        session_path.unlink()
 
     return {"success": True, "message": "Playbook session stopped"}
 

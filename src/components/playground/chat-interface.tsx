@@ -21,12 +21,12 @@ interface TraceItem {
 
 interface ChatInterfaceProps {
   isRunning: boolean;
-  traceId?: string;
+  sessionId?: string;
   initialMessage?: string;
   onTraceUpdate?: (traceItem: TraceItem) => void;
 }
 
-export function ChatInterface({ isRunning, traceId, initialMessage, onTraceUpdate }: ChatInterfaceProps) {
+export function ChatInterface({ isRunning, sessionId, initialMessage, onTraceUpdate }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -46,11 +46,11 @@ export function ChatInterface({ isRunning, traceId, initialMessage, onTraceUpdat
     }
   }, [initialMessage]);
 
-  // Add effect to handle initial message when traceId changes
+  // Add effect to handle initial message when sessionId changes
   useEffect(() => {
-    if (traceId && !initialMessage) {
+    if (sessionId && !initialMessage) {
       // Fetch the initial trace to get the first message
-      fetch(`/api/traces/${traceId}`)
+      fetch(`/api/sessions/${sessionId}/traces`)
         .then((res) => res.json())
         .then((data) => {
           // Extract the initial message from the trace
@@ -67,7 +67,7 @@ export function ChatInterface({ isRunning, traceId, initialMessage, onTraceUpdat
         })
         .catch((error) => console.error("Error fetching initial trace:", error));
     }
-  }, [traceId, initialMessage]);
+  }, [sessionId, initialMessage]);
 
   // Scroll to bottom of messages
   const scrollToBottom = () => {
@@ -93,15 +93,13 @@ export function ChatInterface({ isRunning, traceId, initialMessage, onTraceUpdat
 
     try {
       // Call the actual API route to send a message to the playbook
-      const response = await fetch('/api/send-message', {
+      const response = await fetch(`/api/sessions/${sessionId}/messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: input,
-          playbook,
-          traceId
+          message: input
         }),
       });
 
@@ -122,7 +120,7 @@ export function ChatInterface({ isRunning, traceId, initialMessage, onTraceUpdat
       setMessages((prev) => [...prev, assistantMessage]);
 
       // If there's a new session ID, update the parent component
-      if (data.newSessionId && traceId) {
+      if (data.newSessionId && sessionId) {
         // Use a custom event to notify the parent component about the new session ID
         const event = new CustomEvent('session-updated', {
           detail: { newSessionId: data.newSessionId }

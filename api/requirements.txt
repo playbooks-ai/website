@@ -2,6 +2,7 @@ fastapi==0.104.1
 uvicorn==0.23.2
 pydantic==2.4.2
 python-dotenv==1.0.0
+dill==0.3.7
 # Uncomment the line below if you have the playbooks package installed locally
 # playbooks 
 # -e ../../playbooks

@@ -10,21 +10,13 @@ import { TraceViewer } from "@/components/trace-viewer/trace-viewer";
 import { usePlaybookStore } from "@/lib/store";
 import { stopPlaybook } from "@/lib/python-service";
 import { PlaybookMarkdown } from "@/components/ui/playbook-markdown";
-
-interface TraceItem {
-  id: string;
-  name: string;
-  children?: TraceItem[];
-  metadata?: Record<string, any>;
-  type: string;
-}
+import { randomBytes } from "crypto";
 
 export default function PlaygroundPage() {
   const [isRunning, setIsRunning] = useState(false);
   const [activeTab, setActiveTab] = useState("editor");
   const { playbook, setPlaybook, examplePlaybooks, setExamplePlaybooks, loadExamplePlaybook } = usePlaybookStore();
-  const [currentTraceId, setCurrentTraceId] = useState<string | null>(null);
-  const [newTraceItem, setNewTraceItem] = useState<TraceItem | null>(null);
+  const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [initialMessage, setInitialMessage] = useState<string | undefined>(undefined);
 
   useEffect(() => {
@@ -46,7 +38,7 @@ export default function PlaygroundPage() {
   useEffect(() => {
     const handleSessionUpdate = (event: CustomEvent<{ newSessionId: string }>) => {
       console.log('Session updated:', event.detail.newSessionId);
-      setCurrentTraceId(event.detail.newSessionId);
+      setCurrentSessionId(event.detail.newSessionId);
     };
 
     // Add event listener
@@ -61,19 +53,17 @@ export default function PlaygroundPage() {
   const handleRunPlaybook = async () => {
     setIsRunning(true);
     setActiveTab("chat");
-    setNewTraceItem(null); // Reset trace items
     setInitialMessage(undefined); // Reset initial message
 
     try {
-      const response = await fetch('/api/run-playbook', {
+      const response = await fetch('/api/sessions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           playbook,
-          // Pass the existing trace ID if available
-          existingTraceId: currentTraceId
+          existingSessionId: currentSessionId
         }),
       });
 
@@ -83,17 +73,16 @@ export default function PlaygroundPage() {
 
       const data = await response.json();
 
-      // Set the trace ID from the response
-      if (data.traceId) {
-        setCurrentTraceId(data.traceId);
+      // Set the session ID from the response
+      if (data.session_id) {
+        setCurrentSessionId(data.session_id);
 
         // Set the initial message if available
-        if (data.initialMessage) {
-          setInitialMessage(data.initialMessage);
+        if (data.initial_message) {
+          setInitialMessage(data.initial_message);
         }
       } else {
-        // Fallback to sample trace if no trace ID is returned
-        setCurrentTraceId("sample");
+        throw new Error('No session ID returned from playbook');
       }
     } catch (error) {
       console.error('Failed to run playbook:', error);
@@ -103,20 +92,16 @@ export default function PlaygroundPage() {
 
   const handleStopPlaybook = async () => {
     // Stop the playbook session
-    if (currentTraceId) {
+    if (currentSessionId) {
       try {
-        await stopPlaybook(currentTraceId);
+        await stopPlaybook(currentSessionId);
       } catch (error) {
         console.error('Failed to stop playbook:', error);
       }
     }
 
     setIsRunning(false);
-    setCurrentTraceId(null);
-  };
-
-  const handleTraceUpdate = (traceItem: TraceItem) => {
-    setNewTraceItem(traceItem);
+    setCurrentSessionId(null);
   };
 
   return (
@@ -164,9 +149,8 @@ export default function PlaygroundPage() {
               <Card className="p-4">
                 <ChatInterface
                   isRunning={isRunning}
-                  traceId={currentTraceId || undefined}
+                  sessionId={currentSessionId || undefined}
                   initialMessage={initialMessage}
-                  onTraceUpdate={handleTraceUpdate}
                 />
               </Card>
             </TabsContent>
@@ -176,10 +160,9 @@ export default function PlaygroundPage() {
         <div className="lg:col-span-1">
           <Card className="p-4 h-full">
             <h2 className="text-xl font-semibold mb-4">Trace Viewer</h2>
-            {currentTraceId ? (
+            {currentSessionId ? (
               <TraceViewer
-                traceId={currentTraceId}
-                newTraceItem={newTraceItem || undefined}
+                sessionId={currentSessionId}
               />
             ) : (
               <div className="flex items-center justify-center h-[500px]">

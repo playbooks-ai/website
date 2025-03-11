@@ -149,15 +149,6 @@ uvicorn main:app --reload --host=0.0.0.0 --port=$API_PORT
 
 The API server will be available at http://localhost:8000 (or the port you specified).
 
-### API Endpoints
-
-- `POST /run-playbook`: Start a new playbook session
-- `POST /send-message`: Send a message to a playbook session
-- `GET /traces/{trace_id}`: Get trace data for a playbook session
-- `DELETE /traces/{trace_id}`: Stop a playbook session
-
-For more details, see the [API README](api/README.md).
-
 ## Integration with Playbooks AI Python Package
 
 This website is designed to work with the Playbooks AI Python package. The Python API server in the `api` directory provides the integration between the website and the Playbooks AI package.

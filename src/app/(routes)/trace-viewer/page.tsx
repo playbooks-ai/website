@@ -11,7 +11,7 @@ interface Trace {
   timestamp: string;
 }
 
-export default function TraceViewerPage() {
+export default function TraceViewerPage({ params }: { params: { sessionId: string } }) {
   const [activeTrace, setActiveTrace] = useState<string | null>(null);
   const [traces, setTraces] = useState<Trace[]>([]);
   const [loading, setLoading] = useState(true);
@@ -19,7 +19,7 @@ export default function TraceViewerPage() {
   useEffect(() => {
     async function fetchTraces() {
       try {
-        const response = await fetch('/api/traces');
+        const response = await fetch(`/api/sessions/${params.sessionId}/traces`);
         const data = await response.json();
         setTraces(data);
       } catch (error) {
@@ -30,7 +30,7 @@ export default function TraceViewerPage() {
     }
 
     fetchTraces();
-  }, []);
+  }, [params.sessionId]);
 
   return (
     <div className="container mx-auto py-8">
@@ -53,8 +53,8 @@ export default function TraceViewerPage() {
                       key={trace.id}
                       onClick={() => setActiveTrace(trace.id)}
                       className={`w-full justify-start ${activeTrace === trace.id
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-background hover:bg-accent hover:text-accent-foreground"
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-background hover:bg-accent hover:text-accent-foreground"
                         }`}
                     >
                       <div className="text-left">

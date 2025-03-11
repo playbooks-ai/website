@@ -1,10 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendMessage } from '@/lib/python-service';
 
-export async function POST(request: NextRequest) {
+// Define the params type
+interface Params {
+  params: {
+    id: string;
+  };
+}
+
+export async function POST(
+  request: NextRequest,
+  context: Params
+) {
   try {
-    const body = await request.json();
-    const { message, playbook, traceId } = body;
+    const { message } = await request.json();
+
+    // Get the session ID from the URL parameter - await the params
+    const params = await context.params;
+    const sessionId = params.id;
 
     if (!message) {
       return NextResponse.json(
@@ -13,16 +26,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!traceId) {
+    if (!sessionId) {
       return NextResponse.json(
-        { error: 'Trace ID is required' },
+        { error: 'Session ID is required' },
         { status: 400 }
       );
     }
 
     try {
       // Call the Python backend to send a message to the playbook
-      const result = await sendMessage(traceId, message);
+      const result = await sendMessage(sessionId, message);
 
       return NextResponse.json({
         success: true,

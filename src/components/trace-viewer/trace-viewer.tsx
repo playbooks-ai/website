@@ -1,131 +1,64 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { ChevronDown, ChevronRight, Info } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface TraceItem {
   id: string;
-  name: string;
-  children?: TraceItem[];
-  metadata?: Record<string, any>;
-  type: string;
-}
-
-interface TraceData {
-  root: TraceItem;
+  content: string;
+  timestamp?: string;
+  type?: string;
 }
 
 interface TraceViewerProps {
-  traceId?: string;
-  newTraceItem?: TraceItem;
+  sessionId?: string;
 }
 
-interface TraceNodeProps {
-  item: TraceItem;
-  depth: number;
-}
-
-function TraceNode({ item, depth }: TraceNodeProps) {
-  const [isOpen, setIsOpen] = useState(depth < 1);
-  const [showMetadata, setShowMetadata] = useState(false);
-
-  const hasChildren = item.children && item.children.length > 0;
-  const hasMetadata = item.metadata && Object.keys(item.metadata).length > 0;
-
-  const toggleOpen = () => setIsOpen(!isOpen);
-  const toggleMetadata = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setShowMetadata(!showMetadata);
-  };
-
-  const getIconColor = () => {
-    switch (item.type) {
-      case "agent":
-        return "text-blue-500";
-      case "trigger":
-        return "text-purple-500";
-      case "step":
-        return "text-green-500";
-      case "action":
-        return "text-orange-500";
-      default:
-        return "text-gray-500";
-    }
-  };
-
-  return (
-    <div className="font-mono text-sm">
-      <div
-        className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded p-1 cursor-pointer"
-        onClick={toggleOpen}
-      >
-        <div style={{ marginLeft: `${depth * 16}px` }} className="flex items-center">
-          {hasChildren ? (
-            isOpen ? (
-              <ChevronDown className="h-4 w-4 mr-1" />
-            ) : (
-              <ChevronRight className="h-4 w-4 mr-1" />
-            )
-          ) : (
-            <div className="w-4 mr-1" />
-          )}
-          <span className={getIconColor()}>{item.name}</span>
-
-          {hasMetadata && (
-            <Info
-              className="h-3 w-3 ml-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-              onClick={toggleMetadata}
-            />
-          )}
-        </div>
-      </div>
-
-      {showMetadata && hasMetadata && (
-        <div
-          style={{ marginLeft: `${(depth + 1) * 16 + 12}px` }}
-          className="bg-gray-50 dark:bg-gray-900 p-2 rounded text-xs my-1 border border-gray-200 dark:border-gray-700"
-        >
-          <pre className="whitespace-pre-wrap">
-            {JSON.stringify(item.metadata, null, 2)}
-          </pre>
-        </div>
-      )}
-
-      {isOpen && hasChildren && (
-        <div>
-          {item.children!.map((child) => (
-            <TraceNode key={child.id} item={child} depth={depth + 1} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-export function TraceViewer({ traceId, newTraceItem }: TraceViewerProps) {
-  const [traceData, setTraceData] = useState<TraceData | null>(null);
+export function TraceViewer({ sessionId }: TraceViewerProps) {
+  const [traces, setTraces] = useState<TraceItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const prevNewTraceItemRef = useRef<string | null>(null);
+  const [debugInfo, setDebugInfo] = useState<any>(null);
 
-  // Fetch initial trace data
+  // Fetch trace data
   useEffect(() => {
-    async function fetchTraceData() {
-      if (!traceId) return;
+    if (!sessionId) return;
 
+    async function fetchTraceData() {
       setLoading(true);
       setError(null);
 
       try {
-        // Use the traceId directly without mapping "sample" to "trace1"
-        const response = await fetch(`/api/traces/${traceId}`);
+        console.log(`Fetching traces for session ID: ${sessionId}`);
+        const response = await fetch(`/api/sessions/${sessionId}/traces`);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch trace data: ${response.statusText}`);
         }
 
         const data = await response.json();
-        setTraceData(data);
+        console.log("Trace API response:", data);
+        setDebugInfo(data);
+
+        const traces = data.root.traces;
+
+        // Simply extract the traces array or create an empty array if not found
+        const extractedTraces: TraceItem[] = [];
+
+        // If data is an object with a traces property
+        if (Array.isArray(traces)) {
+          traces.forEach((trace: any) => {
+            if (trace && trace.content) {
+              extractedTraces.push({
+                id: trace.id || `trace-${Math.random().toString(36).substr(2, 9)}`,
+                content: trace.content,
+                timestamp: trace.timestamp,
+                type: trace.type
+              });
+            }
+          });
+        }
+
+        setTraces(extractedTraces);
       } catch (err) {
         console.error('Error fetching trace data:', err);
         setError('Failed to load trace data. Please try again.');
@@ -135,48 +68,25 @@ export function TraceViewer({ traceId, newTraceItem }: TraceViewerProps) {
     }
 
     fetchTraceData();
-  }, [traceId]);
 
-  // Update trace data when a new trace item is received
-  useEffect(() => {
-    if (newTraceItem && traceData) {
-      // Skip if we've already processed this exact trace item
-      if (prevNewTraceItemRef.current === newTraceItem.id) {
-        return;
+    // Set up event listener for trace updates
+    const handleTraceUpdate = (event: CustomEvent<{ sessionId: string, trace: TraceItem }>) => {
+      if (event.detail.sessionId === sessionId && event.detail.trace.content) {
+        console.log('Received trace update:', event.detail.trace);
+        setTraces(prevTraces => [...prevTraces, event.detail.trace]);
       }
+    };
 
-      // Find the section to add the new trace item to
-      // For simplicity, we'll add it to the first section's children
-      const updatedTraceData = { ...traceData };
+    // Add event listener
+    window.addEventListener('trace-updated', handleTraceUpdate as EventListener);
 
-      if (updatedTraceData.root.children && updatedTraceData.root.children.length > 0) {
-        const firstSection = updatedTraceData.root.children[0];
+    // Clean up
+    return () => {
+      window.removeEventListener('trace-updated', handleTraceUpdate as EventListener);
+    };
+  }, [sessionId]);
 
-        if (!firstSection.children) {
-          firstSection.children = [];
-        }
-
-        // Check if the item already exists to prevent infinite loops
-        const itemExists = firstSection.children.some(
-          (item) => item.id === newTraceItem.id
-        );
-
-        // Only add the new trace item if it doesn't already exist
-        if (!itemExists) {
-          // Add the new trace item
-          firstSection.children.push(newTraceItem);
-
-          // Update the trace data
-          setTraceData(updatedTraceData);
-
-          // Remember this trace item ID to avoid processing it again
-          prevNewTraceItemRef.current = newTraceItem.id;
-        }
-      }
-    }
-  }, [newTraceItem, traceData]);
-
-  if (loading) {
+  if (loading && traces.length === 0) {
     return (
       <div className="flex items-center justify-center h-full">
         <div className="flex space-x-2">
@@ -188,7 +98,7 @@ export function TraceViewer({ traceId, newTraceItem }: TraceViewerProps) {
     );
   }
 
-  if (error) {
+  if (error && traces.length === 0) {
     return (
       <div className="flex items-center justify-center h-full">
         <p className="text-red-500">{error}</p>
@@ -196,10 +106,19 @@ export function TraceViewer({ traceId, newTraceItem }: TraceViewerProps) {
     );
   }
 
-  if (!traceData || !traceData.root) {
+  if (traces.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full">
-        <p className="text-muted-foreground">No trace data available</p>
+      <div className="flex flex-col items-center justify-center h-full">
+        <p className="text-muted-foreground mb-2">No trace data available</p>
+        <p className="text-xs text-muted-foreground">Session ID: {sessionId}</p>
+        {debugInfo && (
+          <details className="mt-4 text-xs">
+            <summary className="cursor-pointer text-blue-500">Show Debug Info</summary>
+            <pre className="mt-2 p-2 bg-gray-100 dark:bg-gray-800 rounded overflow-auto max-h-[300px]">
+              {JSON.stringify(debugInfo, null, 2)}
+            </pre>
+          </details>
+        )}
       </div>
     );
   }
@@ -207,8 +126,32 @@ export function TraceViewer({ traceId, newTraceItem }: TraceViewerProps) {
   return (
     <div className="h-full overflow-y-auto">
       <div className="space-y-2">
-        <TraceNode key={traceData.root.id} item={traceData.root} depth={0} />
+        {traces.map((trace) => (
+          <div
+            key={trace.id}
+            className="p-3 border rounded-md mb-2 bg-card"
+          >
+            {trace.timestamp && (
+              <div className="text-xs text-muted-foreground mb-1">
+                {formatTimestamp(trace.timestamp)}
+              </div>
+            )}
+            <div className="whitespace-pre-wrap text-sm">
+              {trace.content}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
+}
+
+// Helper function to format timestamp
+function formatTimestamp(timestamp: string): string {
+  try {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString();
+  } catch (e) {
+    return timestamp;
+  }
 } 

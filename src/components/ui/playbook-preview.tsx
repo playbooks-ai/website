@@ -4,10 +4,11 @@ import { cn } from '@/lib/utils';
 
 interface PlaybookPreviewProps {
   className?: string;
+  content?: string;
 }
 
-export function PlaybookPreview({ className }: PlaybookPreviewProps) {
-  const samplePlaybook = `## Check order status
+export function PlaybookPreview({ className, content }: PlaybookPreviewProps) {
+  const defaultPlaybook = `## Check order status
 
 ### Trigger
 - When a user requests order status
@@ -26,7 +27,7 @@ export function PlaybookPreview({ className }: PlaybookPreviewProps) {
     )}>
       <div className="p-4">
         <PlaybookMarkdown
-          content={samplePlaybook}
+          content={content || defaultPlaybook}
           className="inverse-theme"
         />
       </div>
