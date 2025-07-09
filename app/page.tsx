@@ -323,13 +323,13 @@ export default function Page() {
                             data-oid="lc:xzmk"
                         >
                             <span className="block text-gray-300" data-oid="i9kexo6">
-                                Build AI agents with
+                                Write AI agent
                             </span>
                             <span className="block text-gray-400 relative" data-oid="o-pekcy">
-                                your playbooks
+                                behavior as plain
                             </span>
                             <span className="block text-black relative" data-oid="k3vqfwi">
-                                in plain English
+                                English Playbooks
                                 <div
                                     className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
                                     data-oid="_pxgai4"
@@ -342,8 +342,8 @@ export default function Page() {
                             data-oid="3n4:wmt"
                         >
                             <div data-oid="l770lrz">
-                                With LLMs as your CPU, orchestrate complex multi-agent systems with
-                                the simplicity of natural language.
+                                With LLMs as your CPU, orchestrate reliable multi-agent systems with
+                                the simplicity of natural language
                             </div>
                         </div>
 
