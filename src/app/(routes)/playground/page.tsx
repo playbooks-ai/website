@@ -6,7 +6,6 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlaybookEditor } from "@/components/playground/playbook-editor";
 import { ChatInterface } from "@/components/playground/chat-interface";
-import { TraceViewer } from "@/components/trace-viewer/trace-viewer";
 import { usePlaybookStore } from "@/lib/store";
 import { stopPlaybook, startPlaybook, getSessionData } from "@/lib/python-service";
 import { PlaybookMarkdown } from "@/components/ui/playbook-markdown";
@@ -286,7 +285,7 @@ export default function PlaygroundPage() {
       <h1 className="text-3xl font-bold mb-6">Playground</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-3">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="flex justify-between items-center mb-4">
               <TabsList>
@@ -338,25 +337,14 @@ export default function PlaygroundPage() {
                   isRunning={isRunning}
                   sessionId={currentSessionId || undefined}
                   initialMessage={initialMessage}
+                  onTraceUpdate={(traceItem) => {
+                    // We're now handling traces directly in the ChatInterface
+                    console.log("Trace update received in playground:", traceItem);
+                  }}
                 />
               </Card>
             </TabsContent>
           </Tabs>
-        </div>
-
-        <div className="lg:col-span-1">
-          <Card className="p-4 h-full">
-            <h2 className="text-xl font-semibold mb-4">Trace Viewer</h2>
-            {currentSessionId ? (
-              <TraceViewer
-                sessionId={currentSessionId}
-              />
-            ) : (
-              <div className="flex items-center justify-center h-[500px]">
-                <p className="text-gray-500">Run a playbook to see its trace.</p>
-              </div>
-            )}
-          </Card>
         </div>
       </div>
     </div>

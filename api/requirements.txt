@@ -5,7 +5,7 @@ python-dotenv==1.0.0
 dill==0.3.7
 # Uncomment the line below if you have the playbooks package installed locally
 # playbooks 
-# -e ../../playbooks
+-e ../../playbooks
 
 # Install playbooks directly from GitHub repository
-git+https://github.com/playbooks-ai/playbooks.git
+# git+https://github.com/playbooks-ai/playbooks.git

@@ -108,7 +108,7 @@ class TraceItem(BaseModel):
     """Model for a trace item in the execution history."""
 
     id: str
-    content: str
+    content: Dict[str, Any]
     metadata: Dict[str, Any]
 
 
