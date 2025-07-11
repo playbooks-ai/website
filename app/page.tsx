@@ -100,14 +100,10 @@ export default function Page() {
                 isSnapEnabled ? 'md:snap-y md:snap-mandatory h-screen overflow-y-scroll' : ''
             }`}
             style={{ scrollPaddingTop: '20px' }}
-            data-oid="5mb824q"
         >
             {/* Subtle Background Elements */}
-            <div className="fixed inset-0 pointer-events-none" data-oid="a0-1cl4">
-                <div
-                    className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-50/30 to-gray-100/50"
-                    data-oid="t5:iqn-"
-                />
+            <div className="fixed inset-0 pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-50/30 to-gray-100/50" />
 
                 <div
                     className="absolute inset-0 opacity-[0.02]"
@@ -119,20 +115,15 @@ export default function Page() {
                         backgroundSize: '60px 60px',
                         transform: `translate(${mousePosition.x * 0.01}px, ${mousePosition.y * 0.01}px)`,
                     }}
-                    data-oid="ja2l3vh"
                 />
             </div>
 
             {/* Left Sidebar Navigation */}
-            <nav
-                className="fixed left-0 top-0 h-full w-20 z-50 backdrop-blur-xl bg-white/90 border-r border-gray-100 flex flex-col items-center py-6"
-                data-oid="b32ft9p"
-            >
+            <nav className="fixed left-0 top-0 h-full w-20 z-50 backdrop-blur-xl bg-white/90 border-r border-gray-100 flex flex-col items-center py-6">
                 {/* Logo */}
                 <a
                     className="w-10 h-10 flex items-center justify-center group cursor-pointer mb-8 hover:scale-110 transition-transform duration-300"
                     href="#hero"
-                    data-oid="ejksmhj"
                 >
                     <Image
                         src="/images/playbooks-only-logo.png"
@@ -140,12 +131,11 @@ export default function Page() {
                         width={554}
                         height={431}
                         className=""
-                        data-oid="sh.a96t"
                     />
                 </a>
 
                 {/* Navigation Icons */}
-                <div className="flex flex-col space-y-4 mb-auto" data-oid="pcut5ao">
+                <div className="flex flex-col space-y-4 mb-auto">
                     <a
                         href="#language"
                         className={`p-3 rounded-lg transition-all duration-200 hover:scale-105 group relative ${
@@ -154,13 +144,9 @@ export default function Page() {
                                 : 'text-gray-600 hover:bg-gray-100 hover:text-black'
                         }`}
                         title="Language"
-                        data-oid="j179e:g"
                     >
                         Aa
-                        <span
-                            className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
-                            data-oid="fawx9gn"
-                        >
+                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Language
                         </span>
                     </a>
@@ -172,13 +158,9 @@ export default function Page() {
                                 : 'text-gray-600 hover:bg-gray-100 hover:text-black'
                         }`}
                         title="Runtime"
-                        data-oid="w8.bpd1"
                     >
-                        <Play className="w-5 h-5" data-oid="ad:zueo" />
-                        <span
-                            className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
-                            data-oid=":ywn9xy"
-                        >
+                        <Play className="w-5 h-5" />
+                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Runtime
                         </span>
                     </a>
@@ -190,13 +172,9 @@ export default function Page() {
                                 : 'text-gray-600 hover:bg-gray-100 hover:text-black'
                         }`}
                         title="Assembly Language and Compiler"
-                        data-oid="7h:rl6k"
                     >
-                        <Binary className="w-5 h-5" data-oid="trwxz8o" />
-                        <span
-                            className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
-                            data-oid="3istbj3"
-                        >
+                        <Binary className="w-5 h-5" />
+                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Assembly Language and Compiler
                         </span>
                     </a>
@@ -208,13 +186,9 @@ export default function Page() {
                                 : 'text-gray-600 hover:bg-gray-100 hover:text-black'
                         }`}
                         title="Debugger"
-                        data-oid="x56pg_2"
                     >
-                        <Zap className="w-5 h-5" data-oid="jk8x90d" />
-                        <span
-                            className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
-                            data-oid="9bj2ja9"
-                        >
+                        <Zap className="w-5 h-5" />
+                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Debugger
                         </span>
                     </a>
@@ -226,13 +200,9 @@ export default function Page() {
                                 : 'text-gray-600 hover:bg-gray-100 hover:text-black'
                         }`}
                         title="PlaybooksLM"
-                        data-oid="n5v8utg"
                     >
-                        <Brain className="w-5 h-5" data-oid="-5je6fo" />
-                        <span
-                            className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
-                            data-oid="obp90z6"
-                        >
+                        <Brain className="w-5 h-5" />
+                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             PlaybooksLM
                         </span>
                     </a>
@@ -244,13 +214,9 @@ export default function Page() {
                                 : 'text-gray-600 hover:bg-gray-100 hover:text-black'
                         }`}
                         title="Enterprise"
-                        data-oid="sr:hcbm"
                     >
-                        <Shield className="w-5 h-5" data-oid="_7-82n." />
-                        <span
-                            className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
-                            data-oid="q:3v6q1"
-                        >
+                        <Shield className="w-5 h-5" />
+                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Enterprise
                         </span>
                     </a>
@@ -262,31 +228,23 @@ export default function Page() {
                                 : 'text-gray-600 hover:bg-gray-100 hover:text-black'
                         }`}
                         title="Build Something Magical"
-                        data-oid="4l3h.cg"
                     >
-                        <Sparkles className="w-5 h-5" data-oid="58zpp:d" />
-                        <span
-                            className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
-                            data-oid="daiw._w"
-                        >
+                        <Sparkles className="w-5 h-5" />
+                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Build Something Magical
                         </span>
                     </a>
                 </div>
 
                 {/* Bottom Action Icons */}
-                <div className="flex flex-col space-y-3" data-oid="86e6eus">
+                <div className="flex flex-col space-y-3">
                     <a
                         href="mailto:contact@runplaybooks.com"
                         className="p-3 text-gray-600 rounded-lg hover:bg-gray-100 hover:text-black transition-all duration-200 hover:scale-105 group relative"
                         title="Contact"
-                        data-oid="9rdd:ff"
                     >
-                        <Mail className="w-5 h-5" data-oid="l_fc20b" />
-                        <span
-                            className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
-                            data-oid="n5-up4u"
-                        >
+                        <Mail className="w-5 h-5" />
+                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Contact
                         </span>
                     </a>
@@ -294,13 +252,9 @@ export default function Page() {
                         href="https://github.com/playbooks-ai/playbooks"
                         className="p-3 text-gray-600 rounded-lg hover:bg-gray-100 hover:text-black transition-all duration-200 hover:scale-105 group relative"
                         title="GitHub"
-                        data-oid="iylwi6s"
                     >
-                        <Github className="w-5 h-5" data-oid="68gtvp7" />
-                        <span
-                            className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
-                            data-oid=":gklz9a"
-                        >
+                        <Github className="w-5 h-5" />
+                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             GitHub
                         </span>
                     </Link>
@@ -311,57 +265,42 @@ export default function Page() {
             <section
                 id="hero"
                 className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative ${isSnapEnabled ? 'md:snap-start' : ''}`}
-                data-oid="rtx.ei3"
             >
-                <div className="max-w-6xl mx-auto px-8 text-center" data-oid="vz14ktx">
-                    <div className="space-y-8" data-oid="sskd44f">
-                        <div className="text-sm font-mono text-gray-500 mb-4" data-oid="jnz9ltn">
+                <div className="max-w-6xl mx-auto px-8 text-center">
+                    <div className="space-y-8">
+                        <div className="text-sm font-mono text-gray-500 mb-4">
                             Playbooks AI: Welcome to software 3.0
                         </div>
-                        <h1
-                            className="text-5xl md:text-7xl font-light tracking-tighter leading-none"
-                            data-oid="lc:xzmk"
-                        >
-                            <span className="block text-gray-300" data-oid="i9kexo6">
-                                Write AI agent
+                        <h1 className="text-5xl md:text-7xl font-light tracking-tighter leading-none">
+                            <span className="block text-gray-300">With LLMs as CPU, your next</span>
+                            <span className="block text-gray-400 relative">
+                                programming language is
                             </span>
-                            <span className="block text-gray-400 relative" data-oid="o-pekcy">
-                                behavior as plain
-                            </span>
-                            <span className="block text-black relative" data-oid="k3vqfwi">
-                                English Playbooks
-                                <div
-                                    className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
-                                    data-oid="_pxgai4"
-                                />
+                            <span className="block text-black relative">
+                                English
+                                <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" />
                             </span>
                         </h1>
 
-                        <div
-                            className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto font-light"
-                            data-oid="3n4:wmt"
-                        >
-                            <div data-oid="l770lrz">
-                                With LLMs as your CPU, orchestrate reliable multi-agent systems with
-                                the simplicity of natural language
+                        <div className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto font-light">
+                            <div>
+                                Full developer tooling like syntax highlighting, step-debugging and
+                                test frameworks for your plain English Playbooks code. Deploy
+                                reliable multi-agent systems combining English and Python on the
+                                same call stack.
                             </div>
                         </div>
 
-                        <div
-                            className="flex flex-col sm:flex-row gap-4 justify-center pt-8"
-                            data-oid="5_q_k8n"
-                        >
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
                             <Link
                                 href="https://playbooks-ai.github.io/playbooks-docs/get-started/quickstart/"
                                 className="px-8 py-4 bg-black text-white rounded-full text-lg font-medium hover:bg-gray-800 transition-all duration-300 hover:scale-105 hover:shadow-2xl inline-block"
-                                data-oid="jo7rl8u"
                             >
                                 Start in 3 Minutes
                             </Link>
                             <Link
                                 href="https://playbooks-ai.github.io/playbooks-docs/"
                                 className="px-8 py-4 border border-gray-300 text-gray-700 rounded-full text-lg font-medium hover:border-black hover:text-black transition-all duration-300 inline-block"
-                                data-oid="mm.xvhl"
                             >
                                 View Documentation
                             </Link>
@@ -374,51 +313,30 @@ export default function Page() {
             <section
                 id="language"
                 className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
-                data-oid="1cc1geb"
             >
-                <div className="max-w-5xl mx-auto px-8" data-oid="i13.he_">
-                    <div className="text-center mb-16" data-oid="9882kj9">
-                        <div className="text-sm font-mono text-gray-500 mb-4" data-oid="m1x_pib">
-                            Open Standard
-                        </div>
-                        <h2
-                            className="text-5xl md:text-6xl font-light tracking-tight mb-6"
-                            data-oid="-0_9z-h"
-                        >
+                <div className="max-w-5xl mx-auto px-8">
+                    <div className="text-center mb-16">
+                        <div className="text-sm font-mono text-gray-500 mb-4">Open Standard</div>
+                        <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
                             Playbooks Language
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto" data-oid="uk-4za:">
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                             Plain English, with a hint of markdown. No complex syntax to learn.
-                            <br data-oid="3-ni3ti"></br> If you can write instructions for a human,
-                            you can write a Playbooks program.
+                            <br></br> If you can write instructions for a human, you can write a
+                            Playbooks program.
                         </p>
                     </div>
-                    <div className="space-y-8" data-oid="uxww853">
-                        <div
-                            className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100"
-                            data-oid="c5gyt6y"
-                        >
-                            <div className="flex items-center mb-6" data-oid="h92g5t.">
-                                <div className="flex space-x-3" data-oid=":vcgsaa">
-                                    <div
-                                        className="w-3 h-3 bg-red-400 rounded-full"
-                                        data-oid="_xarnam"
-                                    />
+                    <div className="space-y-8">
+                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                            <div className="flex items-center mb-6">
+                                <div className="flex space-x-3">
+                                    <div className="w-3 h-3 bg-red-400 rounded-full" />
 
-                                    <div
-                                        className="w-3 h-3 bg-yellow-400 rounded-full"
-                                        data-oid="sc2h4i8"
-                                    />
+                                    <div className="w-3 h-3 bg-yellow-400 rounded-full" />
 
-                                    <div
-                                        className="w-3 h-3 bg-green-400 rounded-full"
-                                        data-oid="ivvt5no"
-                                    />
+                                    <div className="w-3 h-3 bg-green-400 rounded-full" />
                                 </div>
-                                <span
-                                    className="ml-6 text-gray-400 text-sm font-mono"
-                                    data-oid="wt4fd0d"
-                                >
+                                <span className="ml-6 text-gray-400 text-sm font-mono">
                                     customer_support.pb
                                 </span>
                             </div>
@@ -429,7 +347,6 @@ export default function Page() {
                                 className="w-full h-auto"
                                 width={1000}
                                 height={1000}
-                                data-oid="i.n:_:w"
                             />
                         </div>
                     </div>
@@ -440,129 +357,80 @@ export default function Page() {
             <section
                 id="runtime"
                 className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
-                data-oid="b:qp79b"
             >
-                <div className="max-w-5xl mx-auto px-8" data-oid="ppawvhm">
-                    <div className="text-center mb-16" data-oid="k40k_gp">
-                        <div className="text-sm font-mono text-gray-500 mb-4" data-oid="ul65d_l">
+                <div className="max-w-5xl mx-auto px-8">
+                    <div className="text-center mb-16">
+                        <div className="text-sm font-mono text-gray-500 mb-4">
                             Open Source (MIT License)
                         </div>
-                        <h2
-                            className="text-5xl md:text-6xl font-light tracking-tight mb-6"
-                            data-oid="a3lsuvc"
-                        >
+                        <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
                             Playbooks Runtime
                         </h2>
-                        <div className="text-xl text-gray-600 max-w-3xl mx-auto" data-oid="xghics:">
+                        <div className="text-xl text-gray-600 max-w-3xl mx-auto">
                             Execute Playbooks programs to get multi-agent systems.
-                            <div className="mt-8" data-oid="q1d2d3a">
-                                <code
-                                    className="bg-gray-100 px-6 py-2 rounded-lg mt-8"
-                                    data-oid="5gcisg1"
-                                >
+                            <div className="mt-8">
+                                <code className="bg-gray-100 px-6 py-2 rounded-lg mt-8">
                                     pip install playbooks
                                 </code>
                             </div>
                         </div>
                     </div>
 
-                    <div className="space-y-8" data-oid="j_9kz1:">
-                        <div
-                            className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100"
-                            data-oid="d0v19m."
-                        >
-                            <div
-                                className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                                data-oid="0uzqmjt"
-                            >
-                                <div
-                                    className="flex items-center space-x-4 rounded-2xl p-6"
-                                    data-oid="cnm.f6k"
-                                >
-                                    <div className="flex-shrink-0" data-oid="1.pwybb">
-                                        <RefreshCw
-                                            className="w-12 h-12 text-gray-800"
-                                            data-oid="x8odyne"
-                                        />
+                    <div className="space-y-8">
+                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <RefreshCw className="w-12 h-12 text-gray-800" />
                                     </div>
-                                    <div className="flex-1" data-oid="0v55fnh">
-                                        <div
-                                            className="text-lg font-semibold text-gray-800 mb-1"
-                                            data-oid="lxvu53p"
-                                        >
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Unified Call Stack
                                         </div>
-                                        <span className="text-gray-600 text-sm" data-oid="xhz3lr6">
+                                        <span className="text-gray-600 text-sm">
                                             English and Python playbooks can call each other on the
                                             same stack and share program state seamlessly.
                                         </span>
                                     </div>
                                 </div>
-                                <div
-                                    className="flex items-center space-x-4 rounded-2xl p-6"
-                                    data-oid="11xipwg"
-                                >
-                                    <div className="flex-shrink-0" data-oid="9cj8bjg">
-                                        <Users
-                                            className="w-12 h-12 text-gray-800"
-                                            data-oid="4a50eg0"
-                                        />
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <Users className="w-12 h-12 text-gray-800" />
                                     </div>
-                                    <div className="flex-1" data-oid="aeexjcw">
-                                        <div
-                                            className="text-lg font-semibold text-gray-800 mb-1"
-                                            data-oid="digr61u"
-                                        >
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Multi-Agent Meetings
                                         </div>
-                                        <span className="text-gray-600 text-sm" data-oid=".-ei2gd">
+                                        <span className="text-gray-600 text-sm">
                                             Built-in support for multi-agent interactions like
                                             having multi-party meetings and collaborative sessions.
                                         </span>
                                     </div>
                                 </div>
-                                <div
-                                    className="flex items-center space-x-4 rounded-2xl p-6"
-                                    data-oid="zi7dvtg"
-                                >
-                                    <div className="flex-shrink-0" data-oid="u_fpdl:">
-                                        <Brain
-                                            className="w-12 h-12 text-gray-800"
-                                            data-oid="5_o6grb"
-                                        />
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <Brain className="w-12 h-12 text-gray-800" />
                                     </div>
-                                    <div className="flex-1" data-oid="am93c1e">
-                                        <div
-                                            className="text-lg font-semibold text-gray-800 mb-1"
-                                            data-oid="8dyuaum"
-                                        >
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Memory Layers
                                         </div>
-                                        <span className="text-gray-600 text-sm" data-oid="1e2hku_">
+                                        <span className="text-gray-600 text-sm">
                                             Scratchpad for short-term memory, artifacts for
                                             long-term memory, and stack-based automated LLM context
                                             management.
                                         </span>
                                     </div>
                                 </div>
-                                <div
-                                    className="flex items-center space-x-4 rounded-2xl p-6"
-                                    data-oid="3.vtymn"
-                                >
-                                    <div className="flex-shrink-0" data-oid="ivhk_2w">
-                                        <Zap
-                                            className="w-12 h-12 text-gray-800"
-                                            data-oid="tgf5g0z"
-                                        />
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <Zap className="w-12 h-12 text-gray-800" />
                                     </div>
-                                    <div className="flex-1" data-oid="3ahump3">
-                                        <div
-                                            className="text-lg font-semibold text-gray-800 mb-1"
-                                            data-oid="6._l4gl"
-                                        >
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Semantic Triggers
                                         </div>
-                                        <span className="text-gray-600 text-sm" data-oid="to83fup">
+                                        <span className="text-gray-600 text-sm">
                                             Event-driven execution based on semantic conditions and
                                             intelligent context switching.
                                         </span>
@@ -578,38 +446,24 @@ export default function Page() {
             <section
                 id="pbasm"
                 className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
-                data-oid="vdb7f0a"
             >
-                <div className="max-w-5xl mx-auto px-8" data-oid=":3b28w2">
-                    <div className="text-center mb-12" data-oid="z:au:t1">
-                        <div className="text-sm font-mono text-gray-500 mb-4" data-oid="ds.t3h3">
-                            Open Standard
-                        </div>
-                        <h2
-                            className="text-5xl md:text-6xl font-light tracking-tight mb-6"
-                            data-oid="3yhnp0e"
-                        >
+                <div className="max-w-5xl mx-auto px-8">
+                    <div className="text-center mb-12">
+                        <div className="text-sm font-mono text-gray-500 mb-4">Open Standard</div>
+                        <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
                             Playbooks Assembly Language
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto" data-oid="fhipswy">
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                             A standard that defines how to annotate natural language programs for
                             reliable execution on LLMs. A semantic compiler transforms Playbooks
                             programs into Playbooks Assembly Language.
                         </p>
                     </div>
-                    <div className="flex items-center justify-center mb-2" data-oid="5_cwt4k">
-                        <div className="flex items-center" data-oid="vl6av0s">
-                            <div
-                                className="bg-gray-100 rounded-xl px-6 py-3 font-mono"
-                                data-oid="8ed9arx"
-                            >
-                                .pb
-                            </div>
-                            <div className="flex flex-col items-center relative" data-oid="welqitk">
-                                <span
-                                    className="text-sm text-gray-500 absolute top-0 z-10"
-                                    data-oid="0xz_jbn"
-                                >
+                    <div className="flex items-center justify-center mb-2">
+                        <div className="flex items-center">
+                            <div className="bg-gray-100 rounded-xl px-6 py-3 font-mono">.pb</div>
+                            <div className="flex flex-col items-center relative">
+                                <span className="text-sm text-gray-500 absolute top-0 z-10">
                                     Playbooks Compiler
                                 </span>
                                 <svg
@@ -618,51 +472,29 @@ export default function Page() {
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 124 24"
-                                    data-oid="jws8ggk"
                                 >
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={2}
                                         d="M0 12h128m0 0l-5-5m5 5l-5 5"
-                                        data-oid="2swen--"
                                     />
                                 </svg>
                             </div>
-                            <div
-                                className="bg-gray-100 rounded-xl px-6 py-3 font-mono"
-                                data-oid="uqf:bzm"
-                            >
-                                .pbasm
-                            </div>
+                            <div className="bg-gray-100 rounded-xl px-6 py-3 font-mono">.pbasm</div>
                         </div>
                     </div>
-                    <div className="space-y-8" data-oid="2:7x7mo">
-                        <div
-                            className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100"
-                            data-oid=":yqthz5"
-                        >
-                            <div className="flex items-center mb-6" data-oid=".:_nb_d">
-                                <div className="flex space-x-3" data-oid="l20uoes">
-                                    <div
-                                        className="w-3 h-3 bg-red-400 rounded-full"
-                                        data-oid="oob176j"
-                                    />
+                    <div className="space-y-8">
+                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                            <div className="flex items-center mb-6">
+                                <div className="flex space-x-3">
+                                    <div className="w-3 h-3 bg-red-400 rounded-full" />
 
-                                    <div
-                                        className="w-3 h-3 bg-yellow-400 rounded-full"
-                                        data-oid="223p5lj"
-                                    />
+                                    <div className="w-3 h-3 bg-yellow-400 rounded-full" />
 
-                                    <div
-                                        className="w-3 h-3 bg-green-400 rounded-full"
-                                        data-oid="ye:y78x"
-                                    />
+                                    <div className="w-3 h-3 bg-green-400 rounded-full" />
                                 </div>
-                                <span
-                                    className="ml-6 text-gray-400 text-sm font-mono"
-                                    data-oid="tco34_a"
-                                >
+                                <span className="ml-6 text-gray-400 text-sm font-mono">
                                     customer_support.pbasm
                                 </span>
                             </div>
@@ -673,7 +505,6 @@ export default function Page() {
                                 className="w-full h-auto"
                                 width={1000}
                                 height={1000}
-                                data-oid="tl2tlq:"
                             />
                         </div>
                     </div>
@@ -684,55 +515,36 @@ export default function Page() {
             <section
                 id="debugger"
                 className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
-                data-oid="87efgh8"
             >
-                <div className="max-w-4xl mx-auto px-8" data-oid="u2uv3.2">
-                    <div className="text-center mb-16" data-oid="3yqp8nj">
-                        <div className="text-sm font-mono text-gray-500 mb-4" data-oid="3tuyr6c">
+                <div className="max-w-4xl mx-auto px-8">
+                    <div className="text-center mb-16">
+                        <div className="text-sm font-mono text-gray-500 mb-4">
                             Free to install and use
                         </div>
-                        <h2
-                            className="text-5xl md:text-6xl font-light tracking-tight mb-6"
-                            data-oid="gb_seo9"
-                        >
+                        <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
                             Playbooks Debugger
                         </h2>
-                        <div className="text-xl text-gray-600 max-w-3xl mx-auto" data-oid="1l4v5ow">
+                        <div className="text-xl text-gray-600 max-w-3xl mx-auto">
                             VSCode extension that lets you step-debug through your English programs
                             like traditional code. Use breakpoints, inspect variables and navigate
                             call stack.
-                            <div className="mt-8" data-oid="uinq:ho">
+                            <div className="mt-8">
                                 Finally, you can step-debug through LLM prompts!
                             </div>
                         </div>
                     </div>
 
-                    <div className="space-y-8" data-oid="9y8kst.">
-                        <div
-                            className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100"
-                            data-oid="mnr2h9g"
-                        >
-                            <div className="flex items-center mb-6" data-oid="wd3w24c">
-                                <div className="flex space-x-3" data-oid="wl8p372">
-                                    <div
-                                        className="w-3 h-3 bg-red-400 rounded-full"
-                                        data-oid="h4wd9o7"
-                                    />
+                    <div className="space-y-8">
+                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                            <div className="flex items-center mb-6">
+                                <div className="flex space-x-3">
+                                    <div className="w-3 h-3 bg-red-400 rounded-full" />
 
-                                    <div
-                                        className="w-3 h-3 bg-yellow-400 rounded-full"
-                                        data-oid="a..w3.a"
-                                    />
+                                    <div className="w-3 h-3 bg-yellow-400 rounded-full" />
 
-                                    <div
-                                        className="w-3 h-3 bg-green-400 rounded-full"
-                                        data-oid="5d8ihmh"
-                                    />
+                                    <div className="w-3 h-3 bg-green-400 rounded-full" />
                                 </div>
-                                <span
-                                    className="ml-6 text-gray-400 text-sm font-mono"
-                                    data-oid="c8j_t9-"
-                                >
+                                <span className="ml-6 text-gray-400 text-sm font-mono">
                                     customer_support.pbasm
                                 </span>
                             </div>
@@ -743,7 +555,6 @@ export default function Page() {
                                 className="w-full h-auto"
                                 width={1000}
                                 height={1000}
-                                data-oid=".l-3lb_"
                             />
                         </div>
                     </div>
@@ -754,120 +565,73 @@ export default function Page() {
             <section
                 id="playbookslm"
                 className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
-                data-oid="8ran-1n"
             >
-                <div className="max-w-5xl mx-auto px-8" data-oid="7e8jset">
-                    <div className="text-center mb-16" data-oid="brcxfak">
-                        <div className="text-sm font-mono text-gray-500 mb-4" data-oid="h:1:p8a">
+                <div className="max-w-5xl mx-auto px-8">
+                    <div className="text-center mb-16">
+                        <div className="text-sm font-mono text-gray-500 mb-4">
                             Commercial License
                         </div>
-                        <h2
-                            className="text-5xl md:text-6xl font-light tracking-tight mb-6"
-                            data-oid="r5nvjri"
-                        >
+                        <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
                             PlaybooksLM
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto" data-oid="sjug40b">
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                             For Enterprise deployments, instead of using third party frontier models
                             like Claude, use PlaybooksLM hosted within your infrastructure or hosted
                             on Playbooks&nbsp;Cloud&nbsp;(coming soon).
                         </p>
                     </div>
 
-                    <div className="space-y-8" data-oid="e:l2gg5">
-                        <div
-                            className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100"
-                            data-oid="lqclke2"
-                        >
-                            <div
-                                className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                                data-oid="y-a46sn"
-                            >
-                                <div
-                                    className="flex items-center space-x-4 rounded-2xl p-6 "
-                                    data-oid="27j9m6s"
-                                >
-                                    <div className="flex-shrink-0" data-oid=".uu5e-2">
-                                        <div
-                                            className="text-5xl font-bold text-gray-800"
-                                            data-oid="0692h86"
-                                        >
-                                            10x
-                                        </div>
+                    <div className="space-y-8">
+                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="flex items-center space-x-4 rounded-2xl p-6 ">
+                                    <div className="flex-shrink-0">
+                                        <div className="text-5xl font-bold text-gray-800">10x</div>
                                     </div>
-                                    <div className="flex-1" data-oid="00g7d:_">
-                                        <div
-                                            className="text-lg font-semibold text-gray-800 mb-1"
-                                            data-oid="8al8_5w"
-                                        >
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Faster Execution
                                         </div>
-                                        <span className="text-gray-600 text-sm" data-oid="sb01w87">
+                                        <span className="text-gray-600 text-sm">
                                             Token throughput vs Claude Sonnet 4.0
                                         </span>
                                     </div>
                                 </div>
-                                <div className="flex items-center space-x-4 p-6" data-oid="kjmtwbt">
-                                    <div className="flex-shrink-0" data-oid="3a9.ort">
-                                        <div
-                                            className="text-5xl font-bold text-gray-800"
-                                            data-oid="kx:1oo_"
-                                        >
-                                            10x
-                                        </div>
+                                <div className="flex items-center space-x-4 p-6">
+                                    <div className="flex-shrink-0">
+                                        <div className="text-5xl font-bold text-gray-800">10x</div>
                                     </div>
-                                    <div className="flex-1" data-oid="65gxv15">
-                                        <div
-                                            className="text-lg font-semibold text-gray-800 mb-1"
-                                            data-oid="xuoar9d"
-                                        >
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Lower Costs
                                         </div>
-                                        <span className="text-gray-600 text-sm" data-oid="7sfkar8">
+                                        <span className="text-gray-600 text-sm">
                                             Inference costs vs Claude Sonnet 4.0
                                         </span>
                                     </div>
                                 </div>
-                                <div
-                                    className="flex items-center space-x-4 rounded-2xl p-6"
-                                    data-oid="t17hsx5"
-                                >
-                                    <div className="flex-shrink-0" data-oid="7or6a3r">
-                                        <Shield
-                                            className="w-12 h-12 text-gray-800"
-                                            data-oid="2k26ejv"
-                                        />
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <Shield className="w-12 h-12 text-gray-800" />
                                     </div>
-                                    <div className="flex-1" data-oid="l74ll-o">
-                                        <div
-                                            className="text-lg font-semibold text-gray-800 mb-1"
-                                            data-oid="8i7rc46"
-                                        >
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Higher Reliability
                                         </div>
-                                        <span className="text-gray-600 text-sm" data-oid="in_hq0k">
+                                        <span className="text-gray-600 text-sm">
                                             For Playbooks execution
                                         </span>
                                     </div>
                                 </div>
-                                <div
-                                    className="flex items-center space-x-4 rounded-2xl p-6"
-                                    data-oid="d::g-g7"
-                                >
-                                    <div className="flex-shrink-0" data-oid="69kr:7n">
-                                        <Lock
-                                            className="w-12 h-12 text-gray-800"
-                                            data-oid="tx9h5_a"
-                                        />
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <Lock className="w-12 h-12 text-gray-800" />
                                     </div>
-                                    <div className="flex-1" data-oid="ni06409">
-                                        <div
-                                            className="text-lg font-semibold text-gray-800 mb-1"
-                                            data-oid="300g5am"
-                                        >
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
                                             On-Premise
                                         </div>
-                                        <span className="text-gray-600 text-sm" data-oid="x-3unwy">
+                                        <span className="text-gray-600 text-sm">
                                             Complete deployment control
                                         </span>
                                     </div>
@@ -882,123 +646,76 @@ export default function Page() {
             <section
                 id="enterprise"
                 className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
-                data-oid="4xwqz7i"
             >
-                <div className="max-w-5xl mx-auto px-8" data-oid="ydkbysk">
-                    <div className="text-center mb-16" data-oid="vxd7fs:">
-                        <div className="text-sm font-mono text-gray-500 mb-4" data-oid="q2dhf1y">
+                <div className="max-w-5xl mx-auto px-8">
+                    <div className="text-center mb-16">
+                        <div className="text-sm font-mono text-gray-500 mb-4">
                             Commercial License
                         </div>
-                        <h2
-                            className="text-5xl md:text-6xl font-light tracking-tight mb-6"
-                            data-oid="if7s58_"
-                        >
+                        <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
                             Enterprise
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto" data-oid="c9sqbzn">
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                             Enterprise-grade multi-agent system with compliance, security,
                             scalability, and observability.
                         </p>
                     </div>
 
-                    <div className="space-y-8" data-oid="b3-yba7">
-                        <div
-                            className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100"
-                            data-oid="40p3pfp"
-                        >
-                            <div
-                                className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                                data-oid="0qlehs0"
-                            >
-                                <div
-                                    className="flex items-center space-x-4 rounded-2xl p-6"
-                                    data-oid="9rrieyc"
-                                >
-                                    <div className="flex-shrink-0" data-oid="ebjc_ak">
-                                        <Lock
-                                            className="w-12 h-12 text-gray-800"
-                                            data-oid="y7tthh9"
-                                        />
+                    <div className="space-y-8">
+                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <Lock className="w-12 h-12 text-gray-800" />
                                     </div>
-                                    <div className="flex-1" data-oid="rzchl5y">
-                                        <div
-                                            className="text-lg font-semibold text-gray-800 mb-1"
-                                            data-oid="mqwv_4d"
-                                        >
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Security & Scalability
                                         </div>
-                                        <span className="text-gray-600 text-sm" data-oid="5kd1jh8">
+                                        <span className="text-gray-600 text-sm">
                                             On-premise deployment and SLM-based execution
                                         </span>
                                     </div>
                                 </div>
-                                <div
-                                    className="flex items-center space-x-4 rounded-2xl p-6"
-                                    data-oid="wope.ma"
-                                >
-                                    <div className="flex-shrink-0" data-oid="ygph5ww">
-                                        <BarChart3
-                                            className="w-12 h-12 text-gray-800"
-                                            data-oid="-ogrvt_"
-                                        />
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <BarChart3 className="w-12 h-12 text-gray-800" />
                                     </div>
-                                    <div className="flex-1" data-oid="kice05p">
-                                        <div
-                                            className="text-lg font-semibold text-gray-800 mb-1"
-                                            data-oid="7:bp2im"
-                                        >
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Full Observability
                                         </div>
-                                        <span className="text-gray-600 text-sm" data-oid="ao0am2y">
+                                        <span className="text-gray-600 text-sm">
                                             LangFuse compatible, audit trails, and execution tracing
                                         </span>
                                     </div>
                                 </div>
 
-                                <div
-                                    className="flex items-center space-x-4 rounded-2xl p-6"
-                                    data-oid="slp862q"
-                                >
-                                    <div className="flex-shrink-0" data-oid="82ws9ke">
-                                        <RefreshCw
-                                            className="w-12 h-12 text-gray-800"
-                                            data-oid="2v762.p"
-                                        />
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <RefreshCw className="w-12 h-12 text-gray-800" />
                                     </div>
-                                    <div className="flex-1" data-oid="bvf6lm4">
-                                        <div
-                                            className="text-lg font-semibold text-gray-800 mb-1"
-                                            data-oid="agifa1j"
-                                        >
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Framework Integration
                                         </div>
-                                        <span className="text-gray-600 text-sm" data-oid="bv94vrf">
+                                        <span className="text-gray-600 text-sm">
                                             Works with LangGraph, Google ADK, Autogen, and MCP
                                         </span>
                                     </div>
                                 </div>
 
-                                <div
-                                    className="flex items-center space-x-4 rounded-2xl p-6 bg-gradient-to-r to-gray-50 from-gray-100 border border-white"
-                                    data-oid="g._fh_g"
-                                >
-                                    <div className="flex-shrink-0" data-oid="6mu608:">
-                                        <Users
-                                            className="w-12 h-12 text-gray-800"
-                                            data-oid="xn2di4x"
-                                        />
+                                <div className="flex items-center space-x-4 rounded-2xl p-6 bg-gradient-to-r to-gray-50 from-gray-100 border border-white">
+                                    <div className="flex-shrink-0">
+                                        <Users className="w-12 h-12 text-gray-800" />
                                     </div>
-                                    <div className="flex-1" data-oid="yaan8b5">
-                                        <div
-                                            className="text-lg font-semibold text-gray-800 mb-2"
-                                            data-oid="zwns2cy"
-                                        >
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-2">
                                             Unlock Enterprise Capabilities
                                         </div>
                                         <a
                                             href="mailto:contact@runplaybooks.ai"
                                             className="px-6 py-2 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-all duration-200 hover:scale-105 inline-block"
-                                            data-oid="a3mjjbw"
                                         >
                                             Contact Sales
                                         </a>
@@ -1013,9 +730,8 @@ export default function Page() {
             <section
                 id="build-something-magical"
                 className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative bg-gray-900 text-white ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
-                data-oid="a:cfvx8"
             >
-                <div className="max-w-6xl mx-auto px-8 text-center " data-oid="t7-36uk">
+                <div className="max-w-6xl mx-auto px-8 text-center ">
                     {/* <h2
             className="text-5xl md:text-6xl font-light tracking-tight mb-8 pb-8 border-b border-gray-700"
             data-oid="0lzc21q"
@@ -1046,57 +762,36 @@ export default function Page() {
             </p>
             </div> */}
 
-                    <div className="max-w-6xl mx-auto px-8 text-center" data-oid="8iwhosr">
-                        <div className="space-y-8" data-oid=".6893r7">
-                            <div
-                                className="text-sm font-mono text-gray-400 mb-4"
-                                data-oid="ou9sfyk"
-                            >
+                    <div className="max-w-6xl mx-auto px-8 text-center">
+                        <div className="space-y-8">
+                            <div className="text-sm font-mono text-gray-400 mb-4">
                                 Join the revolution
                             </div>
-                            <h1
-                                className="text-5xl md:text-7xl font-light tracking-tighter leading-none"
-                                data-oid="0ode:0m"
-                            >
-                                <span className="block text-gray-600" data-oid="-fwqab7">
-                                    Build something
-                                </span>
-                                <span className="block text-gray-500" data-oid="-0hvgqy">
-                                    magical with
-                                </span>
-                                <span className="block text-white relative" data-oid="e-y.bzn">
+                            <h1 className="text-5xl md:text-7xl font-light tracking-tighter leading-none">
+                                <span className="block text-gray-600">Build something</span>
+                                <span className="block text-gray-500">magical with</span>
+                                <span className="block text-white relative">
                                     Playbooks!
-                                    <div
-                                        className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"
-                                        data-oid="1o.f5xm"
-                                    />
+                                    <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
                                 </span>
                             </h1>
 
-                            <div
-                                className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto font-light mt-8"
-                                data-oid="25ooule"
-                            ></div>
+                            <div className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto font-light mt-8"></div>
 
-                            <div className="text-base text-gray-500 mt-8" data-oid="q28k09r">
+                            <div className="text-base text-gray-500 mt-8">
                                 Amol Kelkar (Founder, Playbooks AI)
                             </div>
 
-                            <div
-                                className="flex flex-col sm:flex-row gap-4 justify-center pt-8"
-                                data-oid="dg1smto"
-                            >
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
                                 <Link
                                     href="https://playbooks-ai.github.io/playbooks-docs/get-started/quickstart/"
                                     className="px-8 py-4 bg-white text-black rounded-full text-lg font-medium hover:bg-gray-100 transition-all duration-300 hover:scale-105 hover:shadow-2xl inline-block"
-                                    data-oid="sa3_-e1"
                                 >
                                     Get Started Now
                                 </Link>
                                 <Link
                                     href="https://github.com/playbooks-ai/playbooks"
                                     className="px-8 py-4 border border-gray-600 text-gray-300 rounded-full text-lg font-medium hover:border-white hover:text-white transition-all duration-300 inline-block"
-                                    data-oid="pkzn4tb"
                                 >
                                     View on GitHub
                                 </Link>
