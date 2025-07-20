@@ -269,15 +269,15 @@ export default function Page() {
                 <div className="max-w-6xl mx-auto px-8 text-center">
                     <div className="space-y-8">
                         <div className="text-sm font-mono text-gray-500 mb-4">
-                            Playbooks AI: Welcome to software 3.0
+                            Playbooks AI<br></br>Welcome to software 3.0
                         </div>
                         <h1 className="text-5xl md:text-7xl font-light tracking-tighter leading-none">
-                            <span className="block text-gray-300">With LLMs as CPU, your next</span>
+                            <span className="block text-gray-300">LLM is the new CPU.</span>
                             <span className="block text-gray-400 relative">
-                                programming language is
+                                Program AI Agents
                             </span>
                             <span className="block text-black relative">
-                                English
+                                in English.
                                 <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" />
                             </span>
                         </h1>
