@@ -284,10 +284,8 @@ export default function Page() {
 
                         <div className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto font-light">
                             <div>
-                                Full developer tooling like syntax highlighting, step-debugging and
-                                test frameworks for your plain English Playbooks code. Deploy
-                                reliable multi-agent systems combining English and Python on the
-                                same call stack.
+                                Step-debug through LLM prompts!
+                                Build reliable multi-agent systems combining English and Python code on the same call stack, and deploy with full observability, reliability and security.
                             </div>
                         </div>
 
