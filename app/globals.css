@@ -5,13 +5,14 @@
 /* Scale entire UI to 75% by adjusting the root font size */
 /* This scales all rem-based values throughout the app */
 html {
-  font-size: 12px; /* 75% of default 16px */
+  font-size: 16px; /* 75% of default 16px */
 }
 
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --font-source-sans-pro: 'Source Sans Pro', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {

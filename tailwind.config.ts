@@ -9,7 +9,7 @@ const config: Config = {
     ],
     theme: {
         extend: {
-            fontFamily: { sans: ['var(--font-lato)', 'sans-serif'] },
+            fontFamily: { sans: ['var(--font-source-sans-pro)', 'sans-serif'] },
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                 'gradient-conic':
