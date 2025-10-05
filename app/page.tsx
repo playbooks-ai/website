@@ -358,16 +358,17 @@ export default function Page() {
 
                         <div className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto font-light">
                             <div>
-                                Playbooks AI is an innovative Python framework for building and executing AI agents using <span className="text-slate-700 font-medium">playbooks programs</span> - structured workflows defined in <span className="text-slate-700 font-medium">natural language</span> (via Markdown-based .pb files) and Python code. This framework represents a significant step toward <span className="text-slate-700 font-medium">Software 3.0</span>, where natural language becomes a first-class programming language.
+                            Build multi‑agent AI systems<br/>with World's first Software 3.0 stack<br/>
+                                {/* Playbooks AI is an innovative Python framework for building and executing AI agents using <span className="text-slate-700 font-medium">playbooks programs</span> - structured workflows defined in <span className="text-slate-700 font-medium">natural language</span> (via Markdown-based .pb files) and Python code. This framework represents a significant step toward <span className="text-slate-700 font-medium">Software 3.0</span>, where natural language becomes a first-class programming language. */}
                             </div>
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
                             <Link
-                                href="https://playbooks-ai.github.io/playbooks-docs/get-started/quickstart/"
+                                href="https://playbooks-ai.github.io/playbooks-docs/getting-started/"
                                 className="px-8 py-4 bg-black text-white rounded-full text-lg font-medium hover:bg-gray-800 transition-all duration-300 hover:scale-105 hover:shadow-2xl inline-block"
                             >
-                                Start in 3 Minutes
+                                Get Started in 10 Mins
                             </Link>
                             <Link
                                 href="https://playbooks-ai.github.io/playbooks-docs/"
@@ -458,7 +459,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Unified Call Stack
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             English and Python playbooks can call each other on the
                                             same stack and share program state seamlessly.
                                         </span>
@@ -472,7 +473,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Natively Multi-Agent
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             Built-in support for multi-agent interactions like
                                             having multi-party meetings and collaborative sessions.
                                         </span>
@@ -486,7 +487,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Memory Layers
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             Scratchpad for short-term memory, artifacts for
                                             long-term memory, and stack-based automated LLM context
                                             management.
@@ -501,7 +502,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Semantic Triggers
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             Event-driven execution based on semantic conditions and
                                             intelligent context switching.
                                         </span>
@@ -662,7 +663,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Faster Execution
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             Token throughput vs Claude Sonnet 4.0
                                         </span>
                                     </div>
@@ -675,7 +676,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Lower Costs
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             Inference costs vs Claude Sonnet 4.0
                                         </span>
                                     </div>
@@ -688,7 +689,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Higher Reliability
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             For Playbooks execution
                                         </span>
                                     </div>
@@ -701,7 +702,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             On-Premise
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             Complete deployment control
                                         </span>
                                     </div>
@@ -742,7 +743,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Security & Scalability
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             On-premise deployment and SLM-based execution
                                         </span>
                                     </div>
@@ -755,7 +756,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Full Observability
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             LangFuse compatible, audit trails, and execution tracing
                                         </span>
                                     </div>
@@ -769,7 +770,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Framework Integration
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             Works with LangGraph, Google ADK, Autogen, and MCP
                                         </span>
                                     </div>
@@ -785,7 +786,7 @@ export default function Page() {
                                         </div>
                                         <a
                                             href="mailto:contact@runplaybooks.ai"
-                                            className="px-6 py-2 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-all duration-200 hover:scale-105 inline-block"
+                                            className="px-6 py-2 bg-black text-white rounded-full text-base font-medium hover:bg-gray-800 transition-all duration-200 hover:scale-105 inline-block"
                                         >
                                             Contact Sales
                                         </a>
@@ -827,7 +828,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Stack-based Context Management
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             Automatic context management that follows your program&apos;s call stack,
                                             ensuring optimal context for each execution level.
                                         </span>
@@ -841,7 +842,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Incremental Compaction
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             Built-in context compaction without extra LLM calls,
                                             keeping essential information while reducing token usage.
                                         </span>
@@ -855,7 +856,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             LLM Caching Optimization
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             Built-in optimization for LLM caching to reduce costs
                                             and improve performance through intelligent context reuse.
                                         </span>
@@ -869,7 +870,7 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
                                             Context Augmentation
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-gray-600 text-base">
                                             Easy-to-use techniques for adding file content, retrieval results,
                                             or outputs from other playbooks directly into context.
                                         </span>
@@ -889,19 +890,19 @@ export default function Page() {
                     <div className="max-w-6xl mx-auto px-8 text-center">
                         <div className="space-y-8">
                             <div className="text-sm font-mono text-gray-400 mb-4">
-                                Join the revolution
+                                Welcome to Software 3.0!
                             </div>
                             <h1 className="text-5xl md:text-7xl font-light tracking-tight leading-none">
                                 <span className="block text-slate-300">Let&apos;s build something magical</span>
                                 {/* <span className="block text-gray-500">magical with</span> */}
                                 <span className="block text-slate-300 relative">
-                                    with Playbooks!
+                                    with Playbooks
                                     <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
                                 </span>
                             </h1>
 
                             <div className="text-base text-gray-500 mt-12">
-                                Amol Kelkar (Founder, Playbooks AI)
+                                <a href="https://www.linkedin.com/in/amol-kelkar/">Amol Kelkar (Founder, Playbooks AI)</a>
                             </div>
 
                             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
@@ -932,69 +933,44 @@ export default function Page() {
                                 <h3 className="text-xl font-semibold text-white mb-6">Getting Started</h3>
                                 <div className="space-y-3">
                                     <Link
-                                        href="https://playbooks-ai.github.io/playbooks-docs/get-started/quickstart/"
+                                        href="https://playbooks-ai.github.io/playbooks-docs/"
                                         className="block text-gray-400 hover:text-white transition-colors duration-200"
                                     >
-                                        Quickstart
+                                        Documentation
+                                    </Link>
+                                    <Link
+                                        href="https://playbooks-ai.github.io/playbooks-docs/getting-started/"
+                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
+                                    >
+                                        Getting Started
                                     </Link>
                                     <Link
                                         href="https://playbooks-ai.github.io/playbooks-docs/tutorials/"
                                         className="block text-gray-400 hover:text-white transition-colors duration-200"
                                     >
-                                        Tutorials
-                                    </Link>
-                                    <Link
-                                        href="https://github.com/playbooks-ai/playbooks"
-                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
-                                    >
-                                        GitHub
+                                        Tutorial
                                     </Link>
                                 </div>
                             </div>
 
                             {/* Core Concepts */}
                             <div className="space-y-4">
-                                <h3 className="text-xl font-semibold text-white mb-6">Core Concepts</h3>
+                                <h3 className="text-xl font-semibold text-white mb-6">Links</h3>
                                 <div className="space-y-3">
-                                    <Link
-                                        href="https://playbooks-ai.github.io/playbooks-docs/playbooks-language/"
+                                <Link
+                                        href="https://github.com/playbooks-ai/playbooks"
                                         className="block text-gray-400 hover:text-white transition-colors duration-200"
                                     >
-                                        Playbooks Language
+                                        GitHub Repository
                                     </Link>
-                                    <Link
-                                        href="https://playbooks-ai.github.io/playbooks-docs/agents/"
-                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
-                                    >
-                                        AI Agents
-                                    </Link>
+
                                 </div>
                             </div>
 
                             {/* Advanced */}
-                            <div className="space-y-4">
+                            {/* <div className="space-y-4">
                                 <h3 className="text-xl font-semibold text-white mb-6">Advanced</h3>
-                                <div className="space-y-3">
-                                    <Link
-                                        href="https://playbooks-ai.github.io/playbooks-docs/playbookslm/"
-                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
-                                    >
-                                        PlaybooksLM
-                                    </Link>
-                                    <Link
-                                        href="https://playbooks-ai.github.io/playbooks-docs/observability/"
-                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
-                                    >
-                                        Observability
-                                    </Link>
-                                    <Link
-                                        href="https://playbooks-ai.github.io/playbooks-docs/advanced/"
-                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
-                                    >
-                                        Advanced Concepts
-                                    </Link>
-                                </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Bottom Bar */}
