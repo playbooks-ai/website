@@ -358,7 +358,7 @@ export default function Page() {
 
                         <div className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto font-light">
                             <div>
-                            Build multi‑agent AI systems<br/>with World&apos;s first Software 3.0 stack<br/>
+                            Build multi‑agent AI systems<br/>with world&apos;s first Software 3.0 stack<br/>
                                 {/* Playbooks AI is an innovative Python framework for building and executing AI agents using <span className="text-slate-700 font-medium">playbooks programs</span> - structured workflows defined in <span className="text-slate-700 font-medium">natural language</span> (via Markdown-based .pb files) and Python code. This framework represents a significant step toward <span className="text-slate-700 font-medium">Software 3.0</span>, where natural language becomes a first-class programming language. */}
                             </div>
                         </div>
