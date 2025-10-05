@@ -12,11 +12,34 @@ import {
     RefreshCw,
     BarChart3,
     Play,
-    Github,
     Mail,
     Binary,
     Sparkles,
+    List,
+    Layers,
+    DatabaseZap,
+    ArrowDownNarrowWide,
+    BetweenHorizontalEnd,
+    ArrowLeftRight,
+    Telescope,
+    ShieldCheck,
+    Warehouse,
+    StepForward,
+    FileCog
 } from 'lucide-react';
+import { siGithub } from 'simple-icons';
+
+// GitHub icon component using Simple Icons
+const GitHubIcon = ({ className }: { className?: string }) => (
+    <svg
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className={className}
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <path d={siGithub.path} />
+    </svg>
+);
 
 export default function Page() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -61,6 +84,7 @@ export default function Page() {
                 'debugger',
                 'playbookslm',
                 'enterprise',
+                'context-engineering',
                 'build-something-magical',
             ];
 
@@ -70,21 +94,48 @@ export default function Page() {
                 scrollContainer === window
                     ? window.scrollY
                     : (scrollContainer as HTMLElement).scrollTop;
-            const scrollPosition = scrollTop + 100; // Offset for better detection
+            
+            // For window scrolling, we need to check what's actually visible in viewport
+            // For container scrolling, use the existing logic
+            let currentSection = sections[0]; // default to first section
 
-            for (let i = sections.length - 1; i >= 0; i--) {
-                const section = document.getElementById(sections[i]);
-                if (section) {
-                    if (section.offsetTop <= scrollPosition) {
-                        setActiveSection(sections[i]);
-                        break;
+            if (scrollContainer === window) {
+                // Simple approach: find the section closest to the top of the viewport
+                // that is at least partially visible
+                const viewportHeight = window.innerHeight;
+                const threshold = viewportHeight * 0.5; // Switch when section reaches middle of screen
+                
+                // Start from the end and work backwards to find the last section that's passed the threshold
+                for (let i = sections.length - 1; i >= 0; i--) {
+                    const section = document.getElementById(sections[i]);
+                    if (section) {
+                        const rect = section.getBoundingClientRect();
+                        // If section top is above the threshold, this section should be active
+                        if (rect.top <= threshold) {
+                            currentSection = sections[i];
+                            break;
+                        }
+                    }
+                }
+            } else {
+                // Original logic for snap scrolling
+                const scrollPosition = scrollTop + 100;
+                for (let i = sections.length - 1; i >= 0; i--) {
+                    const section = document.getElementById(sections[i]);
+                    if (section) {
+                        if (section.offsetTop <= scrollPosition) {
+                            currentSection = sections[i];
+                            break;
+                        }
                     }
                 }
             }
+            
+            setActiveSection(currentSection);
         };
 
         // Find the scroll container
-        const mainDiv = document.querySelector('[data-oid="gfjzy82"]') as HTMLElement;
+        const mainDiv = document.querySelector('[data-scroll-container]') as HTMLElement;
         const scrollTarget = isSnapEnabled && mainDiv ? mainDiv : window;
 
         scrollTarget.addEventListener('scroll', handleScroll as any);
@@ -96,6 +147,7 @@ export default function Page() {
     }, [isSnapEnabled]);
     return (
         <div
+            data-scroll-container
             className={`bg-white text-black relative overflow-x-hidden scroll-smooth pl-20 ${
                 isSnapEnabled ? 'md:snap-y md:snap-mandatory h-screen overflow-y-scroll' : ''
             }`}
@@ -126,10 +178,10 @@ export default function Page() {
                     href="#hero"
                 >
                     <Image
-                        src="/images/playbooks-only-logo.png"
+                        src="/images/playbooks-ai-logo-only.svg"
                         alt="Playbooks AI Logo"
-                        width={554}
-                        height={431}
+                        width={64}
+                        height={64}
                         className=""
                     />
                 </a>
@@ -138,7 +190,7 @@ export default function Page() {
                 <div className="flex flex-col space-y-4 mb-auto">
                     <a
                         href="#language"
-                        className={`p-3 rounded-lg transition-all duration-200 hover:scale-105 group relative ${
+                        className={`p-3 text-lg rounded-lg transition-all duration-200 hover:scale-105 group relative ${
                             activeSection === 'language'
                                 ? 'bg-black text-white'
                                 : 'text-gray-600 hover:bg-gray-100 hover:text-black'
@@ -159,7 +211,7 @@ export default function Page() {
                         }`}
                         title="Runtime"
                     >
-                        <Play className="w-5 h-5" />
+                        <Play className="w-6 h-6" />
                         <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Runtime
                         </span>
@@ -173,7 +225,7 @@ export default function Page() {
                         }`}
                         title="Assembly Language and Compiler"
                     >
-                        <Binary className="w-5 h-5" />
+                        <FileCog className="w-6 h-6" />
                         <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Assembly Language and Compiler
                         </span>
@@ -187,7 +239,7 @@ export default function Page() {
                         }`}
                         title="Debugger"
                     >
-                        <Zap className="w-5 h-5" />
+                        <StepForward className="w-6 h-6" />
                         <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Debugger
                         </span>
@@ -201,7 +253,7 @@ export default function Page() {
                         }`}
                         title="PlaybooksLM"
                     >
-                        <Brain className="w-5 h-5" />
+                        <Brain className="w-6 h-6" />
                         <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             PlaybooksLM
                         </span>
@@ -215,9 +267,23 @@ export default function Page() {
                         }`}
                         title="Enterprise"
                     >
-                        <Shield className="w-5 h-5" />
+                        <ShieldCheck className="w-6 h-6" />
                         <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Enterprise
+                        </span>
+                    </a>
+                    <a
+                        href="#context-engineering"
+                        className={`p-3 rounded-lg transition-all duration-200 hover:scale-105 group relative ${
+                            activeSection === 'context-engineering'
+                                ? 'bg-black text-white'
+                                : 'text-gray-600 hover:bg-gray-100 hover:text-black'
+                        }`}
+                        title="Context Engineering"
+                    >
+                        <Layers className="w-6 h-6" />
+                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                            Context Engineering
                         </span>
                     </a>
                     <a
@@ -229,7 +295,7 @@ export default function Page() {
                         }`}
                         title="Build Something Magical"
                     >
-                        <Sparkles className="w-5 h-5" />
+                        <Sparkles className="w-6 h-6" />
                         <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Build Something Magical
                         </span>
@@ -243,7 +309,7 @@ export default function Page() {
                         className="p-3 text-gray-600 rounded-lg hover:bg-gray-100 hover:text-black transition-all duration-200 hover:scale-105 group relative"
                         title="Contact"
                     >
-                        <Mail className="w-5 h-5" />
+                        <Mail className="w-6 h-6" />
                         <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             Contact
                         </span>
@@ -253,7 +319,7 @@ export default function Page() {
                         className="p-3 text-gray-600 rounded-lg hover:bg-gray-100 hover:text-black transition-all duration-200 hover:scale-105 group relative"
                         title="GitHub"
                     >
-                        <Github className="w-5 h-5" />
+                        <GitHubIcon className="w-6 h-6" />
                         <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                             GitHub
                         </span>
@@ -268,24 +334,31 @@ export default function Page() {
             >
                 <div className="max-w-6xl mx-auto px-8 text-center">
                     <div className="space-y-8">
-                        <div className="text-sm font-mono text-gray-500 mb-4">
+                            <div className="flex flex-col items-center justify-center">
+                                <Image
+                                    src="/images/playbooks-ai-logo.svg"
+                                    alt="Playbooks AI Logo"
+                                    width={172}
+                                    height={172}
+                                />
+                         </div>
+                        {/* <div className="text-sm font-mono text-gray-500 mb-4">
                             Playbooks AI<br></br>Welcome to software 3.0
                         </div>
                         <h1 className="text-5xl md:text-7xl font-light tracking-tighter leading-none">
                             <span className="block text-gray-300">LLM is the new CPU.</span>
                             <span className="block text-gray-400 relative">
-                                Program AI Agents
+                                Build AI Agents
                             </span>
                             <span className="block text-black relative">
                                 in English.
                                 <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" />
                             </span>
-                        </h1>
+                        </h1> */}
 
                         <div className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto font-light">
                             <div>
-                                Step-debug through LLM prompts!
-                                Build reliable multi-agent systems combining English and Python code on the same call stack, and deploy with full observability, reliability and security.
+                                Playbooks AI is an innovative Python framework for building and executing AI agents using <span className="text-slate-700 font-medium">playbooks programs</span> - structured workflows defined in <span className="text-slate-700 font-medium">natural language</span> (via Markdown-based .pb files) and Python code. This framework represents a significant step toward <span className="text-slate-700 font-medium">Software 3.0</span>, where natural language becomes a first-class programming language.
                             </div>
                         </div>
 
@@ -379,7 +452,7 @@ export default function Page() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="flex items-center space-x-4 rounded-2xl p-6">
                                     <div className="flex-shrink-0">
-                                        <RefreshCw className="w-12 h-12 text-gray-800" />
+                                        <Layers className="w-12 h-12 text-gray-800" />
                                     </div>
                                     <div className="flex-1">
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
@@ -397,7 +470,7 @@ export default function Page() {
                                     </div>
                                     <div className="flex-1">
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
-                                            Multi-Agent Meetings
+                                            Natively Multi-Agent
                                         </div>
                                         <span className="text-gray-600 text-sm">
                                             Built-in support for multi-agent interactions like
@@ -523,9 +596,8 @@ export default function Page() {
                             Playbooks Debugger
                         </h2>
                         <div className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            VSCode extension that lets you step-debug through your English programs
-                            like traditional code. Use breakpoints, inspect variables and navigate
-                            call stack.
+                            VSCode extension to step-debug through your Playbooks programs
+                            like traditional code. Use breakpoints, inspect variables and navigate call stack.
                             <div className="mt-8">
                                 Finally, you can step-debug through LLM prompts!
                             </div>
@@ -610,7 +682,7 @@ export default function Page() {
                                 </div>
                                 <div className="flex items-center space-x-4 rounded-2xl p-6">
                                     <div className="flex-shrink-0">
-                                        <Shield className="w-12 h-12 text-gray-800" />
+                                        <ShieldCheck className="w-12 h-12 text-gray-800" />
                                     </div>
                                     <div className="flex-1">
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
@@ -623,7 +695,7 @@ export default function Page() {
                                 </div>
                                 <div className="flex items-center space-x-4 rounded-2xl p-6">
                                     <div className="flex-shrink-0">
-                                        <Lock className="w-12 h-12 text-gray-800" />
+                                        <Warehouse className="w-12 h-12 text-gray-800" />
                                     </div>
                                     <div className="flex-1">
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
@@ -664,7 +736,7 @@ export default function Page() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="flex items-center space-x-4 rounded-2xl p-6">
                                     <div className="flex-shrink-0">
-                                        <Lock className="w-12 h-12 text-gray-800" />
+                                        <ShieldCheck className="w-12 h-12 text-gray-800" />
                                     </div>
                                     <div className="flex-1">
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
@@ -677,7 +749,7 @@ export default function Page() {
                                 </div>
                                 <div className="flex items-center space-x-4 rounded-2xl p-6">
                                     <div className="flex-shrink-0">
-                                        <BarChart3 className="w-12 h-12 text-gray-800" />
+                                        <Telescope className="w-12 h-12 text-gray-800" />
                                     </div>
                                     <div className="flex-1">
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
@@ -691,7 +763,7 @@ export default function Page() {
 
                                 <div className="flex items-center space-x-4 rounded-2xl p-6">
                                     <div className="flex-shrink-0">
-                                        <RefreshCw className="w-12 h-12 text-gray-800" />
+                                        <ArrowLeftRight className="w-12 h-12 text-gray-800" />
                                     </div>
                                     <div className="flex-1">
                                         <div className="text-lg font-semibold text-gray-800 mb-1">
@@ -724,59 +796,111 @@ export default function Page() {
                     </div>
                 </div>
             </section>
-            {/* About Section */}
+
+            {/* Context Engineering Section */}
+            <section
+                id="context-engineering"
+                className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
+            >
+                <div className="max-w-5xl mx-auto px-8">
+                    <div className="text-center mb-16">
+                        <div className="text-sm font-mono text-gray-500 mb-4">
+                            Open Source (MIT License)
+                        </div>
+                        <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
+                            Context Engineering
+                        </h2>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Playbooks runtime offers advanced context engineering capabilities
+                            to optimize LLM interactions and manage complex workflows efficiently.
+                        </p>
+                    </div>
+
+                    <div className="space-y-8">
+                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <Layers className="w-12 h-12 text-gray-800" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
+                                            Stack-based Context Management
+                                        </div>
+                                        <span className="text-gray-600 text-sm">
+                                            Automatic context management that follows your program&apos;s call stack,
+                                            ensuring optimal context for each execution level.
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <ArrowDownNarrowWide className="w-12 h-12 text-gray-800" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
+                                            Incremental Compaction
+                                        </div>
+                                        <span className="text-gray-600 text-sm">
+                                            Built-in context compaction without extra LLM calls,
+                                            keeping essential information while reducing token usage.
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <DatabaseZap className="w-12 h-12 text-gray-800" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
+                                            LLM Caching Optimization
+                                        </div>
+                                        <span className="text-gray-600 text-sm">
+                                            Built-in optimization for LLM caching to reduce costs
+                                            and improve performance through intelligent context reuse.
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center space-x-4 rounded-2xl p-6">
+                                    <div className="flex-shrink-0">
+                                        <BetweenHorizontalEnd className="w-12 h-12 text-gray-800" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="text-lg font-semibold text-gray-800 mb-1">
+                                            Context Augmentation
+                                        </div>
+                                        <span className="text-gray-600 text-sm">
+                                            Easy-to-use techniques for adding file content, retrieval results,
+                                            or outputs from other playbooks directly into context.
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {/* Build Something Magical Section */}
             <section
                 id="build-something-magical"
-                className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative bg-gray-900 text-white ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
+                className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex flex-col justify-between relative bg-gray-900 text-white ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
             >
-                <div className="max-w-6xl mx-auto px-8 text-center ">
-                    {/* <h2
-            className="text-5xl md:text-6xl font-light tracking-tight mb-8 pb-8 border-b border-gray-700"
-            data-oid="0lzc21q"
-            >
-            Playbooks AI
-            </h2> */}
-
-                    {/* <div
-            className="space-y-6 text-lg text-gray-300 leading-relaxed"
-            data-oid="l6sokt_"
-            >
-            <p data-oid="b2-j3:e">
-            My name is Amol Kelkar and I&apos;m happy and proud to bring Playbooks
-            AI to you today. It is released as an open source project with a highly
-            permissive MIT license, so you&apos;re free to use it any way you would
-            like to.
-            </p>
-            <p data-oid="o4kg1xa">
-            I built Playbooks over the past 2.5 years, first started thinking about
-            it during Christmas holidays in 2022. The stack had to be rewritten from
-            scratch 4 times as LLM technology evolved, but surprisingly, the
-            Playbooks language syntax has stayed mostly unchanged, hinting at the
-            timelessness of Natural Language and markdown.
-            </p>
-            <p data-oid="5:ioz.r">
-            Countless late nights and weekends and thousands of experiments later, I
-            now feel that we have something that the community will find useful.
-            </p>
-            </div> */}
-
+                <div className="flex-1 flex items-center justify-center">
                     <div className="max-w-6xl mx-auto px-8 text-center">
                         <div className="space-y-8">
                             <div className="text-sm font-mono text-gray-400 mb-4">
                                 Join the revolution
                             </div>
-                            <h1 className="text-5xl md:text-7xl font-light tracking-tighter leading-none">
-                                <span className="block text-gray-600">Build something</span>
-                                <span className="block text-gray-500">magical with</span>
-                                <span className="block text-white relative">
-                                    Playbooks!
+                            <h1 className="text-5xl md:text-7xl font-light tracking-tight leading-none">
+                                <span className="block text-slate-300">Let&apos;s build something magical</span>
+                                {/* <span className="block text-gray-500">magical with</span> */}
+                                <span className="block text-slate-300 relative">
+                                    with Playbooks!
                                     <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
                                 </span>
                             </h1>
 
-                            <div className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto font-light mt-8"></div>
-
-                            <div className="text-base text-gray-500 mt-8">
+                            <div className="text-base text-gray-500 mt-12">
                                 Amol Kelkar (Founder, Playbooks AI)
                             </div>
 
@@ -793,6 +917,104 @@ export default function Page() {
                                 >
                                     View on GitHub
                                 </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Footer Section */}
+                <div className="border-t border-gray-700 pt-16 mt-16">
+                    <div className="max-w-6xl mx-auto px-8">
+                        {/* Quick Links Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+                            {/* Getting Started */}
+                            <div className="space-y-4">
+                                <h3 className="text-xl font-semibold text-white mb-6">Getting Started</h3>
+                                <div className="space-y-3">
+                                    <Link
+                                        href="https://playbooks-ai.github.io/playbooks-docs/get-started/quickstart/"
+                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
+                                    >
+                                        Quickstart
+                                    </Link>
+                                    <Link
+                                        href="https://playbooks-ai.github.io/playbooks-docs/tutorials/"
+                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
+                                    >
+                                        Tutorials
+                                    </Link>
+                                    <Link
+                                        href="https://github.com/playbooks-ai/playbooks"
+                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
+                                    >
+                                        GitHub
+                                    </Link>
+                                </div>
+                            </div>
+
+                            {/* Core Concepts */}
+                            <div className="space-y-4">
+                                <h3 className="text-xl font-semibold text-white mb-6">Core Concepts</h3>
+                                <div className="space-y-3">
+                                    <Link
+                                        href="https://playbooks-ai.github.io/playbooks-docs/playbooks-language/"
+                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
+                                    >
+                                        Playbooks Language
+                                    </Link>
+                                    <Link
+                                        href="https://playbooks-ai.github.io/playbooks-docs/agents/"
+                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
+                                    >
+                                        AI Agents
+                                    </Link>
+                                </div>
+                            </div>
+
+                            {/* Advanced */}
+                            <div className="space-y-4">
+                                <h3 className="text-xl font-semibold text-white mb-6">Advanced</h3>
+                                <div className="space-y-3">
+                                    <Link
+                                        href="https://playbooks-ai.github.io/playbooks-docs/playbookslm/"
+                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
+                                    >
+                                        PlaybooksLM
+                                    </Link>
+                                    <Link
+                                        href="https://playbooks-ai.github.io/playbooks-docs/observability/"
+                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
+                                    >
+                                        Observability
+                                    </Link>
+                                    <Link
+                                        href="https://playbooks-ai.github.io/playbooks-docs/advanced/"
+                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
+                                    >
+                                        Advanced Concepts
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Bottom Bar */}
+                        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">
+                            <div className="text-gray-500 text-sm mb-4 md:mb-0">
+                                © 2025 Playbooks AI. All rights reserved.
+                            </div>
+                            <div className="flex space-x-6">
+                                <Link
+                                    href="https://github.com/playbooks-ai/playbooks"
+                                    className="text-gray-400 hover:text-white transition-colors duration-200"
+                                >
+                                    <GitHubIcon className="w-6 h-6" />
+                                </Link>
+                                <a
+                                    href="mailto:contact@runplaybooks.com"
+                                    className="text-gray-400 hover:text-white transition-colors duration-200"
+                                >
+                                    <Mail className="w-6 h-6" />
+                                </a>
                             </div>
                         </div>
                     </div>

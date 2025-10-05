@@ -9,6 +9,7 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            fontFamily: { sans: ['var(--font-lato)', 'sans-serif'] },
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                 'gradient-conic':
@@ -22,10 +23,7 @@ const config: Config = {
             colors: {
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',
-                card: {
-                    DEFAULT: 'hsl(var(--card))',
-                    foreground: 'hsl(var(--card-foreground))',
-                },
+                card: { DEFAULT: 'hsl(var(--card))', foreground: 'hsl(var(--card-foreground))' },
                 popover: {
                     DEFAULT: 'hsl(var(--popover))',
                     foreground: 'hsl(var(--popover-foreground))',
@@ -38,10 +36,7 @@ const config: Config = {
                     DEFAULT: 'hsl(var(--secondary))',
                     foreground: 'hsl(var(--secondary-foreground))',
                 },
-                muted: {
-                    DEFAULT: 'hsl(var(--muted))',
-                    foreground: 'hsl(var(--muted-foreground))',
-                },
+                muted: { DEFAULT: 'hsl(var(--muted))', foreground: 'hsl(var(--muted-foreground))' },
                 accent: {
                     DEFAULT: 'hsl(var(--accent))',
                     foreground: 'hsl(var(--accent-foreground))',
