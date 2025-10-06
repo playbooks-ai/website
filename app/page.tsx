@@ -11,10 +11,8 @@ import {
     Users,
     RefreshCw,
     BarChart3,
-    Play,
     Mail,
     Binary,
-    Sparkles,
     List,
     Layers,
     DatabaseZap,
@@ -23,11 +21,10 @@ import {
     ArrowLeftRight,
     Telescope,
     ShieldCheck,
-    Warehouse,
-    StepForward,
-    FileCog
+    Warehouse
 } from 'lucide-react';
 import { siGithub } from 'simple-icons';
+import Navigation from '../components/Navigation';
 
 // GitHub icon component using Simple Icons
 const GitHubIcon = ({ className }: { className?: string }) => (
@@ -40,6 +37,7 @@ const GitHubIcon = ({ className }: { className?: string }) => (
         <path d={siGithub.path} />
     </svg>
 );
+
 
 export default function Page() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -148,7 +146,7 @@ export default function Page() {
     return (
         <div
             data-scroll-container
-            className={`bg-white text-black relative overflow-x-hidden scroll-smooth pl-20 ${
+            className={`bg-white text-black relative overflow-x-hidden scroll-smooth pl-0 md:pl-20 ${
                 isSnapEnabled ? 'md:snap-y md:snap-mandatory h-screen overflow-y-scroll' : ''
             }`}
             style={{ scrollPaddingTop: '20px' }}
@@ -171,161 +169,7 @@ export default function Page() {
             </div>
 
             {/* Left Sidebar Navigation */}
-            <nav className="fixed left-0 top-0 h-full w-20 z-50 backdrop-blur-xl bg-white/90 border-r border-gray-100 flex flex-col items-center py-6">
-                {/* Logo */}
-                <a
-                    className="w-10 h-10 flex items-center justify-center group cursor-pointer mb-8 hover:scale-110 transition-transform duration-300"
-                    href="#hero"
-                >
-                    <Image
-                        src="/images/playbooks-ai-logo-only.svg"
-                        alt="Playbooks AI Logo"
-                        width={64}
-                        height={64}
-                        className=""
-                    />
-                </a>
-
-                {/* Navigation Icons */}
-                <div className="flex flex-col space-y-4 mb-auto">
-                    <a
-                        href="#language"
-                        className={`p-3 text-lg rounded-lg transition-all duration-200 hover:scale-105 group relative ${
-                            activeSection === 'language'
-                                ? 'bg-black text-white'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-black'
-                        }`}
-                        title="Language"
-                    >
-                        Aa
-                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                            Language
-                        </span>
-                    </a>
-                    <a
-                        href="#runtime"
-                        className={`p-3 rounded-lg transition-all duration-200 hover:scale-105 group relative ${
-                            activeSection === 'runtime'
-                                ? 'bg-black text-white'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-black'
-                        }`}
-                        title="Runtime"
-                    >
-                        <Play className="w-6 h-6" />
-                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                            Runtime
-                        </span>
-                    </a>
-                    <a
-                        href="#pbasm"
-                        className={`p-3 rounded-lg transition-all duration-200 hover:scale-105 group relative ${
-                            activeSection === 'pbasm'
-                                ? 'bg-black text-white'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-black'
-                        }`}
-                        title="Assembly Language and Compiler"
-                    >
-                        <FileCog className="w-6 h-6" />
-                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                            Assembly Language and Compiler
-                        </span>
-                    </a>
-                    <a
-                        href="#debugger"
-                        className={`p-3 rounded-lg transition-all duration-200 hover:scale-105 group relative ${
-                            activeSection === 'debugger'
-                                ? 'bg-black text-white'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-black'
-                        }`}
-                        title="Debugger"
-                    >
-                        <StepForward className="w-6 h-6" />
-                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                            Debugger
-                        </span>
-                    </a>
-                    <a
-                        href="#playbookslm"
-                        className={`p-3 rounded-lg transition-all duration-200 hover:scale-105 group relative ${
-                            activeSection === 'playbookslm'
-                                ? 'bg-black text-white'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-black'
-                        }`}
-                        title="PlaybooksLM"
-                    >
-                        <Brain className="w-6 h-6" />
-                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                            PlaybooksLM
-                        </span>
-                    </a>
-                    <a
-                        href="#enterprise"
-                        className={`p-3 rounded-lg transition-all duration-200 hover:scale-105 group relative ${
-                            activeSection === 'enterprise'
-                                ? 'bg-black text-white'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-black'
-                        }`}
-                        title="Enterprise"
-                    >
-                        <ShieldCheck className="w-6 h-6" />
-                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                            Enterprise
-                        </span>
-                    </a>
-                    <a
-                        href="#context-engineering"
-                        className={`p-3 rounded-lg transition-all duration-200 hover:scale-105 group relative ${
-                            activeSection === 'context-engineering'
-                                ? 'bg-black text-white'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-black'
-                        }`}
-                        title="Context Engineering"
-                    >
-                        <Layers className="w-6 h-6" />
-                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                            Context Engineering
-                        </span>
-                    </a>
-                    <a
-                        href="#build-something-magical"
-                        className={`p-3 rounded-lg transition-all duration-200 hover:scale-105 group relative ${
-                            activeSection === 'build-something-magical'
-                                ? 'bg-black text-white'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-black'
-                        }`}
-                        title="Build Something Magical"
-                    >
-                        <Sparkles className="w-6 h-6" />
-                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                            Build Something Magical
-                        </span>
-                    </a>
-                </div>
-
-                {/* Bottom Action Icons */}
-                <div className="flex flex-col space-y-3">
-                    <a
-                        href="mailto:contact@runplaybooks.com"
-                        className="p-3 text-gray-600 rounded-lg hover:bg-gray-100 hover:text-black transition-all duration-200 hover:scale-105 group relative"
-                        title="Contact"
-                    >
-                        <Mail className="w-6 h-6" />
-                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                            Contact
-                        </span>
-                    </a>
-                    <Link
-                        href="https://github.com/playbooks-ai/playbooks"
-                        className="p-3 text-gray-600 rounded-lg hover:bg-gray-100 hover:text-black transition-all duration-200 hover:scale-105 group relative"
-                        title="GitHub"
-                    >
-                        <GitHubIcon className="w-6 h-6" />
-                        <span className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                            GitHub
-                        </span>
-                    </Link>
-                </div>
-            </nav>
+            <Navigation activeSection={activeSection} />
 
             {/* Hero Section */}
             <section
