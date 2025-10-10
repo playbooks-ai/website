@@ -260,9 +260,9 @@ export default function Page() {
                             <Image
                                 src="/images/playbooks-ai-example-program.png"
                                 alt="Playbooks Debugger"
-                                className="w-full h-auto"
-                                width={1000}
-                                height={1000}
+                                className="w-auto h-auto"
+                                width={500}
+                                height={500}
                             />
                         </div>
                     </div>
@@ -418,9 +418,9 @@ export default function Page() {
                             <Image
                                 src="/images/playbooks-ai-example-pbasm.png"
                                 alt="Playbooks Debugger"
-                                className="w-full h-auto"
-                                width={1000}
-                                height={1000}
+                                className="w-auto h-auto"
+                                width={500}
+                                height={500}
                             />
                         </div>
                     </div>
@@ -467,9 +467,9 @@ export default function Page() {
                             <Image
                                 src="/images/playbooks-ai-vscode-debugger.png"
                                 alt="Playbooks Debugger"
-                                className="w-full h-auto"
-                                width={1000}
-                                height={1000}
+                                className="w-auto h-auto"
+                                width={500}
+                                height={500}
                             />
                         </div>
                     </div>
