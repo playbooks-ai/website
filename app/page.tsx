@@ -80,6 +80,7 @@ export default function Page() {
                 'runtime',
                 'pbasm',
                 'debugger',
+                'early-adopters',
                 'playbookslm',
                 'enterprise',
                 'context-engineering',
@@ -476,6 +477,62 @@ export default function Page() {
                 </div>
             </section>
 
+            {/* Early Adopters Section */}
+            <section
+                id="early-adopters"
+                className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
+            >
+                <div className="max-w-5xl mx-auto px-8">
+                    <div className="text-center mb-16">
+                        <div className="text-sm font-mono text-gray-500 mb-4">
+                            Early Adopters
+                        </div>
+                        <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
+                            Building with Playbooks
+                        </h2>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Forward-thinking companies are exploring Playbooks for their AI agent systems
+                        </p>
+                    </div>
+
+                    <div className="space-y-8">
+                        <div className="bg-white rounded-3xl p-12 shadow-xl border border-gray-100">
+                            <div className="max-w-4xl mx-auto">
+                                {/* Company Logo/Name */}
+                                <div className="text-center mb-8">
+                                    <Image
+                                        src="/images/odystra-logo.png"
+                                        alt="ODYSTRA"
+                                        width={300}
+                                        height={80}
+                                        className="mx-auto"
+                                    />
+                                </div>
+
+                                {/* Mission Statement */}
+                                <div className="rounded-2xl p-8 mb-8">
+                                    <p className="text-lg text-gray-700 text-center leading-relaxed  max-w-4xl">
+                                        ODYSTRA is using Playbooks to build the core intelligence fabric for high-value, high-trust knowledge work across business domains - transforming static enterprise information into dynamic, collaborative, and autonomous processes.
+                                    </p>
+                                </div>
+
+                                {/* Website Link */}
+                                <div className="mt-8 text-center">
+                                    <a
+                                        href="https://odystra.com"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-gray-600 hover:text-black transition-colors duration-200"
+                                    >
+                                        odystra.com →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* PlaybooksLM Section */}
             <section
                 id="playbookslm"
@@ -650,7 +707,7 @@ export default function Page() {
                 <div className="max-w-5xl mx-auto px-8">
                     <div className="text-center mb-16">
                         <div className="text-sm font-mono text-gray-500 mb-4">
-                            Open Source (MIT License)
+                            Open Source
                         </div>
                         <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
                             Context Engineering
@@ -725,6 +782,7 @@ export default function Page() {
                     </div>
                 </div>
             </section>
+
             {/* Build Something Magical Section */}
             <section
                 id="build-something-magical"

@@ -8,7 +8,8 @@ import {
     Layers,
     ShieldCheck,
     StepForward,
-    FileCog
+    FileCog,
+    Building2
 } from 'lucide-react';
 import NavigationIcon from './NavigationIcon';
 
@@ -80,6 +81,13 @@ export default function Navigation({ activeSection }: NavigationProps) {
                     title="Debugger"
                     tooltipText="Debugger"
                     isActive={activeSection === 'debugger'}
+                />
+                <NavigationIcon
+                    href="#in-production"
+                    icon={Building2}
+                    title="Early Adopters"
+                    tooltipText="Early Adopters"
+                    isActive={activeSection === 'in-production'}
                 />
                 <NavigationIcon
                     href="#playbookslm"
