@@ -83,11 +83,11 @@ export default function Navigation({ activeSection }: NavigationProps) {
                     isActive={activeSection === 'debugger'}
                 />
                 <NavigationIcon
-                    href="#in-production"
+                    href="#early-adopters"
                     icon={Building2}
                     title="Early Adopters"
                     tooltipText="Early Adopters"
-                    isActive={activeSection === 'in-production'}
+                    isActive={activeSection === 'early-adopters'}
                 />
                 <NavigationIcon
                     href="#playbookslm"
