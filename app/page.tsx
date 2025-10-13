@@ -76,6 +76,7 @@ export default function Page() {
         const handleScroll = (e: Event) => {
             const sections = [
                 'hero',
+                'video-intro',
                 'language',
                 'runtime',
                 'pbasm',
@@ -221,6 +222,37 @@ export default function Page() {
                             >
                                 View Documentation
                             </Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Video Introduction Section */}
+            <section
+                id="video-intro"
+                className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
+            >
+                <div className="max-w-5xl mx-auto px-8">
+                    <div className="text-center mb-12">
+                        <div className="text-sm font-mono text-gray-500 mb-4">Introduction</div>
+                        <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
+                            What is Playbooks AI?
+                        </h2>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            A 3-minute introduction to the future of AI development
+                        </p>
+                    </div>
+                    <div className="space-y-8">
+                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                                <iframe
+                                    className="absolute top-0 left-0 w-full h-full rounded-2xl"
+                                    src="https://www.youtube.com/embed/ZX2L453km6s"
+                                    title="Playbooks AI Introduction"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -798,7 +830,7 @@ export default function Page() {
                                 <span className="block text-slate-300">Let&apos;s build something magical</span>
                                 {/* <span className="block text-gray-500">magical with</span> */}
                                 <span className="block text-slate-300 relative">
-                                    with Playbooks
+                                    with <span className="text-blue-400">Playbooks AI</span>
                                     <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
                                 </span>
                             </h1>
