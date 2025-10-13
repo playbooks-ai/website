@@ -9,7 +9,8 @@ import {
     ShieldCheck,
     StepForward,
     FileCog,
-    Building2
+    Building2,
+    Info
 } from 'lucide-react';
 import NavigationIcon from './NavigationIcon';
 
@@ -47,6 +48,13 @@ export default function Navigation({ activeSection }: NavigationProps) {
 
             {/* Navigation Icons */}
             <div className="flex flex-col space-y-4 mb-auto">
+                <NavigationIcon
+                    href="#video-intro"
+                    icon={Info}
+                    title="Video Introduction"
+                    tooltipText="Video Introduction"
+                    isActive={activeSection === 'video-intro'}
+                />
                 <a
                     href="#language"
                     className={`p-3 text-lg rounded-lg transition-all duration-200 hover:scale-105 group relative ${
