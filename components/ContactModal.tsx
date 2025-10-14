@@ -101,7 +101,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                         </h2>
                         <p className="text-lg text-gray-600 max-w-xl mx-auto">
                             Have questions about Playbooks AI? Want to discuss enterprise solutions?
-                            We'd love to hear from you.
+                            We&apos;d love to hear from you.
                         </p>
                     </div>
 
@@ -171,7 +171,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                         {status === 'success' && (
                             <div className="flex items-center space-x-2 text-green-600 bg-green-50 p-4 rounded-lg">
                                 <CheckCircle className="w-5 h-5" />
-                                <span>Message sent successfully! We'll get back to you soon.</span>
+                                <span>Message sent successfully! We&apos;ll get back to you soon.</span>
                             </div>
                         )}
 

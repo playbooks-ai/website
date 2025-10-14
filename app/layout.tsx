@@ -1,5 +1,16 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
+import { Source_Sans_3 } from 'next/font/google';
 import './globals.css';
+
+const sourceSans = Source_Sans_3({
+  subsets: ['latin'],
+  weight: ['200', '300', '400', '600', '700', '900'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-source-sans',
+});
+
 export const metadata: Metadata = {
   title: 'Playbooks AI',
   description: "Playbooks AI is the world's first software 3.0 programming language and technology stack where you write the behavior of AI agents using plain English playbooks.",
@@ -22,25 +33,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <html lang="en">
+  return <html lang="en" className={sourceSans.variable}>
             <head>
-              {/* Google Fonts - Source Sans Pro */}
-              <link rel="preconnect" href="https://fonts.googleapis.com" />
-              <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-              <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet" />
-              
-              {/* Google tag (gtag.js) */}
-              <script async src="https://www.googletagmanager.com/gtag/js?id=G-6Z71TBR6KW"></script>
-              <script
-                dangerouslySetInnerHTML={{
-                  __html: `
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    gtag('config', 'G-6Z71TBR6KW');
-                  `,
-                }}
+              {/* Google Analytics */}
+              <Script
+                src="https://www.googletagmanager.com/gtag/js?id=G-6Z71TBR6KW"
+                strategy="afterInteractive"
               />
+              <Script id="google-analytics" strategy="afterInteractive">
+                {`
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'G-6Z71TBR6KW');
+                `}
+              </Script>
             </head>
             <body className="font-sans">{children}</body>
         </html>;
