@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { siGithub } from 'simple-icons';
 import Navigation from '../components/Navigation';
+import ContactModal from '../components/ContactModal';
 
 // GitHub icon component using Simple Icons
 const GitHubIcon = ({ className }: { className?: string }) => (
@@ -43,6 +44,7 @@ export default function Page() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isSnapEnabled, setIsSnapEnabled] = useState(true);
     const [activeSection, setActiveSection] = useState('hero');
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -216,12 +218,12 @@ export default function Page() {
                             >
                                 Get Started in 10 Mins
                             </Link>
-                            <Link
-                                href="https://playbooks-ai.github.io/playbooks-docs/"
-                                className="px-8 py-4 border border-gray-300 text-gray-700 rounded-full text-lg font-medium hover:border-black hover:text-black transition-all duration-300 inline-block"
+                            <button
+                                onClick={() => setIsContactModalOpen(true)}
+                                className="px-8 py-4 border border-gray-300 text-gray-700 rounded-full text-lg font-medium hover:border-black hover:text-black transition-all duration-300"
                             >
-                                View Documentation
-                            </Link>
+                                Get in Touch
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -717,12 +719,12 @@ export default function Page() {
                                         <div className="text-lg font-semibold text-gray-800 mb-2">
                                             Unlock Enterprise Capabilities
                                         </div>
-                                        <a
-                                            href="mailto:contact@runplaybooks.ai"
+                                        <button
+                                            onClick={() => setIsContactModalOpen(true)}
                                             className="px-6 py-2 bg-black text-white rounded-full text-base font-medium hover:bg-gray-800 transition-all duration-200 hover:scale-105 inline-block"
                                         >
                                             Contact Sales
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -846,12 +848,12 @@ export default function Page() {
                                 >
                                     Get Started Now
                                 </Link>
-                                <Link
-                                    href="https://github.com/playbooks-ai/playbooks"
-                                    className="px-8 py-4 border border-gray-600 text-gray-300 rounded-full text-lg font-medium hover:border-white hover:text-white transition-all duration-300 inline-block"
+                                <button
+                                    onClick={() => setIsContactModalOpen(true)}
+                                    className="px-8 py-4 border border-gray-600 text-gray-300 rounded-full text-lg font-medium hover:border-white hover:text-white transition-all duration-300"
                                 >
-                                    View on GitHub
-                                </Link>
+                                    Get in Touch
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -930,6 +932,12 @@ export default function Page() {
                     </div>
                 </div>
             </section>
+
+            {/* Contact Modal */}
+            <ContactModal 
+                isOpen={isContactModalOpen} 
+                onClose={() => setIsContactModalOpen(false)} 
+            />
         </div>
     );
 }

@@ -2,6 +2,9 @@
     "name": "@onlook/next-template",
     "version": "0.1.0",
     "private": true,
+    "engines": {
+        "node": ">=22.0.0"
+    },
     "scripts": {
         "dev": "next dev",
         "build": "next build",
@@ -17,12 +20,13 @@
         "next": "^15.4.2",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
+        "resend": "^6.1.2",
         "simple-icons": "^15.16.0",
         "tailwind-merge": "^2.5.2",
         "tailwindcss-animate": "^1.0.7"
     },
     "devDependencies": {
-        "@types/node": "^20",
+        "@types/node": "^22",
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "eslint": "^8",
