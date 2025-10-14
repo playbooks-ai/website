@@ -32,9 +32,10 @@ declare global {
     interface Window {
         gtag?: (
             command: string,
-            eventName: string,
+            targetIdOrEventName: string,
             eventParams?: Record<string, any>
         ) => void;
+        dataLayer?: any[];
     }
 }
 
@@ -77,10 +78,9 @@ export default function Page() {
             
             // Send as virtual page view to Google Analytics
             if (typeof window.gtag !== 'undefined') {
-                window.gtag('event', 'page_view', {
+                window.gtag('config', 'G-6Z71TBR6KW', {
                     page_path: `/#${hash}`,
-                    page_title: `${hash.charAt(0).toUpperCase() + hash.slice(1).replace(/-/g, ' ')}`,
-                    page_location: window.location.href
+                    page_title: `Playbooks AI - ${hash.charAt(0).toUpperCase() + hash.slice(1).replace(/-/g, ' ')}`
                 });
             }
         }
@@ -89,10 +89,9 @@ export default function Page() {
         const handleHashChange = () => {
             const hash = window.location.hash.substring(1);
             if (hash && typeof window.gtag !== 'undefined') {
-                window.gtag('event', 'page_view', {
+                window.gtag('config', 'G-6Z71TBR6KW', {
                     page_path: `/#${hash}`,
-                    page_title: `${hash.charAt(0).toUpperCase() + hash.slice(1).replace(/-/g, ' ')}`,
-                    page_location: window.location.href
+                    page_title: `Playbooks AI - ${hash.charAt(0).toUpperCase() + hash.slice(1).replace(/-/g, ' ')}`
                 });
             }
         };
@@ -186,11 +185,10 @@ export default function Page() {
                     const newUrl = `${window.location.pathname}#${currentSection}`;
                     window.history.replaceState(null, '', newUrl);
                     
-                    // Send as virtual page view
-                    window.gtag('event', 'page_view', {
+                    // Send as virtual page view using config command
+                    window.gtag('config', 'G-6Z71TBR6KW', {
                         page_path: `/#${currentSection}`,
-                        page_title: `${currentSection.charAt(0).toUpperCase() + currentSection.slice(1).replace(/-/g, ' ')}`,
-                        page_location: window.location.href
+                        page_title: `Playbooks AI - ${currentSection.charAt(0).toUpperCase() + currentSection.slice(1).replace(/-/g, ' ')}`
                     });
                 }
                 setActiveSection(currentSection);
