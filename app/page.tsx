@@ -905,7 +905,7 @@ export default function Page() {
 
                             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
                                 <Link
-                                    href="https://playbooks-ai.github.io/playbooks-docs/get-started/quickstart/"
+                                    href="https://playbooks-ai.github.io/playbooks-docs/getting-started/"
                                     className="px-8 py-4 bg-white text-black rounded-full text-lg font-medium hover:bg-gray-100 transition-all duration-300 hover:scale-105 hover:shadow-2xl inline-block"
                                 >
                                     Get Started Now
