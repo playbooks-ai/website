@@ -27,6 +27,17 @@ import { siGithub } from 'simple-icons';
 import Navigation from '../components/Navigation';
 import ContactModal from '../components/ContactModal';
 
+// TypeScript declarations for Google Analytics
+declare global {
+    interface Window {
+        gtag?: (
+            command: string,
+            eventName: string,
+            eventParams?: Record<string, any>
+        ) => void;
+    }
+}
+
 // GitHub icon component using Simple Icons
 const GitHubIcon = ({ className }: { className?: string }) => (
     <svg
@@ -55,6 +66,41 @@ export default function Page() {
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
+        };
+    }, []);
+
+    // Track initial anchor/hash navigation
+    useEffect(() => {
+        // Check if page loaded with a hash
+        if (typeof window !== 'undefined' && window.location.hash) {
+            const hash = window.location.hash.substring(1); // Remove the # symbol
+            
+            // Send as virtual page view to Google Analytics
+            if (typeof window.gtag !== 'undefined') {
+                window.gtag('event', 'page_view', {
+                    page_path: `/#${hash}`,
+                    page_title: `${hash.charAt(0).toUpperCase() + hash.slice(1).replace(/-/g, ' ')}`,
+                    page_location: window.location.href
+                });
+            }
+        }
+
+        // Track hash changes (when user clicks anchor links)
+        const handleHashChange = () => {
+            const hash = window.location.hash.substring(1);
+            if (hash && typeof window.gtag !== 'undefined') {
+                window.gtag('event', 'page_view', {
+                    page_path: `/#${hash}`,
+                    page_title: `${hash.charAt(0).toUpperCase() + hash.slice(1).replace(/-/g, ' ')}`,
+                    page_location: window.location.href
+                });
+            }
+        };
+
+        window.addEventListener('hashchange', handleHashChange);
+
+        return () => {
+            window.removeEventListener('hashchange', handleHashChange);
         };
     }, []);
 
@@ -133,7 +179,22 @@ export default function Page() {
                 }
             }
             
-            setActiveSection(currentSection);
+            // Track section visibility in Google Analytics as virtual page views
+            if (currentSection !== activeSection) {
+                if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
+                    // Update the URL hash without triggering a page jump
+                    const newUrl = `${window.location.pathname}#${currentSection}`;
+                    window.history.replaceState(null, '', newUrl);
+                    
+                    // Send as virtual page view
+                    window.gtag('event', 'page_view', {
+                        page_path: `/#${currentSection}`,
+                        page_title: `${currentSection.charAt(0).toUpperCase() + currentSection.slice(1).replace(/-/g, ' ')}`,
+                        page_location: window.location.href
+                    });
+                }
+                setActiveSection(currentSection);
+            }
         };
 
         // Find the scroll container
@@ -146,7 +207,7 @@ export default function Page() {
         return () => {
             scrollTarget.removeEventListener('scroll', handleScroll as any);
         };
-    }, [isSnapEnabled]);
+    }, [isSnapEnabled, activeSection]);
     return (
         <div
             data-scroll-container
