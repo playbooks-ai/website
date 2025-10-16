@@ -21,11 +21,12 @@ import {
     ArrowLeftRight,
     Telescope,
     ShieldCheck,
-    Warehouse
+    Warehouse,
 } from 'lucide-react';
 import { siGithub } from 'simple-icons';
 import Navigation from '../components/Navigation';
 import ContactModal from '../components/ContactModal';
+import TopNav from '../components/TopNav';
 
 // TypeScript declarations for Google Analytics
 declare global {
@@ -33,7 +34,7 @@ declare global {
         gtag?: (
             command: string,
             targetIdOrEventName: string,
-            eventParams?: Record<string, any>
+            eventParams?: Record<string, any>,
         ) => void;
         dataLayer?: any[];
     }
@@ -50,7 +51,6 @@ const GitHubIcon = ({ className }: { className?: string }) => (
         <path d={siGithub.path} />
     </svg>
 );
-
 
 export default function Page() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -75,13 +75,13 @@ export default function Page() {
         // Check if page loaded with a hash
         if (typeof window !== 'undefined' && window.location.hash) {
             const hash = window.location.hash.substring(1); // Remove the # symbol
-            
+
             // Send as virtual page view to Google Analytics
             if (typeof window.gtag !== 'undefined') {
                 window.gtag('event', 'page_view', {
                     page_title: `Playbooks AI - ${hash.charAt(0).toUpperCase() + hash.slice(1).replace(/-/g, ' ')}`,
                     page_location: window.location.href,
-                    page_path: `/#${hash}`
+                    page_path: `/#${hash}`,
                 });
             }
         }
@@ -93,7 +93,7 @@ export default function Page() {
                 window.gtag('event', 'page_view', {
                     page_title: `Playbooks AI - ${hash.charAt(0).toUpperCase() + hash.slice(1).replace(/-/g, ' ')}`,
                     page_location: window.location.href,
-                    page_path: `/#${hash}`
+                    page_path: `/#${hash}`,
                 });
             }
         };
@@ -143,7 +143,7 @@ export default function Page() {
                 scrollContainer === window
                     ? window.scrollY
                     : (scrollContainer as HTMLElement).scrollTop;
-            
+
             // For window scrolling, we need to check what's actually visible in viewport
             // For container scrolling, use the existing logic
             let currentSection = sections[0]; // default to first section
@@ -153,7 +153,7 @@ export default function Page() {
                 // that is at least partially visible
                 const viewportHeight = window.innerHeight;
                 const threshold = viewportHeight * 0.5; // Switch when section reaches middle of screen
-                
+
                 // Start from the end and work backwards to find the last section that's passed the threshold
                 for (let i = sections.length - 1; i >= 0; i--) {
                     const section = document.getElementById(sections[i]);
@@ -179,19 +179,19 @@ export default function Page() {
                     }
                 }
             }
-            
+
             // Track section visibility in Google Analytics as virtual page views
             if (currentSection !== activeSection) {
                 if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
                     // Update the URL hash without triggering a page jump
                     const newUrl = `${window.location.pathname}#${currentSection}`;
                     window.history.replaceState(null, '', newUrl);
-                    
+
                     // Send as virtual page view event
                     window.gtag('event', 'page_view', {
                         page_title: `Playbooks AI - ${currentSection.charAt(0).toUpperCase() + currentSection.slice(1).replace(/-/g, ' ')}`,
                         page_location: window.location.origin + newUrl,
-                        page_path: `/#${currentSection}`
+                        page_path: `/#${currentSection}`,
                     });
                 }
                 setActiveSection(currentSection);
@@ -217,6 +217,8 @@ export default function Page() {
             }`}
             style={{ scrollPaddingTop: '20px' }}
         >
+            {/* Top Navigation */}
+            <TopNav currentPage="home" />
             {/* Subtle Background Elements */}
             <div className="fixed inset-0 pointer-events-none">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-50/30 to-gray-100/50" />
@@ -244,14 +246,14 @@ export default function Page() {
             >
                 <div className="max-w-6xl mx-auto px-8 text-center">
                     <div className="space-y-8">
-                            <div className="flex flex-col items-center justify-center">
-                                <Image
-                                    src="/images/playbooks-ai-logo.svg"
-                                    alt="Playbooks AI Logo"
-                                    width={172}
-                                    height={172}
-                                />
-                         </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <Image
+                                src="/images/playbooks-ai-logo.svg"
+                                alt="Playbooks AI Logo"
+                                width={172}
+                                height={172}
+                            />
+                        </div>
                         {/* <div className="text-sm font-mono text-gray-500 mb-4">
                             Playbooks AI<br></br>Welcome to software 3.0
                         </div>
@@ -268,7 +270,10 @@ export default function Page() {
 
                         <div className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto font-light">
                             <div>
-                            Build multi‑agent AI systems<br/>with the world&apos;s first Software 3.0 stack<br/>
+                                Build multi‑agent AI systems
+                                <br />
+                                with the world&apos;s first Software 3.0 stack
+                                <br />
                                 {/* Playbooks AI is an innovative Python framework for building and executing AI agents using <span className="text-slate-700 font-medium">playbooks programs</span> - structured workflows defined in <span className="text-slate-700 font-medium">natural language</span> (via Markdown-based .pb files) and Python code. This framework represents a significant step toward <span className="text-slate-700 font-medium">Software 3.0</span>, where natural language becomes a first-class programming language. */}
                             </div>
                         </div>
@@ -296,18 +301,14 @@ export default function Page() {
                 id="video-intro"
                 className={`min-h-screen ${isSnapEnabled ? 'md:h-screen' : ''} flex items-center justify-center relative ${isSnapEnabled ? 'md:snap-start' : ''} py-20`}
             >
-                <div className="max-w-5xl mx-auto px-8">
+                <div className="max-w-3xl mx-auto px-8 w-full">
                     <div className="text-center mb-12">
-                        <div className="text-sm font-mono text-gray-500 mb-4">Introduction</div>
-                        <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
-                            What is Playbooks AI?
-                        </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            A 3-minute introduction to the future of AI development
-                        </p>
+                        <div className="text-sm font-mono text-gray-500 mb-4">
+                            3-minute Introduction to Playbooks AI
+                        </div>
                     </div>
-                    <div className="space-y-8">
-                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                    <div className="space-y-8 w-full">
+                        <div className="bg-white rounded-3xl shadow-xl">
                             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                                 <iframe
                                     className="absolute top-0 left-0 w-full h-full rounded-2xl"
@@ -340,7 +341,7 @@ export default function Page() {
                         </p>
                     </div>
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                        <div className="bg-white rounded-3xl px-6 py-4 shadow-xl border border-gray-100">
                             <div className="flex items-center mb-6">
                                 <div className="flex space-x-3">
                                     <div className="w-3 h-3 bg-red-400 rounded-full" />
@@ -390,7 +391,7 @@ export default function Page() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                        <div className="bg-white rounded-3xl px-6 py-2 shadow-xl border border-gray-100">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="flex items-center space-x-4 rounded-2xl p-6">
                                     <div className="flex-shrink-0">
@@ -498,7 +499,7 @@ export default function Page() {
                         </div>
                     </div>
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                        <div className="bg-white rounded-3xl px-6 py-4 shadow-xl border border-gray-100">
                             <div className="flex items-center mb-6">
                                 <div className="flex space-x-3">
                                     <div className="w-3 h-3 bg-red-400 rounded-full" />
@@ -538,8 +539,9 @@ export default function Page() {
                             Playbooks Debugger
                         </h2>
                         <div className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            VSCode extension to step-debug through your Playbooks programs
-                            like traditional code. Use breakpoints, inspect variables and navigate call stack.
+                            VSCode extension to step-debug through your Playbooks programs like
+                            traditional code. Use breakpoints, inspect variables and navigate call
+                            stack.
                             <div className="mt-8">
                                 Finally, you can step-debug through LLM prompts!
                             </div>
@@ -547,7 +549,7 @@ export default function Page() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                        <div className="bg-white rounded-3xl px-6 py-4 shadow-xl border border-gray-100">
                             <div className="flex items-center mb-6">
                                 <div className="flex space-x-3">
                                     <div className="w-3 h-3 bg-red-400 rounded-full" />
@@ -580,14 +582,13 @@ export default function Page() {
             >
                 <div className="max-w-5xl mx-auto px-8">
                     <div className="text-center mb-16">
-                        <div className="text-sm font-mono text-gray-500 mb-4">
-                            Early Adopters
-                        </div>
+                        <div className="text-sm font-mono text-gray-500 mb-4">Early Adopters</div>
                         <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
                             Building with Playbooks
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            Forward-thinking companies are exploring Playbooks for their AI agent systems
+                            Forward-thinking companies are exploring Playbooks for their AI agent
+                            systems
                         </p>
                     </div>
 
@@ -608,7 +609,11 @@ export default function Page() {
                                 {/* Mission Statement */}
                                 <div className="rounded-2xl p-8 mb-8">
                                     <p className="text-lg text-gray-700 text-center leading-relaxed  max-w-4xl">
-                                        ODYSTRA is using Playbooks to build the core intelligence fabric for high-value, high-trust knowledge work across business domains - transforming static enterprise information into dynamic, collaborative, and autonomous processes.
+                                        ODYSTRA is using Playbooks to build the core intelligence
+                                        fabric for high-value, high-trust knowledge work across
+                                        business domains - transforming static enterprise
+                                        information into dynamic, collaborative, and autonomous
+                                        processes.
                                     </p>
                                 </div>
 
@@ -650,7 +655,7 @@ export default function Page() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                        <div className="bg-white rounded-3xl px-6 py-2 shadow-xl border border-gray-100">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="flex items-center space-x-4 rounded-2xl p-6 ">
                                     <div className="flex-shrink-0">
@@ -730,7 +735,7 @@ export default function Page() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                        <div className="bg-white rounded-3xl px-6 py-2 shadow-xl border border-gray-100">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="flex items-center space-x-4 rounded-2xl p-6">
                                     <div className="flex-shrink-0">
@@ -802,20 +807,18 @@ export default function Page() {
             >
                 <div className="max-w-5xl mx-auto px-8">
                     <div className="text-center mb-16">
-                        <div className="text-sm font-mono text-gray-500 mb-4">
-                            Open Source
-                        </div>
+                        <div className="text-sm font-mono text-gray-500 mb-4">Open Source</div>
                         <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-6">
                             Context Engineering
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            Playbooks runtime offers advanced context engineering capabilities
-                            to optimize LLM interactions and manage complex workflows efficiently.
+                            Playbooks runtime offers advanced context engineering capabilities to
+                            optimize LLM interactions and manage complex workflows efficiently.
                         </p>
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                        <div className="bg-white rounded-3xl px-6 py-2 shadow-xl border border-gray-100">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="flex items-center space-x-4 rounded-2xl p-6">
                                     <div className="flex-shrink-0">
@@ -826,8 +829,9 @@ export default function Page() {
                                             Stack-based Context Management
                                         </div>
                                         <span className="text-gray-600 text-base">
-                                            Automatic context management that follows your program&apos;s call stack,
-                                            ensuring optimal context for each execution level.
+                                            Automatic context management that follows your
+                                            program&apos;s call stack, ensuring optimal context for
+                                            each execution level.
                                         </span>
                                     </div>
                                 </div>
@@ -841,7 +845,8 @@ export default function Page() {
                                         </div>
                                         <span className="text-gray-600 text-base">
                                             Built-in context compaction without extra LLM calls,
-                                            keeping essential information while reducing token usage.
+                                            keeping essential information while reducing token
+                                            usage.
                                         </span>
                                     </div>
                                 </div>
@@ -855,7 +860,8 @@ export default function Page() {
                                         </div>
                                         <span className="text-gray-600 text-base">
                                             Built-in optimization for LLM caching to reduce costs
-                                            and improve performance through intelligent context reuse.
+                                            and improve performance through intelligent context
+                                            reuse.
                                         </span>
                                     </div>
                                 </div>
@@ -868,8 +874,9 @@ export default function Page() {
                                             Context Augmentation
                                         </div>
                                         <span className="text-gray-600 text-base">
-                                            Easy-to-use techniques for adding file content, retrieval results,
-                                            or outputs from other playbooks directly into context.
+                                            Easy-to-use techniques for adding file content,
+                                            retrieval results, or outputs from other playbooks
+                                            directly into context.
                                         </span>
                                     </div>
                                 </div>
@@ -891,7 +898,9 @@ export default function Page() {
                                 Welcome to Software 3.0!
                             </div>
                             <h1 className="text-5xl md:text-7xl font-light tracking-tight leading-none">
-                                <span className="block text-slate-300">Let&apos;s build something magical</span>
+                                <span className="block text-slate-300">
+                                    Let&apos;s build something magical
+                                </span>
                                 {/* <span className="block text-gray-500">magical with</span> */}
                                 <span className="block text-slate-300 relative">
                                     with <span className="text-blue-400">Playbooks AI</span>
@@ -900,7 +909,9 @@ export default function Page() {
                             </h1>
 
                             <div className="text-base text-gray-500 mt-12">
-                                <a href="https://www.linkedin.com/in/amol-kelkar/">Amol Kelkar (Founder, Playbooks AI)</a>
+                                <a href="https://www.linkedin.com/in/amol-kelkar/">
+                                    Amol Kelkar (Founder, Playbooks AI)
+                                </a>
                             </div>
 
                             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
@@ -928,7 +939,9 @@ export default function Page() {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
                             {/* Getting Started */}
                             <div className="space-y-4">
-                                <h3 className="text-xl font-semibold text-white mb-6">Getting Started</h3>
+                                <h3 className="text-xl font-semibold text-white mb-6">
+                                    Getting Started
+                                </h3>
                                 <div className="space-y-3">
                                     <Link
                                         href="https://playbooks-ai.github.io/playbooks-docs/"
@@ -955,13 +968,12 @@ export default function Page() {
                             <div className="space-y-4">
                                 <h3 className="text-xl font-semibold text-white mb-6">Links</h3>
                                 <div className="space-y-3">
-                                <Link
+                                    <Link
                                         href="https://github.com/playbooks-ai/playbooks"
                                         className="block text-gray-400 hover:text-white transition-colors duration-200"
                                     >
                                         GitHub Repository
                                     </Link>
-
                                 </div>
                             </div>
 
@@ -996,9 +1008,9 @@ export default function Page() {
             </section>
 
             {/* Contact Modal */}
-            <ContactModal 
-                isOpen={isContactModalOpen} 
-                onClose={() => setIsContactModalOpen(false)} 
+            <ContactModal
+                isOpen={isContactModalOpen}
+                onClose={() => setIsContactModalOpen(false)}
             />
         </div>
     );

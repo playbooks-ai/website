@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import './blog.css';
+
 /* Scale entire UI to 75% by adjusting the root font size */
 /* This scales all rem-based values throughout the app */
 html {
@@ -12,7 +14,7 @@ html {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-  --font-source-sans-pro: 'Source Sans Pro', sans-serif;
+  --font-source-serif-pro: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -87,7 +89,8 @@ html {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border antialiased;
+    text-rendering: optimizeLegibility;
   }
   body {
     @apply bg-background text-foreground;

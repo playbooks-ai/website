@@ -6,10 +6,13 @@ const config: Config = {
         './pages/**/*.{js,ts,jsx,tsx,mdx}',
         './components/**/*.{js,ts,jsx,tsx,mdx}',
         './app/**/*.{js,ts,jsx,tsx,mdx}',
+        './layouts/**/*.{js,ts,jsx,tsx,mdx}',
     ],
     theme: {
         extend: {
-            fontFamily: { sans: ['var(--font-source-sans-pro)', 'sans-serif'] },
+            fontFamily: {
+                serif: ['var(--font-source-serif-pro)', 'serif'],
+            },
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                 'gradient-conic':
@@ -31,6 +34,16 @@ const config: Config = {
                 primary: {
                     DEFAULT: 'hsl(var(--primary))',
                     foreground: 'hsl(var(--primary-foreground))',
+                    50: '#f5f5f5',
+                    100: '#e5e5e5',
+                    200: '#d4d4d4',
+                    300: '#a3a3a3',
+                    400: '#737373',
+                    500: '#525252',
+                    600: '#404040',
+                    700: '#262626',
+                    800: '#171717',
+                    900: '#0a0a0a',
                 },
                 secondary: {
                     DEFAULT: 'hsl(var(--secondary))',
@@ -58,6 +71,6 @@ const config: Config = {
             },
         },
     },
-    plugins: [require('tailwindcss-animate')],
+    plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
 };
 export default config;

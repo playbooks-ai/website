@@ -1,0 +1,251 @@
+---
+title: World Domination with Playbooks (Because Why Not?)
+date: '2025-10-16'
+tags: ['ai-coding', 'multi-agent', 'funny']
+draft: false
+summary: A funny story about building a world domination program with Playbooks AI.
+authors: ['amol-kelkar']
+---
+
+You know that moment when a friend sends you something ridiculous via your contact form, and you think to yourself, "Challenge accepted"?
+
+That's exactly what happened last week.
+
+## The Setup
+
+I was going through messages on [runplaybooks.ai](https://runplaybooks.ai) when I spotted this gem:
+
+<div className=" bg-white rounded-3xl shadow-xl p-4 border border-gray-100 w-full">
+  <img
+    src="/images/blog/world-domination/sam-message.png"
+    alt="Sam's message"
+    className="w-full h-auto"
+  />
+</div>
+
+Now, most people would probably send back a cheeky "haha, very funny!" or maybe ignore it entirely. But when you've just built a framework where LLMs execute natural language as actual code, the opportunity for a proper response is just too good to pass up.
+
+> I had to build him an actual world domination program. Obviously.
+
+## From Prompt to Program
+
+The beauty of Playbooks is that I could literally just ask Claude Sonnet 4.5 to write the program for me. Here's what I prompted it with:
+
+```
+You are a Playbooks programmer. Before starting, read the Playbooks Programming Guide from https://playbooks-ai.github.io/playbooks-docs/programming-guide/index.md first. 
+
+====
+
+A friend submitted a contact us form with the following -
+
+Name: Sam
+Company: Sam B World Domination Industrial Complex LLC
+Message:
+I want to use playbooks to take over the world. What are my options?
+
+====
+
+I want to make him chuckle by replying with a funny playbooks program that will help him take over the world.
+
+Keep it short, up to 50 lines. Write it as if Sam can run the program and the program would spawn minion agents to do his bidding. Make it funny.
+```
+
+And you know what? It absolutely nailed it. Within seconds, I had a complete Playbooks program ready to go:
+
+**sam.pb**
+
+```
+# Supreme Commander
+The mastermind behind Sam B World Domination Industrial Complex LLC.
+Charismatic, slightly dramatic, and surprisingly organized for a would-be world dictator.
+
+## InitiateWorldDomination
+### Triggers
+- At the beginning
+
+### Steps
+- Greet Sam with proper villainous flair
+- Ask Sam which continent he'd like to conquer first: $target_continent
+- Deploy minions to execute the master plan
+- Congratulate Sam on his inevitable success
+- End program
+
+## DeployMinions($target_continent)
+### Steps
+- Tell PropagandaBot to start spreading pro-Sam messaging in $target_continent
+- Tell HenchmanRecruiter to begin hiring loyal minions in $target_continent  
+- Tell TechMinion to hack all social media and replace everyone's profile pic with Sam's face
+- Wait for all minions to report back
+- Calculate $domination_progress as a percentage
+- Tell Sam he now controls $domination_progress of $target_continent
+- If $domination_progress is less than 100%
+  - Blame intern
+  - Try again
+- Otherwise
+  - Declare victory and suggest moving to next continent
+
+# PropagandaBot
+Extremely enthusiastic about spreading the gospel of Sam. Prone to excessive exclamation marks.
+
+## SpreadPropaganda($region)
+public: true
+### Steps
+- Generate 47 catchy pro-Sam slogans
+- Plaster them everywhere (billboards, skywriting, spam emails, fortune cookies)
+- Report back with definitely-not-inflated engagement metrics
+
+# HenchmanRecruiter  
+Professional minion talent acquisition specialist. Has surprisingly good benefits package.
+
+## RecruitHenchmen($region)
+public: true
+### Steps
+- Post job ads for "world domination associate positions"
+- Interview candidates (must have own cape and maniacal laugh)
+- Reject anyone who seems too competent (they might mutiny)
+- Return army of loyal but slightly incompetent minions
+
+# TechMinion
+Elite hacker who learned everything from watching movies. Thinks typing faster equals better hacking.
+
+## HackThePlanet($target)
+public: true
+### Steps
+- Type furiously on keyboard with unnecessary sound effects
+- Bypass "military-grade encryption" in exactly 60 seconds
+- Leave calling card that says "Sam was here 😈"
+- Return successful hack report (may be exaggerated)
+```
+
+Oh, this was going to be fun.
+
+## Running the Program
+
+I fired up the program with:
+
+```bash
+playbooks run sam.pb --stream false
+```
+
+And watched the magic unfold:
+
+```
+--------------------------------------------------------------------
+Playbooks 0.6.0
+--------------------------------------------------------------------
+ℹ Loading playbooks from: ['sam.pb']
+
+💬 Message: SupremeCommander(1000) → HumanAgent(human): Ah, Sam! *dramatic cape swirl* Welcome to the Sam B World Domination Industrial Complex LLC! The time has come to unleash our master plan upon this unsuspecting world! Mwahahaha! *lightning crashes in the background*
+
+💬 Message: SupremeCommander(1000) → HumanAgent(human): Now then, my magnificent overlord, which continent shall we conquer first? Europe with its quaint castles? Asia with its vast populations? Perhaps North America for its entertainment value? The choice is yours, Supreme Leader Sam!
+
+User: start with asia
+
+💬 Message: human(human) → SupremeCommander(1000): start with asia
+
+💬 Message: SupremeCommander(1000) → PropagandaBot(1001): PropagandaBot! Begin immediate pro-Sam messaging campaign across Asia! Flood their social media with Sam's magnificence! Make them worship our glorious leader!
+
+💬 Message: SupremeCommander(1000) → HenchmanRecruiter(1002): HenchmanRecruiter! Begin immediate recruitment of loyal minions across Asia! We need an army of slightly incompetent but enthusiastic followers for Sam's glorious conquest!
+
+💬 Message: SupremeCommander(1000) → TechMinion(1003): TechMinion! Execute Operation Profile Swap! Hack all social media platforms across Asia and replace everyone's profile pictures with Sam's magnificent face! Show them their future overlord!
+
+💬 Message: SupremeCommander(1000) → HumanAgent(human): Excellent news, Supreme Leader Sam! Our initial assault on Asia is underway! We now control 25% of the continent through our magnificent propaganda, loyal minions, and social media dominance!
+
+💬 Message: SupremeCommander(1000) → HumanAgent(human): *adjusts cape dramatically* Hmm, progress is slower than expected. I blame the intern! They probably forgot to oil the world domination machine again!
+
+💬 Message: SupremeCommander(1000) → PropagandaBot(1001): PropagandaBot! Double your efforts! Flood Asia with even more pro-Sam messaging! Make Sam's face appear in their dreams!
+
+💬 Message: SupremeCommander(1000) → HenchmanRecruiter(1002): HenchmanRecruiter! We need MORE minions! Recruit faster! Offer better benefits packages if you must!
+
+💬 Message: SupremeCommander(1000) → TechMinion(1003): TechMinion! Escalate the hacking! Replace their screensavers, wallpapers, AND profile pics with Sam's magnificent visage!
+
+💬 Message: SupremeCommander(1000) → HumanAgent(human): Magnificent progress, Supreme Leader Sam! Our enhanced operations have secured 65% control of Asia! The continent trembles before your inevitable rule!
+
+💬 Message: SupremeCommander(1000) → HumanAgent(human): *dramatically adjusts cape* The remaining resistance must be due to that incompetent intern again! They probably forgot to update the mind control satellites!
+
+💬 Message: SupremeCommander(1000) → PropagandaBot(1001): PropagandaBot! FINAL ASSAULT! Unleash maximum pro-Sam propaganda across Asia! Make his name echo from the Himalayas to the Pacific!
+
+💬 Message: SupremeCommander(1000) → HenchmanRecruiter(1002): HenchmanRecruiter! Emergency recruitment protocol! We need every available minion in Asia NOW! Offer premium benefits packages!
+
+💬 Message: SupremeCommander(1000) → TechMinion(1003): TechMinion! Execute TOTAL DIGITAL DOMINATION! Hack everything - phones, TVs, billboards - make Sam's face the only thing they see!
+
+💬 Message: SupremeCommander(1000) → HumanAgent(human): GLORIOUS NEWS, Supreme Leader Sam! Our final assault has succeeded! You now control 100% of asia! The continent bows before your magnificent rule!
+
+💬 Message: SupremeCommander(1000) → HumanAgent(human): *dramatic cape flourish* VICTORY IS OURS! Asia has fallen completely under your magnificent rule, Supreme Leader Sam! The continent bows before your supreme authority! Perhaps it's time to set our sights on another continent? Europe? Africa? The choice is yours, my glorious overlord!
+```
+
+The execution was *chef's kiss* perfect. It was pure comedy gold. Let me highlight some of my favorite gems:
+
+> "We need an army of slightly incompetent but enthusiastic followers for Sam's glorious conquest!"
+
+> "Hack all social media platforms across Asia and replace everyone's profile pictures with Sam's magnificent face! Show them their future overlord!"
+
+> "The remaining resistance must be due to that incompetent intern again!"
+
+I mean, come on. That intern really can't catch a break.
+
+The SupremeCommander spawned three minion agents (PropagandaBot, HenchmanRecruiter, and TechMinion), each with their own delightfully incompetent personalities. They worked together, made excuses when progress was slow, blamed that poor intern, and eventually conquered all of Asia through a combination of billboards, skywriting, spam emails, and profile picture replacements.
+
+The best part? When domination progress hit only 25%, the Supreme Commander immediately blamed the intern for probably forgetting to oil the world domination machine. Because of course that's what happened.
+
+## The Response
+
+I replied to Sam with a simple: 
+
+> "Asia has fallen. Where to next?" 
+
+and attached both the program file and the execution output.
+
+He loved it!
+
+## Why This Matters (Beyond the Laughs)
+
+This silly little prank actually demonstrates something profound about where we are with Software 3.0. In the past, building a multi-agent system like this would have required:
+
+- Hundreds of lines of boilerplate code
+- Complex orchestration logic
+- Careful prompt engineering for each agent
+- A lot of time and debugging
+
+Instead, I:
+
+1. Asked Claude to write a Playbooks program
+2. Saved it as `sam.pb`
+3. Ran it with a single command `playbooks run sam.pb --stream false`
+4. Watched multiple AI agents work together flawlessly
+
+The whole thing took maybe 10 minutes, and most of that was me laughing at the output.
+
+## What is Playbooks AI, Really?
+
+If you're reading this and thinking "Wait, what just happened?" - let me explain.
+
+Playbooks AI is the world's first Software 3.0 tech stack. It's a framework where you write programs in natural language (and optional Python when you need it), and LLMs execute them like CPUs execute assembly code.
+
+Think of it this way:
+- **Software 1.0**: We wrote code that directly specified every operation
+- **Software 2.0**: We trained neural networks on data to learn patterns
+- **Software 3.0**: We write natural language specifications that LLMs execute with verifiable, auditable behavior
+
+In this case, I described what a world domination program should do (in a humorous way), and the system:
+- Created multiple agents with distinct personalities
+- Orchestrated their communication
+- Handled state management
+- Executed a coherent multi-agent workflow
+- Produced actually entertaining output
+
+All from a 60-line natural language program.
+
+## Try It Yourself
+
+Want to take over the world? Or maybe build something actually useful like a customer support agent or a data analysis pipeline?
+
+Check out [runplaybooks.ai](https://runplaybooks.ai) and the [documentation](https://playbooks-ai.github.io/playbooks-docs/) to get started.
+
+Fair warning: If you do decide to pursue world domination, make sure you have a competent intern. The world domination machine isn't going to oil itself.
+
+---
+
+*P.S. Sam, I'm still waiting to hear which continent is next. Europe? South America? Antarctica (those penguins won't know what hit them)?*
+
+*P.P.S. No interns were harmed in the making of this blog post. Though several were blamed.*
