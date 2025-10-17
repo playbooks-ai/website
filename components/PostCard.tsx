@@ -12,7 +12,7 @@ interface PostCardProps {
 
 export default function PostCard({ title, summary, date, tags, path, readingTime }: PostCardProps) {
     return (
-        <article className="group max-w-3xl bg-white rounded-3xl p-16 py-6 shadow-xl border border-gray-100">
+        <article className="group max-w-3xl bg-white rounded-3xl p-4 md:p-16 py-6 shadow-xl border border-gray-100">
             <div className="space-y-4">
                 <PostMetadata date={date} readingTime={readingTime} tags={tags} className="mb-8" />
                 <div>

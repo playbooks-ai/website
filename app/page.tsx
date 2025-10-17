@@ -594,7 +594,7 @@ export default function Page() {
 
                     <div className="space-y-8">
                         <div className="bg-white rounded-3xl p-12 shadow-xl border border-gray-100">
-                            <div className="max-w-4xl mx-auto">
+                            <div className="max-w-xl md:max-w-xl lg:max-w-3xl mx-auto">
                                 {/* Company Logo/Name */}
                                 <div className="text-center mb-8">
                                     <Image
@@ -607,7 +607,7 @@ export default function Page() {
                                 </div>
 
                                 {/* Mission Statement */}
-                                <div className="rounded-2xl p-8 mb-8">
+                                <div className="rounded-2xl p-0 md:p-8 mb-8">
                                     <p className="text-lg text-gray-700 text-center leading-relaxed  max-w-4xl">
                                         ODYSTRA is using Playbooks to build the core intelligence
                                         fabric for high-value, high-trust knowledge work across
