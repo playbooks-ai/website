@@ -19,7 +19,12 @@ export default function TopNav({ currentPage }: TopNavProps) {
                     </Link>
                 )}
                 {currentPage === 'blog' ? (
-                    <span className="text-black font-medium">Blog</span>
+                    <Link
+                        href="/blog"
+                        className="text-black font-medium hover:text-gray-600 transition-colors duration-200"
+                    >
+                        Blog
+                    </Link>
                 ) : (
                     <Link
                         href="/blog"
