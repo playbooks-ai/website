@@ -95,4 +95,12 @@ html {
   body {
     @apply bg-background text-foreground;
   }
+
+  .shadow-box img {
+    @apply mix-blend-darken;
+  }
+
+  .shadow-gradient {
+    @apply bg-gradient-to-br from-white to-gray-200;
+  }
 }

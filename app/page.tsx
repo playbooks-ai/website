@@ -27,6 +27,7 @@ import { siGithub } from 'simple-icons';
 import Navigation from '../components/Navigation';
 import ContactModal from '../components/ContactModal';
 import TopNav from '../components/TopNav';
+import ShadowBox from '../components/ShadowBox';
 
 // TypeScript declarations for Google Analytics
 declare global {
@@ -308,7 +309,7 @@ export default function Page() {
                         </div>
                     </div>
                     <div className="space-y-8 w-full">
-                        <div className="bg-white rounded-3xl shadow-xl">
+                        <ShadowBox style={{ padding: 0, border: 0 }} enableTilt={false}>
                             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                                 <iframe
                                     className="absolute top-0 left-0 w-full h-full rounded-2xl"
@@ -318,7 +319,7 @@ export default function Page() {
                                     allowFullScreen
                                 />
                             </div>
-                        </div>
+                        </ShadowBox>
                     </div>
                 </div>
             </section>
@@ -341,7 +342,7 @@ export default function Page() {
                         </p>
                     </div>
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl px-6 py-4 shadow-xl border border-gray-100">
+                        <ShadowBox>
                             <div className="flex items-center mb-6">
                                 <div className="flex space-x-3">
                                     <div className="w-3 h-3 bg-red-400 rounded-full" />
@@ -362,7 +363,7 @@ export default function Page() {
                                 width={500}
                                 height={500}
                             />
-                        </div>
+                        </ShadowBox>
                     </div>
                 </div>
             </section>
@@ -391,7 +392,7 @@ export default function Page() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl px-6 py-2 shadow-xl border border-gray-100">
+                        <ShadowBox className="py-2">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="flex items-center space-x-4 rounded-2xl p-6">
                                     <div className="flex-shrink-0">
@@ -451,7 +452,7 @@ export default function Page() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </ShadowBox>
                     </div>
                 </div>
             </section>
@@ -499,7 +500,7 @@ export default function Page() {
                         </div>
                     </div>
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl px-6 py-4 shadow-xl border border-gray-100">
+                        <ShadowBox>
                             <div className="flex items-center mb-6">
                                 <div className="flex space-x-3">
                                     <div className="w-3 h-3 bg-red-400 rounded-full" />
@@ -520,7 +521,7 @@ export default function Page() {
                                 width={500}
                                 height={500}
                             />
-                        </div>
+                        </ShadowBox>
                     </div>
                 </div>
             </section>
@@ -549,7 +550,7 @@ export default function Page() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl px-6 py-4 shadow-xl border border-gray-100">
+                        <ShadowBox>
                             <div className="flex items-center mb-6">
                                 <div className="flex space-x-3">
                                     <div className="w-3 h-3 bg-red-400 rounded-full" />
@@ -570,7 +571,7 @@ export default function Page() {
                                 width={500}
                                 height={500}
                             />
-                        </div>
+                        </ShadowBox>
                     </div>
                 </div>
             </section>
@@ -593,7 +594,7 @@ export default function Page() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl p-12 shadow-xl border border-gray-100">
+                        <ShadowBox className="p-12">
                             <div className="max-w-xl md:max-w-xl lg:max-w-3xl mx-auto">
                                 {/* Company Logo/Name */}
                                 <div className="text-center mb-8">
@@ -629,7 +630,7 @@ export default function Page() {
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </ShadowBox>
                     </div>
                 </div>
             </section>
@@ -655,7 +656,7 @@ export default function Page() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl px-6 py-2 shadow-xl border border-gray-100">
+                        <ShadowBox className="py-2">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="flex items-center space-x-4 rounded-2xl p-6 ">
                                     <div className="flex-shrink-0">
@@ -710,7 +711,7 @@ export default function Page() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </ShadowBox>
                     </div>
                 </div>
             </section>
@@ -735,7 +736,7 @@ export default function Page() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl px-6 py-2 shadow-xl border border-gray-100">
+                        <ShadowBox className="py-2">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="flex items-center space-x-4 rounded-2xl p-6">
                                     <div className="flex-shrink-0">
@@ -795,7 +796,7 @@ export default function Page() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </ShadowBox>
                     </div>
                 </div>
             </section>
@@ -818,7 +819,7 @@ export default function Page() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-white rounded-3xl px-6 py-2 shadow-xl border border-gray-100">
+                        <ShadowBox className="py-2">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="flex items-center space-x-4 rounded-2xl p-6">
                                     <div className="flex-shrink-0">
@@ -881,7 +882,7 @@ export default function Page() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </ShadowBox>
                     </div>
                 </div>
             </section>
