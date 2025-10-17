@@ -212,7 +212,7 @@ export default function Page() {
     return (
         <div
             data-scroll-container
-            className={`bg-white text-black relative overflow-x-hidden scroll-smooth pl-0 md:pl-20 ${
+            className={`bg-white text-black relative overflow-x-hidden scroll-smooth ${
                 isSnapEnabled ? 'md:snap-y md:snap-mandatory h-screen overflow-y-scroll' : ''
             }`}
             style={{ scrollPaddingTop: '20px' }}
