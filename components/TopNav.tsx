@@ -16,7 +16,7 @@ export default function TopNav({ currentPage }: TopNavProps) {
         <div
             ref={navRef}
             style={{ opacity }}
-            className="fixed top-0 right-0 z-50 bg-white px-8 py-2 w-full transition-opacity duration-500 ease-out"
+            className="fixed top-0 right-0 z-50 bg-white bg-opacity-50 px-8 py-2 w-full transition-opacity duration-500 ease-out backdrop-blur-md"
         >
             <nav className="flex justify-end items-center space-x-8 font-light">
                 {currentPage === 'home' ? (
