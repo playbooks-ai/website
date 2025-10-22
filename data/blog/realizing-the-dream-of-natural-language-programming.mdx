@@ -13,19 +13,19 @@ In Jan 2023, Andrej Karpathy tweeted:
 
 The sentiment resonated across the AI community, but despite so much progress on the core technology, Natural Language Programming wasn't solved - till Playbooks came along. Why?
 
-The Playbooks story begins earlier - in August 2022, before the tweet, before ChatGPT changed everything. Working with GPT-3.5 Instruct (then state-of-the-art), we faced a concrete problem: building customer support AI agents that needed prescribed behavior *and* human-like flexibility.
+The Playbooks story begins earlier - in June 2022, before the tweet, before ChatGPT changed everything. We were experimenting with GPT3 text-davinci-002 and text-davinci-003 a bit later on how to build customer support AI agents that needed prescribed behavior *and* human-like flexibility.
 
-The predominant approaches were -
+The predominant approaches at that time were -
 
-- writing imperative programs that define a rigid step by step flow
+- writing imperative programs that define a rigid step by step conversational flow
 - visual workflow builders like Google's DialogFlow CX
 - "story"-based systems like Rasa
 
-But try specifying nuanced agent behaviors - handling corner cases, adjusting behavior based on preconditions, locale-specific variations, graceful degradation, intent switching and return, side quests. It's impossible to do with any of these approaches.
+But try specifying nuanced agent behaviors - handling corner cases, adjusting behavior based on preconditions, locale-specific variations, graceful degradation, intent switching and return, side quests. It was impossible to do with any of these approaches.
 
-> The available mediums fundmentally constrain the expressiveness.
+> The available approaches fundmentally constrained or sidestepped the capabilities of the LLM
 
-So Amol started experimenting with natural language programming over 2022 Winter break. The Jan 2023 tweet by Andrej was a validation that this is a problem worth solving. After 2.5yrs, the initial idea of using Markdown as a programming language has evolved through countless iterations into what Playbooks is today: a complete Software 3.0 stack where natural language is not just a interface, but a first-class executable programming language.
+So, over the 2022 Winter break, Amol started experimenting with natural language programming. The Jan 2023 tweet by Andrej was a validation that this is a problem worth solving. Now, after 2.5yrs, the initial idea of using Markdown as a programming language has evolved into what Playbooks is today: a complete Software 3.0 stack where natural language is not just a interface, but a first-class executable programming language.
 
 The question isn't whether LLMs can understand natural language - they obviously can (let's keep aside the philosophical question of what "understanding" means, especially for AI systems). The puzzle is why, given their remarkable linguistic capabilities, it took so long for us or anyone else to build a true natural language programming system.
 
