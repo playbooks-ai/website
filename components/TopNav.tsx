@@ -16,7 +16,7 @@ export default function TopNav({ currentPage }: TopNavProps) {
         <div
             ref={navRef}
             style={{ opacity }}
-            className="fixed top-0 right-0 z-50 bg-white bg-opacity-50 px-8 py-2 w-full transition-opacity duration-500 ease-out backdrop-blur-md"
+            className="fixed top-0 right-0 z-50 bg-white bg-opacity-50 px-8 py-2 w-full transition-opacity duration-100 ease-out backdrop-brightness-200 pointer-events-none"
         >
             <nav className="flex justify-end items-center space-x-8 font-light">
                 {currentPage === 'home' ? (
@@ -24,7 +24,7 @@ export default function TopNav({ currentPage }: TopNavProps) {
                 ) : (
                     <Link
                         href="/"
-                        className="text-gray-500 hover:text-black transition-colors duration-200"
+                        className="text-gray-500 hover:text-black transition-colors duration-200 pointer-events-auto"
                     >
                         Home
                     </Link>
@@ -32,14 +32,14 @@ export default function TopNav({ currentPage }: TopNavProps) {
                 {currentPage === 'blog' ? (
                     <Link
                         href="/blog"
-                        className="text-black font-medium hover:text-gray-600 transition-colors duration-200"
+                        className="text-black font-medium hover:text-gray-600 transition-colors duration-200 pointer-events-auto"
                     >
                         Blog
                     </Link>
                 ) : (
                     <Link
                         href="/blog"
-                        className="text-gray-500 font-light hover:text-black transition-colors duration-200"
+                        className="text-gray-500 font-light hover:text-black transition-colors duration-200 pointer-events-auto"
                     >
                         Blog
                     </Link>
