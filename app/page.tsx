@@ -28,6 +28,7 @@ import Navigation from '../components/Navigation';
 import ContactModal from '../components/ContactModal';
 import TopNav from '../components/TopNav';
 import ShadowBox from '../components/ShadowBox';
+import Footer from '../components/Footer';
 
 // TypeScript declarations for Google Analytics
 declare global {
@@ -934,78 +935,7 @@ export default function Page() {
                 </div>
 
                 {/* Footer Section */}
-                <div className="border-t border-gray-700 pt-16 mt-16">
-                    <div className="max-w-6xl mx-auto px-8">
-                        {/* Quick Links Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-                            {/* Getting Started */}
-                            <div className="space-y-4">
-                                <h3 className="text-xl font-semibold text-white mb-6">
-                                    Getting Started
-                                </h3>
-                                <div className="space-y-3">
-                                    <Link
-                                        href="https://playbooks-ai.github.io/playbooks-docs/"
-                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
-                                    >
-                                        Documentation
-                                    </Link>
-                                    <Link
-                                        href="https://playbooks-ai.github.io/playbooks-docs/getting-started/"
-                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
-                                    >
-                                        Getting Started
-                                    </Link>
-                                    <Link
-                                        href="https://playbooks-ai.github.io/playbooks-docs/tutorials/"
-                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
-                                    >
-                                        Tutorial
-                                    </Link>
-                                </div>
-                            </div>
-
-                            {/* Core Concepts */}
-                            <div className="space-y-4">
-                                <h3 className="text-xl font-semibold text-white mb-6">Links</h3>
-                                <div className="space-y-3">
-                                    <Link
-                                        href="https://github.com/playbooks-ai/playbooks"
-                                        className="block text-gray-400 hover:text-white transition-colors duration-200"
-                                    >
-                                        GitHub Repository
-                                    </Link>
-                                </div>
-                            </div>
-
-                            {/* Advanced */}
-                            {/* <div className="space-y-4">
-                                <h3 className="text-xl font-semibold text-white mb-6">Advanced</h3>
-                            </div> */}
-                        </div>
-
-                        {/* Bottom Bar */}
-                        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">
-                            <div className="text-gray-500 text-sm mb-4 md:mb-0">
-                                © 2025 Playbooks AI. All rights reserved.
-                            </div>
-                            <div className="flex space-x-6">
-                                <Link
-                                    href="https://github.com/playbooks-ai/playbooks"
-                                    className="text-gray-400 hover:text-white transition-colors duration-200"
-                                >
-                                    <GitHubIcon className="w-6 h-6" />
-                                </Link>
-                                <a
-                                    href="mailto:contact@runplaybooks.com"
-                                    className="text-gray-400 hover:text-white transition-colors duration-200"
-                                >
-                                    <Mail className="w-6 h-6" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Footer />
             </section>
 
             {/* Contact Modal */}
