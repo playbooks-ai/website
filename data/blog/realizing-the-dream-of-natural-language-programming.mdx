@@ -65,7 +65,7 @@ all the way to python-like code (with some prompt magic mixed in):
 
 Both work and so do various points along this precision continuum. A core Playbooks programming [guideline](https://playbooks-ai.github.io/playbooks-docs/programming-guide/#natural-language-vs-explicit-syntax) emerges: *start natural, add explicitness as needed*. Somewhat similar to types in Python - optional, but helpful when complexity warrants it.
 
-**Two Stage Semantic Processing**
+#### Two Stage Semantic Processing
 
 Perhaps the most crucial innovation is a two stage semantic processing - first compiler, then runtime. First, Playbooks programs are compiled to [Playbooks Assembly Language](https://playbooks-ai.github.io/playbooks-docs/reference/playbooks-assembly-language/) (PBAsm). Then the runtime invokes LLM again on the compiled PBAsm.
 
@@ -79,7 +79,7 @@ The compiler adds type annotations (`$name:str`), opcodes (QUE for enqueuing cal
 
 The assembly language code is more reliable to execute on LLMs than the original instruction. The LLM is given a more precise instructions as a strict guardrail, yet still include natural langauge where decisions, fluidity is needed. We get auditing, debugging, and verifiable behavior without sacrificing natural language expressiveness.
 
-**Not Natural Languge vs Python, but Natural Language + Python**
+#### Not Natural Languge vs Python, but Natural Language + Python
 Traditional computer code like Python is still very important. There are many cases where natural language is not a viable option at all. Interfacing with external systems, large scale data processing, security, scientific computing, just to name a few.
 
 So, one important aspect was to answer how to best combine natural language and Python. We can't compile natural language down to Python code because we lose semantic fluidity. The notion of "tools" that current agent frameworks offer are stateless and seem like a band-aid. So how to best interface these two worlds? Can we do it on the same call stack so one can freely intermix natural language and python logic with shared state?
@@ -96,7 +96,7 @@ One of the most subtle but critical dimensions when interfacing with LLMs is con
 
 Playbooks automates this through two key innovations:
 
-**Stack-Based Context Management**
+#### Stack-Based Context Management
 
 The framework uses a stack-based approach that automatically compacts context as playbooks complete. Consider this execution:
 

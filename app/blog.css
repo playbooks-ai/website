@@ -4,6 +4,8 @@
   @apply font-serif font-normal antialiased text-gray-800;
   letter-spacing: -0.003em;
   text-rendering: optimizeLegibility;
+
+  counter-reset: h2;
 }
 
 .blog-content pre {
@@ -33,10 +35,32 @@
 
 .blog-content h2 {
   @apply text-2xl md:text-2xl font-bold tracking-tight mt-10 mb-5;
+  counter-reset: h3;
+}
+
+.blog-content h2::before {
+  counter-increment: h2;
+  content: counter(h2) ". ";
 }
 
 .blog-content h3 {
   @apply text-xl font-bold tracking-tight mt-8 mb-4;
+  counter-reset: h4;
+}
+
+.blog-content h3::before {
+  counter-increment: h3;
+  content: counter(h2) "." counter(h3) " ";
+}
+
+.blog-content h4 {
+  @apply text-lg font-bold tracking-tight mt-8 mb-4;
+  counter-reset: h5;
+}
+
+.blog-content h4::before {
+  counter-increment: h4;
+  content: counter(h2) "." counter(h3) "." counter(h4) " ";
 }
 
 .blog-content ul {
