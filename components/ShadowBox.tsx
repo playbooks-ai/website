@@ -2,6 +2,7 @@
 
 import { ReactNode, CSSProperties } from 'react';
 import Tilt from 'react-parallax-tilt';
+import Image from 'next/image';
 
 interface ShadowBoxProps {
     children: ReactNode;
@@ -43,8 +44,9 @@ export default function ShadowBox({
             tiltReverse={true}
             transitionSpeed={400}
             className="rounded-3xl shadow-box"
+            style={{ transformStyle: 'preserve-3d', transform: 'translateZ(100px)' }}
         >
-            {content}
+            <>{content}</>
         </Tilt>
     );
 }
