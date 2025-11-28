@@ -8,6 +8,7 @@ interface PostMetadataProps {
     tags?: string[];
     className?: string;
     authors?: string[];
+    tagsUseRouter?: boolean;
 }
 
 export default function PostMetadata({
@@ -16,6 +17,7 @@ export default function PostMetadata({
     tags,
     className = '',
     authors,
+    tagsUseRouter = false,
 }: PostMetadataProps) {
     let components = [];
     if (date) {
@@ -56,7 +58,7 @@ export default function PostMetadata({
         tags.map((tag) => {
             components.push(
                 <span className="pr-2 inline-block" key={tag}>
-                    <Tag text={tag} />
+                    <Tag text={tag} useRouter={tagsUseRouter} />
                 </span>,
             );
         });

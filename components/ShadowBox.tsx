@@ -34,10 +34,10 @@ export default function ShadowBox({
         <Tilt
             tiltMaxAngleX={4}
             tiltMaxAngleY={4}
-            scale={1.05}
+            scale={1.02}
             perspective={1000}
             glareEnable={true}
-            glareMaxOpacity={0.3}
+            glareMaxOpacity={0.1}
             glareColor="black"
             glareBorderRadius="1.5rem"
             glarePosition="all"
