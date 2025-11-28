@@ -1,0 +1,284 @@
+---
+title: Just-in-time (JIT) Coding
+date: '2025-11-28'
+tags: []
+draft: true
+summary: Most code will be produced, executed and discarded. The era of just-in-time (JIT) coding is upon us.
+authors: ['playbooks-team']
+---
+
+# **Just-in-Time (JIT) Coding: When Software Stops Being Written and Starts Being Generated On-the-fly**
+
+Most code today is static. We write it, package it, deploy it, run it — and then keep running the same artifact until we have the energy to update it.
+
+But this era is ending.
+
+We are entering a world where **most software will be generated on demand**, and where **specifications become the true source code**. The implementations we grew up writing aren’t the primary product anymore — they’re byproducts.
+
+> The **spec is the program**.
+> **The code is just exhaust.**
+
+This shift doesn’t just give us new tools. It changes what software *is*.
+
+---
+
+## **The Long Arc of Software: 1.0 → 2.0 → 3.0 ("vibe" Phase 1 → "JIT" Phase 2)**
+
+For forty years, software meant one thing: deterministic instructions executed exactly as written.
+
+### **Software 1.0**
+
+Static code + compilers + manual logic.
+
+### **Software 2.0**
+
+Neural networks where we program by example, not instruction.
+
+### **Software 3.0 (Phase 1)**
+
+The LLM era we’re living through now - “vibe coding”
+We use AI assistants to draft code for us, write specs, build glue, and accelerate development.
+But we still deploy code as static artifacts.
+
+### **Software 3.0 (Phase 2): JIT Coding**
+
+Here, the switch flips.
+
+* We don’t ship final code.
+* We ship specifications.
+* The system interprets and generates code *at the moment of execution*.
+* Every situation gets its own optimized, contextual, highly specific implementation.
+* And the behavior evolves as the models evolve.
+
+This is the natural end state of Software 3.0.
+
+---
+
+## **Why JIT Coding? Because Static Software Is a Poor Model of Intelligence**
+
+Static code is rigid by design. It encodes one-size-fits-all behavior. But real-world situations are never one-size-fits-all.
+
+Customer support tickets differ in subtle ways.
+Business logic depends on context, intent, and nuance.
+Workflows adapt as conditions change.
+Human operators improvise when rules fail.
+
+Traditional software cannot improvise - it can only execute predefined paths. Agentic-loops are fluid, but no guarantees that they would follow the instructions we write in the prompts.
+
+To bring true **reasoning**, **planning**, **adaptability**, and **situational awareness** into software execution, we need a new model. One where:
+
+* the system understands the goal,
+* interprets context,
+* generates the exact code needed,
+* executes it,
+* and discards it.
+
+You don’t need a universal solution.
+You need a solution specifically generated for the moment.
+
+This is what JIT coding delivers: **human-level fluidity in machine-level execution**.
+
+---
+
+## **The Human Analogy: How We Follow Instructions**
+
+Humans don’t carry around rigid instruction sets.
+
+When you face a new situation — a tricky conversation, a broken tool, an unexpected detour — you don’t execute a predefined flowchart, your brain does not retrieve a precompiled block of logic. It implicitly *generates code* for the situation based on context, intent, and high-level goals and executes it through neural dynamics. The "code" is never even instantiated, it just unfolds over time.
+
+This is why human behavior is flexible.
+This is why humans can handle novel and ambiguous tasks.
+And this is precisely what JIT coding enables: software that generates the necessary “code” at the moment it is needed, based on intent.
+
+The similarity is not accidental - it is the essence of intelligence.
+
+---
+
+## **Why Today’s Agent Frameworks and “Vibe Coding” Stop Short**
+
+Today’s agent frameworks and LLM-enabled coding workflows (LangGraph, AutoGen, CrewAI, AgentOS, etc.) all share the same limitation:
+
+They’re still **Software 1.0 execution engines** wearing Software 3.0 hats.
+
+Their core design pattern is:
+
+* write static code,
+* call LLMs as helpers,
+* glue everything together with brittle “tools”
+* hope nothing breaks.
+
+This produces systems that are:
+
+* brittle
+* hard to debug
+* difficult to evolve
+* dependent on complex plumbing,
+* and use LLM reasoning and planning as an afterthought
+
+Crucially:
+
+**They can’t take advantage of new model capabilities without rewriting everything.**
+
+If GPT-7 or Claude 5 can execute more complex instructions natively, your static system can’t exploit it without refactoring your entire codebase. It was built with fixed assumptions on what the LLM can and cannot do!
+
+JIT systems don’t have this problem.
+They evolve automatically as models improve.
+JIT systems can be built to be "forward compatible", which is essential to survive the fast pace of change in LLM capabilities.
+---
+
+## **The Determinism Question**
+
+A natural concern arises:
+
+**If systems generate code on demand, how can they be reliable?**
+
+The answer is that determinism must exist, but at the correct layer -
+**You shouldn’t demand determinism at the code level.
+You should demand determinism at the behavior level.**
+
+### **1. Determinism lives in the specification**
+
+The specification states the intended behavior. It is stable, testable, version-controlled, and auditable.
+
+### **2. Semantic compilation ensures consistent interpretation**
+
+A lower-level semantic representation (akin to an assembly language for meaning) anchors the system’s behavior. The compiler can be hardened to ensure the compilation meets strict requirements. A lot of the non-determinism gets removed from the system at the time of compilation, keeping just enough semantic fluidity for the system to remain adaptable at runtime.
+
+### **3. Most generated code is "trivial"**
+
+Semantic compilation can produce fine grained instructions and add constraints such that the actual code generation is trivial. This is not open-ended code generation, but code that already conforms to a pre-defined schema and can be statically checked just before execution.
+
+The idea is semantic fluidity, not extreme coding complexity.
+
+### **4. Current agent systems are already nondeterministic - they just hide it, poorly**
+
+Traditional agent frameworks already introduce variability whenever they use LLMs and lack mechanisms to manage it!
+
+JIT coding doesn’t create nondeterminism.
+It **embraces** it, controls it, and ultimately **makes it safe**.
+
+> If you insist on determinism in the implementation, you block yourself from intelligence.
+
+But if you move determinism to the right layer - the **semantic intent** - you get the best of both worlds:
+
+* reliable behavior
+* adaptive execution
+
+---
+
+## **Hyper-Specialized Software**
+
+Traditional software gives every user the same implementation. On the other hand, JIT systems generate the implementation **per user**, **per request**, **per situation**, even **per moment**. Every execution becomes a unique use case, optimized for the exact context.
+
+This means:
+
+* workflows become tailored
+* logic adapts to specifics
+* edge cases stop being “exceptions”
+* every situation gets the best possible behavior
+* no giant if-else logic trees, no unreliable agentic loops
+
+Software stops being a brittle, static artifact and becomes a fluid system. In other words, truly intelligent software requires JIT coding.
+
+---
+
+## **A Bold Prediction**
+
+As JIT systems scale, they will generate software at a rate that dwarfs human (even vibe coded) output:
+
+> Future systems will generate more JIT code in an hour than engineers write in a decade
+
+The primary artifact will be the specification.
+Code will be created, executed, and discarded.
+
+---
+
+## **You can use JIT coding today!**
+
+Playbooks is an agent framework that uses JIT coding and fully embodies this paradigm.
+Here’s the core flow:
+
+1. **Developer writes natural-language specifications** as playbooks programs (or vibe-codes them using LLMs) and include regular Python code where appropriate
+
+2. These specifications are **semantically compiled** into a low-level, natural-language intermediate form (Playbooks Assembly language).
+
+3. **During execution**, the runtime:
+
+   * takes a small portion of the low-level compiled spec
+   * asks an LLM to generate Python for that portion in current context
+   * executes that Python on the same call stack as regular code
+   * and discards it afterward.
+
+Generated code and hand-written code run together, seamlessly, on the same call stack.
+No tool-calling.
+No brittle glue.
+No static artifacts.
+
+> Specification → semantic assembly → ephemeral code → execution
+
+**Example playbook program**
+
+```
+- Greet the user with a hello playbooks message
+- Tell the user that this is a demo for the playbooks system
+- Say goodbye to the user
+- End program
+```
+
+**Compiled playbooks assembly language program**
+
+```
+- 01:QUE Say(user, Greet the user with a hello playbooks message)
+- 02:QUE Say(user, Tell the user that this is a demo for the playbooks system)
+- 03:QUE Say(user, Say goodbye to the user)
+- 04:YLD for exit
+```
+
+**Example JIT-generated Python code**
+
+```
+# execution_id: 1
+# recap: starting HelloWorldDemo() playbook execution from step 01
+# plan: execute HelloWorldDemo:01:QUE, greet the user with hello playbooks message
+
+# trig? no
+await Step("HelloWorldDemo:01:QUE")
+await Say("user", "Hello! Welcome to the Playbooks system demo!")
+# trig? no
+# yld? no, HelloWorldDemo:02:QUE does not require result from previous step
+await Step("HelloWorldDemo:02:QUE")
+await Say("user", "This is a demonstration of the playbooks system in action.")
+# trig? no
+# yld? no, HelloWorldDemo:03:QUE does not require result from previous step
+await Step("HelloWorldDemo:03:QUE")
+await Say("user", "Thank you for trying this demo. Goodbye!")
+# trig? no
+# yld? yes, HelloWorldDemo:04:YLD will exit the program
+await Step("HelloWorldDemo:04:YLD")
+await Yld("exit")
+```
+
+This is what real Software 3.0 looks like. Playbooks is not a wrapper around LLM calls - it is a runtime that treats **LLMs as semantic CPUs**, executing natural-language programs directly.
+
+---
+
+## **The Future of Software**
+
+Static code will continue to exist, but primarily as the substrate on which intelligent software runs.
+
+Above that substrate lies a new layer, one where:
+
+- intent is the true program,
+- LLMs act as semantic processors,
+- implementations are produced on demand,
+- and software behaves less like a machine and more like an employee
+
+This is how intelligent software will ultimately work.
+
+Software stops being written.
+It starts being *generated*.
+Continuously.
+Fluidly.
+Intelligently.
+
+And once you see this shift clearly, there is no going back.
