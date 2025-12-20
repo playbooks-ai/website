@@ -1,6 +1,7 @@
 {
-  "design-principles": 1,
+  "features": 1,
+  "multi-agent": 2,
+  "design-principles": 2,
   "ai-coding": 1,
-  "multi-agent": 1,
   "funny": 1
 }
