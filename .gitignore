@@ -42,3 +42,4 @@ next-env.d.ts
 # Contentlayer
 .contentlayer
 .DS_Store
+.cursor/rules/playbooks-implementation.mdc
