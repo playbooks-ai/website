@@ -26,6 +26,10 @@ export default function HeroSection({ onContactClick }: HeroSectionProps) {
 
                     <div className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto font-light">
                         <div>
+                            <a className=" text-red-700" href="">
+                                -- No longer maintained --
+                            </a>
+                            <br />
                             Build multi‑agent AI systems
                             <br />
                             with the world&apos;s first Software 3.0 stack
