@@ -26,7 +26,10 @@ export default function HeroSection({ onContactClick }: HeroSectionProps) {
 
                     <div className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto font-light">
                         <div>
-                            <a className=" text-red-700" href="">
+                            <a
+                                className=" text-red-700"
+                                href="https://www.runplaybooks.ai/blog/sunsetting"
+                            >
                                 -- No longer maintained --
                             </a>
                             <br />
