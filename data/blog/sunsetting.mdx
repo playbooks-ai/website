@@ -93,7 +93,13 @@ AutoGen v0.4 (January 2025) adopted an extensible event-driven architecture, but
 
 PBAsm is a low-level instruction set for natural language programs, standardizing explicit call stacks, yields, interrupts, scoped variables with lifetimes, and resumable execution boundaries.
 
-The analogy is LLVM: just as LLVM IR lets the same C program run on different CPU architectures, PBAsm lets the same natural language program run on different LLMs with consistent semantics. A natural language instruction like "Ask user for their name" compiles to:
+The analogy is LLVM: just as LLVM IR lets the same C program run on different CPU architectures, PBAsm lets the same natural language program run on different LLMs with consistent semantics. A natural language instruction like 
+
+```
+Ask user for their name
+```
+
+compiles to:
 
 ```
 01:QUE Say(user, Ask user for their $name:str); YLD for user
